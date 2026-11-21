@@ -98,9 +98,7 @@ Frecuencia cardíaca & Mediana de 69 lpm (de 40 a 157); sin diferencias entre cl
 
 \figura[\linewidth]{calidad_datos}{(a) Pacientes por diagnóstico; la parte rayada corresponde al ECG basal patológico. (b) Densidad espectral de potencia media de V1 y V2 (método de Welch): la energía se concentra por debajo de \SI{30}{\hertz} y cae tres órdenes de magnitud hasta \SI{40}{\hertz}. La banda gris indica el ruido que elimina el filtro paso bajo. (c) La frecuencia cardíaca no difiere entre clases, por lo que no puede actuar como variable de confusión.}{fig:calidad}
 
-\begin{conclusion}
 Como vemos, el conjunto de datos tiene una buena calidad: no hay valores ausentes, el ruido y la deriva que tenemos son pequeños, y todos los registros nos dejan hacerles el latido medio fiable. El único defecto que tiene es un paciente duplicado, el cual se eliminó, y que de no haberlo hecho podría haber quedado en el entrenamiento y en el test también, introduciendo de esta manera una fuga de información.
-\end{conclusion}
 
 \subsection{Definición de la etiqueta}\label{sec:etiqueta}
 
@@ -118,6 +116,4 @@ Ya que varias de las decisiones que se van a tomar más adelante se van a hacer 
   \item \textbf{Incertidumbre:} se informa de la media $\pm$ la desviación típica del AUROC en los 15 \emph{folds}, y de un intervalo de confianza del \SI{95}{\percent} obtenido por \emph{bootstrap} sobre las predicciones que se encuentran fuera de la muestra.
 \end{enumerate}
 
-\begin{nota}
 Con 76 positivos, en cada \emph{fold} de test tenemos 15 o 16 pacientes con Brugada. La desviación típica del AUROC entre \emph{folds} está sobre el \num{0.05}, por lo que las diferencias que sean inferiores a \num{0.02} o \num{0.03} no las podemos interpretar directamente como mejoras reales sin antes haberlas pasado por un contraste estadístico.
-\end{nota}
