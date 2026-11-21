@@ -4,7 +4,7 @@
 
 El preprocesado lo que hace es convertir cada registro en un conjunto de latidos limpios, los cuales estén sincronizados entre las derivaciones y alineados entre sí. Este consta de cuatro pasos deterministas, los cuales no usan ninguna etiqueta, y que por lo tanto no llegan a introducir ningún tipo de fuga de información, aunque se apliquen antes de particionar siquiera los datos. En la \cref{fig:senal} se muestra su efecto sobre el ECG de un paciente.
 
-\figura[\linewidth]{senal_preprocesado}{Efecto del preprocesado sobre un paciente con síndrome de Brugada. (a) V2 cruda, con una deriva de la línea de base de unos \SI{0.7}{\milli\volt}. (b) La misma derivación tras el filtro paso banda de fase cero: la deriva desaparece y la morfología de cada latido se conserva. (c) Derivación II filtrada con los picos R detectados, que se usan para segmentar las 12 derivaciones.}{fig:senal}
+\figura[\linewidth]{senal_preprocesado}{Efecto del preprocesado sobre un paciente con síndrome de Brugada. (a) V2 cruda, con una deriva de la línea de base de \SI{0.69}{\milli\volt}. (b) La misma derivación tras el filtro paso banda de fase cero: la deriva desaparece y la morfología de cada latido se conserva. (c) Derivación II filtrada con los picos R detectados, que se usan para segmentar las 12 derivaciones.}{fig:senal}
 
 \subsection{Filtrado}
 
