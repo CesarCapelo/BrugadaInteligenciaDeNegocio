@@ -25,8 +25,9 @@ se ha escrito.
 * Solo se descarta el 0,9 % de los latidos, sin sesgo entre clases. Ningún criterio de rechazo cambia el
   resultado, porque la mediana ya es robusta.
 * La **pendiente del segmento ST** discrimina mucho más que su elevación (AUC 0,845 frente a 0,530).
-* Los cuatro métodos de selección rinden prácticamente igual. Un núcleo de **5 variables** conserva casi el 99 %
-  del rendimiento.
+* Los cuatro métodos de selección rinden prácticamente igual. Con solo **5 variables** se conserva casi el 99 %
+  del rendimiento, y los cuatro métodos coinciden en las variables que eligen (pendiente del ST, duración del QRS
+  y onda T en V2).
 * Ninguna proyección en dos dimensiones separa las clases.
 * El **LDA con contracción** alcanza un **AUROC de 0,928** (IC 95 %: 0,88–0,96), con sensibilidad 0,87 y
   especificidad 0,88. La puntuación basada en los criterios clínicos se queda en 0,754, y la regla «3 de 3» solo detecta al 22 % de los pacientes.
