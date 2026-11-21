@@ -70,7 +70,7 @@ Muchas variables miden aspectos que son parecidos del mismo latido, como el ST a
 
 \subsection{Métodos de selección comparados}
 
-Podemos agrupar los métodos de selección de características dentro de tres familias: los \textbf{filtros}, que puntúan cada variable con un criterio estadístico sin la necesidad de usar ningún modelo; los \textbf{\emph{wrappers}}, que lo que hacen es probar subconjuntos de variables entrenando el modelo una y otra vez; y por último los \textbf{embebidos}, en los que la selección ocurre durante el propio entrenamiento. Se comparan dos filtros y dos embebidos, implementados mediante scikit-learn. Los \emph{wrappers} los dejo fuera, ya que al tener tan pocos registros de pacientes corremos el riesgo de que se sobreajusten.
+Podemos agrupar los métodos de selección de características dentro de tres familias: los filtros, que puntúan cada variable con un criterio estadístico sin la necesidad de usar ningún modelo; los \emph{wrappers}, que lo que hacen es probar subconjuntos de variables entrenando el modelo una y otra vez; y por último los embebidos, en los que la selección ocurre durante el propio entrenamiento. Se comparan dos filtros y dos embebidos, implementados mediante scikit-learn. Los \emph{wrappers} los dejo fuera, ya que al tener tan pocos registros de pacientes corremos el riesgo de que se sobreajusten.
 
 \begin{itemize}
   \item \textbf{ANOVA F}: compara cuánto se separan las medias de las dos clases con cuánto varían los pacientes dentro de cada clase. Cuanto mayor es ese cociente, más útil es la variable.
@@ -120,7 +120,7 @@ En la \cref{fig:fs-frecuencia} se muestra con qué frecuencia cada método sitú
 Podemos sacar en claro tres cosas:
 
 \begin{itemize}
-  \item \textbf{La selección importa cuando vayamos a usar pocas variables}, ya que con 5 variables cualquier método supera al orden aleatorio entre \num{0.17} y \num{0.18} de AUROC. Mientras que a partir de las 30 variables todos empiezan a converger, y ninguno mejora el usar las 72 variables.
-  \item \textbf{Con 5 variables nos bastan}, ya que con la regularización L1 alcanzamos un AUROC de \num{0.907}, que es casi el \SI{99}{\percent} del rendimiento que alcanzamos con las 72 variables. Además, un modelo que tenga solo 5 medidas clínicas es mucho más fácil de explicar y de validar que uno que tenga 72.
-  \item \textbf{Los cuatro métodos rinden prácticamente igual}: vemos que la diferencia que hay entre ellos es mucho más pequeña que la variación que hay entre los \emph{folds}, por lo que no se puede asegurar que uno sea mejor o peor. Lo que los diferencia de verdad es el coste, ya que el ANOVA es prácticamente instantáneo, mientras que el Random Forest es mucho más lento. En este problema funcionan tan bien los filtros sencillos porque las variables discriminantes ya lo son por separado.
+  \item La selección importa cuando vayamos a usar pocas variables, ya que con 5 variables cualquier método supera al orden aleatorio entre \num{0.17} y \num{0.18} de AUROC. Mientras que a partir de las 30 variables todos empiezan a converger, y ninguno mejora el usar las 72 variables.
+  \item Con 5 variables nos bastan, ya que con la regularización L1 alcanzamos un AUROC de \num{0.907}, que es casi el \SI{99}{\percent} del rendimiento que alcanzamos con las 72 variables. Además, un modelo que tenga solo 5 medidas clínicas es mucho más fácil de explicar y de validar que uno que tenga 72.
+  \item Los cuatro métodos rinden prácticamente igual: vemos que la diferencia que hay entre ellos es mucho más pequeña que la variación que hay entre los \emph{folds}, por lo que no se puede asegurar que uno sea mejor o peor. Lo que los diferencia de verdad es el coste, ya que el ANOVA es prácticamente instantáneo, mientras que el Random Forest es mucho más lento. En este problema funcionan tan bien los filtros sencillos porque las variables discriminantes ya lo son por separado.
 \end{itemize}

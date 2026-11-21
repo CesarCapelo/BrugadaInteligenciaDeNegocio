@@ -16,7 +16,7 @@ El electrocardiograma (ECG) registra en la superficie del cuerpo la actividad el
   \item la \textbf{onda T}, repolarización de los ventrículos.
 \end{itemize}
 
-El ECG estándar tiene 12 derivaciones, cada una de las cuales observa el mismo fenómeno eléctrico desde un ángulo distinto: seis de miembros (I, II, III, aVR, aVL, aVF) en el plano frontal y seis precordiales (V1--V6) en el plano horizontal. Las \textbf{precordiales derechas V1 y V2} se sitúan sobre el tracto de salida del ventrículo derecho, que es la región donde se origina el síndrome de Brugada. Por eso son las derivaciones en las que aparece su patrón y en las que se centra este trabajo.
+El ECG estándar tiene 12 derivaciones, cada una de las cuales observa el mismo fenómeno eléctrico desde un ángulo distinto: seis de miembros (I, II, III, aVR, aVL, aVF) en el plano frontal y seis precordiales (V1--V6) en el plano horizontal. Las precordiales derechas V1 y V2 se sitúan sobre el tracto de salida del ventrículo derecho, que es la región donde se origina el síndrome de Brugada. Por eso son las derivaciones en las que aparece su patrón y en las que se centra este trabajo.
 
 \begin{figure}[H]
 \centering
@@ -54,7 +54,7 @@ El ECG estándar tiene 12 derivaciones, cada una de las cuales observa el mismo 
 
 \subsubsection{Mecanismo, epidemiología y presentación clínica}
 
-El síndrome de Brugada (SBr) es una \textbf{canalopatía}: una enfermedad de los canales iónicos de la membrana de las células cardíacas, sin alteración estructural visible del corazón. En torno a una quinta parte de los pacientes presenta variantes con pérdida de función en el gen \emph{SCN5A}, que codifica el canal de sodio cardíaco. La reducción de la corriente de sodio se expresa sobre todo en el epicardio del tracto de salida del ventrículo derecho. Coexisten dos explicaciones, no excluyentes, de cómo se genera el patrón: un gradiente de repolarización entre el epicardio y el endocardio de esa región (hipótesis de repolarización) y un retraso de conducción localizado (hipótesis de despolarización).
+El síndrome de Brugada (SBr) es una canalopatía: una enfermedad de los canales iónicos de la membrana de las células cardíacas, sin alteración estructural visible del corazón. En torno a una quinta parte de los pacientes presenta variantes con pérdida de función en el gen \emph{SCN5A}, que codifica el canal de sodio cardíaco. La reducción de la corriente de sodio se expresa sobre todo en el epicardio del tracto de salida del ventrículo derecho. Coexisten dos explicaciones, no excluyentes, de cómo se genera el patrón: un gradiente de repolarización entre el epicardio y el endocardio de esa región (hipótesis de repolarización) y un retraso de conducción localizado (hipótesis de despolarización).
 
 Su prevalencia se estima entre 1 de cada \num{2000} y 1 de cada \num{5000} personas, con valores más altos en el sudeste asiático. Es entre ocho y diez veces más frecuente en varones, y suele diagnosticarse en torno a los 40~años. Muchos pacientes están asintomáticos. Otros debutan con síncope o con fibrilación ventricular, típicamente en reposo, durante el sueño o con fiebre.
 
@@ -67,7 +67,7 @@ Los consensos internacionales describen dos patrones en V1--V2 (\cref{fig:patron
   \item \textbf{Tipo 2 o \emph{saddleback} (en silla de montar)}: onda r' elevada, seguida de un segmento ST cóncavo que se mantiene elevado al menos \SI{0.5}{\milli\metre} y de una onda T positiva o aplanada. Es sugestivo, pero no diagnóstico. El antiguo tipo 3 se integró en él en 2012.
 \end{itemize}
 
-Para distinguir el tipo 2 de variantes benignas con onda r' (bloqueo incompleto de rama derecha, deportistas) se han propuesto criterios cuantitativos sobre la forma del complejo: el ángulo $\beta$ entre las dos ramas de la r' y la anchura de la base del triángulo que forma la r'. Para distinguir el patrón tipo 1 de la repolarización precoz de los deportistas se propuso el \textbf{índice de Corrado}, el cociente entre la elevación del ST en el punto J y a \SI{80}{\milli\second} ($\mathrm{ST_J}/\mathrm{ST_{80}}$): un valor mayor que 1 indica un ST descendente, propio del patrón de Brugada. Todos estos criterios miden la \emph{forma} de la transición entre el QRS y el ST, no su altura. Los datos de este trabajo confirman empíricamente esa idea (\cref{cap:caracteristicas}).
+Para distinguir el tipo 2 de variantes benignas con onda r' (bloqueo incompleto de rama derecha, deportistas) se han propuesto criterios cuantitativos sobre la forma del complejo: el ángulo $\beta$ entre las dos ramas de la r' y la anchura de la base del triángulo que forma la r'. Para distinguir el patrón tipo 1 de la repolarización precoz de los deportistas se propuso el índice de Corrado, el cociente entre la elevación del ST en el punto J y a \SI{80}{\milli\second} ($\mathrm{ST_J}/\mathrm{ST_{80}}$): un valor mayor que 1 indica un ST descendente, propio del patrón de Brugada. Todos estos criterios miden la \emph{forma} de la transición entre el QRS y el ST, no su altura. Los datos de este trabajo confirman empíricamente esa idea (\cref{cap:caracteristicas}).
 
 \begin{figure}[H]
 \centering
@@ -131,8 +131,8 @@ Elevación relativa del ST & Cociente entre el ST y la amplitud del QRS & \var{s
 Las características clínicas del síndrome tienen consecuencias directas sobre cómo hay que preparar los datos:
 
 \begin{enumerate}
-  \item \textbf{El patrón es local en el espacio y en el tiempo.} Está en dos derivaciones (V1--V2) y ocupa una ventana de \SI{200}{\milli\second} alrededor del punto J. La segmentación y el alineamiento de latidos deben ser precisos en esa zona.
-  \item \textbf{El patrón es intermitente y a menudo incompleto.} La mayoría de los pacientes del conjunto de datos no muestra el tipo 1 en su ECG basal, así que las variables deben captar tendencias sutiles y no solo comprobar si se cumple un umbral clínico.
-  \item \textbf{Los criterios clínicos son medibles.} Cada elemento del patrón se puede traducir en una variable calculable sobre el latido (\cref{tab:criterios}). Esto permite construir características interpretables y comparar un sistema de reglas explícitas con modelos aprendidos.
+  \item El patrón es local en el espacio y en el tiempo. Está en dos derivaciones (V1--V2) y ocupa una ventana de \SI{200}{\milli\second} alrededor del punto J. La segmentación y el alineamiento de latidos deben ser precisos en esa zona.
+  \item El patrón es intermitente y a menudo incompleto. La mayoría de los pacientes del conjunto de datos no muestra el tipo 1 en su ECG basal, así que las variables deben captar tendencias sutiles y no solo comprobar si se cumple un umbral clínico.
+  \item Los criterios clínicos son medibles. Cada elemento del patrón se puede traducir en una variable calculable sobre el latido (\cref{tab:criterios}). Esto permite construir características interpretables y comparar un sistema de reglas explícitas con modelos aprendidos.
 \end{enumerate}
 

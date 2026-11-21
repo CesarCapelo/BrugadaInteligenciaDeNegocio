@@ -16,7 +16,7 @@ En ambos casos, si el criterio dejara menos de 3 latidos se conservan todos (\em
 
 \subsection{Construcción del latido medio}
 
-Ya con los latidos conservados, se calcula, para cada derivación y cada instante, la \textbf{mediana} muestra a muestra. Después se resta el nivel isoeléctrico, estimado como la media del segmento PR (de \SIrange{-80}{-40}{\milli\second} respecto al pico R).
+Ya con los latidos conservados, se calcula, para cada derivación y cada instante, la mediana muestra a muestra. Después se resta el nivel isoeléctrico, estimado como la media del segmento PR (de \SIrange{-80}{-40}{\milli\second} respecto al pico R).
 
 La mediana tiene un punto de ruptura del 50\,\%, por lo que aunque cerca de la mitad de los latidos fueran anómalos, esta seguiría representando a los normales. Sin embargo, esto no pasa con la media, que sí se ve arrastrada por un único latido extremo. El resultado que tenemos es una matriz de $70 \times 12$ por paciente, con una misma dimensión para todos, que es la base de las características. En la \cref{fig:segmentacion} vemos el proceso con un paciente del cual, de sus 14 latidos, 4 son anómalos.
 
