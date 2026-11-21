@@ -224,9 +224,6 @@ save(fig, "seleccion_caracteristicas_frecuencia")
 # ------------------------------------------------------------------ F11 reducción de dimensionalidad
 from brugada.experiments.run_dimred import embed, datasets
 Q = pd.read_csv(RESULTS / "dimred_knn.csv")
-# Pacientes que la mayoría de los modelos del TFG clasifica mal (fracción de aciertos < 0,5; ver README)
-H = pd.read_csv(RESULTS / "tfg_aciertos_por_paciente.csv"); H["id"] = H.id.astype(str)
-hard = H.set_index("id").fraccion_aciertos.reindex(ids).values < 0.5
 data = datasets(F, MB)
 E = {d: embed(Xd) for d, Xd in data.items()}
 fig, axes = plt.subplots(2, 3, figsize=(W, 4.0))
@@ -235,13 +232,12 @@ for i, d in enumerate(data):
         ax = axes[i, j]; Z = E[d][mname]
         for cls, c, lab in ((0, C_NORM, "Normal"), (1, C_BRU, "Brugada")):
             ax.scatter(Z[y == cls, 0], Z[y == cls, 1], s=4, c=c, alpha=0.55, lw=0, label=lab, zorder=2 if cls else 1)
-        ax.scatter(Z[hard, 0], Z[hard, 1], s=16, facecolors="none", edgecolors="k", lw=0.5, label="error persistente", zorder=3)
         qq = Q[(Q.datos == d) & (Q.metodo == mname)].iloc[0]
         ax.set_title(f"{mname} · {d}", loc="left", fontsize=7.3)
         ax.text(0.02, 0.02, f"k-NN AUROC {qq.knn_auroc:.2f}".replace(".", ","), transform=ax.transAxes, fontsize=6, va="bottom", color="0.25")
         ax.set_xticks([]); ax.set_yticks([]); [s.set_visible(True) for s in ax.spines.values()]; [s.set_linewidth(0.4) for s in ax.spines.values()]
 h, l = axes[0, 0].get_legend_handles_labels()
-fig.legend(h, l, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.03), markerscale=2)
+fig.legend(h, l, loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.03), markerscale=2)
 fig.tight_layout(rect=(0, 0.03, 1, 1), h_pad=0.8, w_pad=0.5); save(fig, "reduccion_dimensionalidad")
 
 from sklearn.decomposition import PCA

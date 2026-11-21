@@ -44,7 +44,7 @@ def rank_l1(X, y, seed):
     enter = np.full(Z.shape[1], len(Cs), float)
     last = None
     for i, C in enumerate(Cs):
-        coef = LogisticRegression(penalty="l1", solver="liblinear", C=C, class_weight="balanced",
+        coef = LogisticRegression(penalty="l1", solver="liblinear", C=C, class_weight="balanced", random_state=seed,
                                   max_iter=5000).fit(Z, y).coef_[0]
         enter[(enter == len(Cs)) & (np.abs(coef) > 1e-8)] = i
         last = np.abs(coef)

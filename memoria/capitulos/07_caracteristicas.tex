@@ -106,7 +106,7 @@ Tenemos en la \cref{fig:fs-curvas} el rendimiento de cada método según el núm
 
 \begin{table}[htbp]
 \centering
-\caption[Comparación de métodos de selección de características]{Comparación de métodos de selección de características: AUROC medio (15 \eng{folds}) con 3, 5 y 10 variables y tiempo medio por \eng{fold}. Con las 72 variables todos coinciden: \num{0.919} $\pm$ \num{0.052}.}
+\caption[Comparación de métodos de selección de características]{Comparación de métodos de selección de características: AUROC medio (15 \eng{folds}) con 3, 5 y 10 variables y tiempo medio por \eng{fold} (aproximado: depende del ordenador). Con las 72 variables todos coinciden: \num{0.919} $\pm$ \num{0.052}.}
 \label{tab:fs}
 \small
 \begin{tabular}{@{}llS[table-format=1.3]S[table-format=1.3]S[table-format=1.3]S[table-format=1.2]@{}}
@@ -115,10 +115,10 @@ Tenemos en la \cref{fig:fs-curvas} el rendimiento de cada método según el núm
 \cmidrule(lr){3-5}
 \textbf{Método} & \textbf{Familia} & {$k=3$} & {$k=5$} & {$k=10$} & {\textbf{Tiempo (s)}} \\
 \midrule
-Regularización L1 & Embebido & 0.896 & 0.907 & 0.909 & 0.44 \\
+Regularización L1 & Embebido & 0.896 & 0.907 & 0.909 & {$\approx$\,0,5} \\
 ANOVA F & Filtro & 0.888 & 0.904 & 0.901 & {$<$\,0,01} \\
-Información mutua & Filtro & 0.893 & 0.900 & 0.902 & 0.21 \\
-Random Forest & Embebido & 0.893 & 0.898 & 0.905 & 1.28 \\
+Información mutua & Filtro & 0.893 & 0.900 & 0.902 & {$\approx$\,0,2} \\
+Random Forest & Embebido & 0.893 & 0.898 & 0.905 & {$\approx$\,1,3} \\
 \midrule
 Orden aleatorio & Referencia & 0.688 & 0.727 & 0.780 & {---} \\
 \bottomrule

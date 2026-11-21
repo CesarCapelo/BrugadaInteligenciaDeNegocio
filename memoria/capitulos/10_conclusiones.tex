@@ -19,7 +19,7 @@ En este problema, la preparación de los datos decide el resultado: unas pocas v
 Más allá del síndrome de Brugada, el trabajo ilustra tres principios generales de la preparación de datos en Inteligencia de Negocio:
 
 \begin{itemize}
-  \item \textbf{El conocimiento del dominio es la mejor transformación.} Traducir los criterios clínicos a variables medibles produjo una representación con la que un modelo lineal rinde tanto como los modelos profundos del TFG, que tienen que aprender esa representación a partir de la señal.
+  \item \textbf{El conocimiento del dominio es la mejor transformación.} Traducir los criterios clínicos a variables medibles produjo una representación con la que un modelo lineal sencillo alcanza un AUROC de \num{0.928}, muy por encima de la puntuación basada en esos mismos criterios (\num{0.75}).
   \item \textbf{Cada decisión debe medirse.} Varios pasos que parecían importantes (el filtrado, el rechazo de latidos) no lo son, y otro que parecía secundario (el detector de latidos) sí lo es. Sin medirlas, esas decisiones se habrían tomado por intuición.
   \item \textbf{La fuga de información aparece en sitios inesperados}: en un índice con registros duplicados, en una selección de variables hecha con todo el conjunto o en un umbral ajustado viendo el test. Solo un protocolo que lo ajuste todo dentro de cada partición de entrenamiento evita estimaciones infladas.
 \end{itemize}
@@ -35,4 +35,4 @@ Más allá del síndrome de Brugada, el trabajo ilustra tres principios generale
 
 \section{Continuación en el Trabajo de Fin de Grado}
 
-El proceso y el conjunto de datos construidos aquí son la base de la parte comparativa del TFG. Con el mismo protocolo de evaluación, allí se comparan siete familias de métodos: reglas clínicas, modelos clásicos, autoencoders, redes convolucionales y de atención sobre la señal, el modelo preentrenado ECG-FM \cite{mckeen2025} (con representaciones congeladas y con ajuste fino), redes sobre imágenes del latido y modelos multimodales de visión-lenguaje \cite{costa2026vlm}. También se analizan la interpretabilidad de los modelos, la calibración de sus probabilidades y los pacientes que todos los métodos clasifican mal. La referencia fijada en el \cref{cap:modelo} (AUROC \num{0.928}) es la cifra contra la que se miden todos ellos.
+El proceso y la tabla de características construidos aquí serán la base de la parte comparativa del TFG, en la que se evaluarán modelos más complejos con el mismo protocolo. El AUROC de \num{0.928} obtenido en el \cref{cap:modelo} es la referencia que esos modelos tendrán que superar.

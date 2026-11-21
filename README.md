@@ -105,13 +105,6 @@ results/              resultados: resúmenes .csv/.json y predicciones por pacie
 scripts/              descarga de los datos
 ```
 
-### Nota sobre `results/tfg_aciertos_por_paciente.csv`
-
-En la figura 7.1 aparecen marcados los pacientes que la mayoría de los modelos del TFG clasifican mal. Esa
-información viene de la parte comparativa del TFG, que usa modelos que no forman parte de este trabajo (redes
-convolucionales, autoencoders, ECG-FM). Por eso se incluye ya calculada: para cada paciente, la fracción de
-modelos que lo clasifican bien. En la figura se marcan los que tienen una fracción menor que 0,5.
-
 ## Licencia de los datos
 
 El conjunto de datos Brugada-HUCA se distribuye con licencia CC BY-SA 4.0. Si usas estos datos, cita la

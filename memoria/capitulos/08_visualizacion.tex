@@ -22,7 +22,7 @@ La \cref{fig:dimred} muestra las seis proyecciones.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{reduccion_dimensionalidad}
-\caption[Proyecciones 2D con PCA, t-SNE y UMAP]{Proyecciones 2D de los 363 pacientes con PCA, t-SNE y UMAP, a partir de las 72 características (fila superior) y del latido medio de V1--V2 (fila inferior). Azul: normal; rojo: Brugada. Los círculos negros señalan a los pacientes que la mayoría de los modelos del TFG clasifica mal.}
+\caption[Proyecciones 2D con PCA, t-SNE y UMAP]{Proyecciones 2D de los 363 pacientes con PCA, t-SNE y UMAP, a partir de las 72 características (fila superior) y del latido medio de V1--V2 (fila inferior). Azul: normal; rojo: Brugada.}
 \label{fig:dimred}
 \end{figure}
 
@@ -40,10 +40,6 @@ Las dos primeras componentes son capaces de explicar el \SI{22.5}{\percent} y el
 \subsection{t-SNE y UMAP: estructura local}
 
 t-SNE y UMAP forman agrupaciones de pacientes con Brugada en los bordes del mapa. Sin embargo, esas agrupaciones están mezcladas con los pacientes normales, y el $k$-NN entrenado sobre el mapa (AUROC entre \num{0.71} y \num{0.76}) queda por debajo del que se obtiene usando todas las variables (\num{0.87} con las 72 características). Al cambiar la perplejidad o el número de vecinos, la forma de los mapas cambia, pero la mezcla de las clases se sigue manteniendo.
-
-\subsection{Los pacientes difíciles}
-
-Los pacientes que la mayoría de los modelos clasifican mal, que son los círculos negros que aparecen en la \cref{fig:dimred}, no aparecen como puntos aislados en los bordes del mapa, sino que se encuentran dispersos dentro de la nube de la clase contraria. No se trata de valores atípicos que se puedan detectar y eliminar en la fase de preparación: son pacientes cuyo ECG basal se parece al de la otra clase. Esto ya nos da un anticipo del límite del problema, el cual el TFG analiza en detalle.
 
 \section{Observaciones}
 
