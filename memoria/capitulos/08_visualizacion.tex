@@ -22,13 +22,13 @@ La \cref{fig:dimred} muestra las seis proyecciones.
 
 \figura[\linewidth]{reduccion_dimensionalidad}{Proyecciones 2D de los 363 pacientes con PCA, t-SNE y UMAP, a partir de las 72 características (fila superior) y del latido medio de V1--V2 (fila inferior). Azul: normal; rojo: Brugada.}{fig:dimred}
 
-\subsubsection{PCA: la varianza no es la clase}
+\subsubsection{PCA}
 
 Las dos primeras componentes son capaces de explicar el \SI{22.5}{\percent} y el \SI{14.0}{\percent} de la varianza, y hacen falta hasta 20 componentes para llegar al \SI{90}{\percent} (\cref{fig:pca}). Las cargas nos muestran por qué la proyección no es capaz de separar las clases: la PC1 la forman las medidas de nivel del ST en V2, mientras que la PC2 la forman las mismas medidas pero en la derivación II. Estas son las direcciones en las que más varían los pacientes, pero no son las que distinguen entre tener Brugada o no. Como vimos en el \cref{cap:caracteristicas}, las que lo distinguen son la pendiente del ST y la duración del QRS. Un $k$-NN entrenado solo con las dos primeras componentes saca un AUROC de \num{0.53}, que es prácticamente lo mismo que tirar una moneda al aire.
 
 \figura[\linewidth]{pca_varianza_cargas}{(a) Varianza explicada por cada componente (barras) y acumulada (línea). (b, c) Las ocho variables con mayor carga en PC1 y PC2, dominadas por el nivel del segmento ST en V2 y en II, respectivamente.}{fig:pca}
 
-\subsubsection{t-SNE y UMAP: estructura local}
+\subsubsection{t-SNE y UMAP}
 
 t-SNE y UMAP forman agrupaciones de pacientes con Brugada en los bordes del mapa. Sin embargo, esas agrupaciones están mezcladas con los pacientes normales, y el $k$-NN entrenado sobre el mapa (AUROC entre \num{0.71} y \num{0.76}) queda por debajo del que se obtiene usando todas las variables (\num{0.87} con las 72 características). Al cambiar la perplejidad o el número de vecinos, la forma de los mapas cambia, pero la mezcla de las clases se sigue manteniendo.
 
