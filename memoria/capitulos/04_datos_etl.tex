@@ -14,9 +14,9 @@ Dentro de este capítulo vamos a explorar el conjunto de datos, el proceso de ex
   f/.style={-{Latex[length=2mm]}, acento, line width=0.7pt}]
   \node[dato] (raw) {\textbf{363 ECG crudos}\\ 12 der.\ $\times$ 1200 muestras};
   \node[paso, right=of raw] (etl) {\textbf{ETL y calidad}\\ duplicados, saturación, ruido, deriva};
-  \node[paso, right=of etl] (fil) {\textbf{Filtrado}\\ paso banda \SIrange{0.5}{40}{\hertz}, fase cero};
+  \node[paso, right=of etl] (fil) {\textbf{Filtrado}\\ paso banda 0,5--40\,Hz, fase cero};
   \node[paso, right=of fil] (det) {\textbf{Detección de latidos}\\ picos R en II (NeuroKit2)};
-  \node[paso, below=8mm of det] (seg) {\textbf{Segmentación y alineamiento}\\ \SIrange{-250}{450}{\milli\second}, $\pm$\SI{30}{\milli\second}};
+  \node[paso, below=8mm of det] (seg) {\textbf{Segmentación y alineamiento}\\ $-$250 a 450\,ms, $\pm$30\,ms};
   \node[paso, left=of seg] (sel) {\textbf{Selección de instancias}\\ rechazo de latidos anómalos};
   \node[paso, left=of sel] (med) {\textbf{Latido medio}\\ mediana por paciente, $70\times12$};
   \node[paso, left=of med] (car) {\textbf{Extracción de características}\\ 72 variables clínicas};

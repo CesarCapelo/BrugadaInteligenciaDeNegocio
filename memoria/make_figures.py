@@ -87,7 +87,7 @@ Pm = P.mean(0)
 for lead, c in (("V1", C_ACC), ("V2", C_BRU)):
     axes[1].semilogy(f, Pm[:, LEAD_IDX[lead]], c=c, label=lead)
 axes[1].axvspan(0, 0.5, color=C_GREY, alpha=0.18, lw=0); axes[1].axvspan(40, 50, color=C_GREY, alpha=0.18, lw=0)
-axes[1].text(38.5, Pm[:, LEAD_IDX["V1"]].max() * 0.02, "ruido\n> 40 Hz", fontsize=6, color="0.35", ha="right")
+axes[1].text(45, Pm.max() * 0.6, "ruido\n> 40 Hz", fontsize=6, color="0.35", ha="center", va="top")
 axes[1].set_xlabel("frecuencia (Hz)"); axes[1].set_ylabel("PSD media (mV²/Hz)"); axes[1].set_xlim(0, 50); axes[1].legend(); axes[1].set_title("Espectro medio", loc="left"); panel(axes[1], "b")
 q = pd.read_csv(RESULTS / "etl_calidad_latidos.csv").rename(columns={"fc_lpm": "hr"})
 bins = np.arange(35, 165, 7.5)
@@ -138,7 +138,7 @@ fig.tight_layout(w_pad=1.0); save(fig, "latido_medio_clases")
 
 # ------------------------------------------------------------------ F5 selección de instancias
 S = pd.read_csv(RESULTS / "instancias_resumen.csv")
-lab_c = {"none": "ninguno", "corr0.5": "r<0,5", "corr0.6": "r<0,6", "corr0.7": "r<0,7", "corr0.8": "r<0,8", "corr0.9": "r<0,9", "rr0.2": "RR±20 %", "corr0.6+rr0.2": "r<0,6\n+RR"}
+lab_c = {"none": "ninguno", "corr0.5": "ρ<0,5", "corr0.6": "ρ<0,6", "corr0.7": "ρ<0,7", "corr0.8": "ρ<0,8", "corr0.9": "ρ<0,9", "rr0.2": "RR\n±20 %", "corr0.6+rr0.2": "ρ<0,6\n+RR"}
 fig, axes = plt.subplots(1, 2, figsize=(W, 2.2), gridspec_kw={"width_ratios": [1.5, 1]})
 xs = np.arange(len(S))
 axes[0].bar(xs, S.pct_descartados, color=[C_ACC if c == "corr0.6" else "#BFC9D6" for c in S.criterio], width=0.62)
@@ -234,7 +234,7 @@ for i, d in enumerate(data):
             ax.scatter(Z[y == cls, 0], Z[y == cls, 1], s=4, c=c, alpha=0.55, lw=0, label=lab, zorder=2 if cls else 1)
         qq = Q[(Q.datos == d) & (Q.metodo == mname)].iloc[0]
         ax.set_title(f"{mname} · {d}", loc="left", fontsize=7.3)
-        ax.text(0.02, 0.02, f"k-NN AUROC {qq.knn_auroc:.2f}".replace(".", ","), transform=ax.transAxes, fontsize=6, va="bottom", color="0.25")
+        ax.text(0.02, 0.02, f"k-NN AUROC {qq.knn_auroc:.2f}".replace(".", ","), transform=ax.transAxes, fontsize=6, va="bottom", color="0.25", bbox=dict(facecolor="white", edgecolor="none", alpha=0.85, pad=1.2), zorder=5)
         ax.set_xticks([]); ax.set_yticks([]); [s.set_visible(True) for s in ax.spines.values()]; [s.set_linewidth(0.4) for s in ax.spines.values()]
 h, l = axes[0, 0].get_legend_handles_labels()
 fig.legend(h, l, loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.03), markerscale=2)

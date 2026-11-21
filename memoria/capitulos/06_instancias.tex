@@ -30,13 +30,13 @@ La \cref{fig:embudo} resume cuántos latidos se pierden en cada paso usando el c
 \centering
 \makebox[\linewidth][c]{\begin{tikzpicture}[font=\sffamily\small, x=1cm, y=1cm]
   \def\escala{0.00145}
-  \foreach \n/\v/\y/\col/\lab in {1/4957/0/gristexto!35/Picos R detectados, 2/4776/-1.05/gristexto!35/Latidos completos, 3/4735/-2.1/acento!45/{Conservados ($\rho \geq 0{,}6$)}} {
+  \foreach \n/\v/\t/\y/\col/\lab in {1/4957/4.957/0/gristexto!35/Picos R detectados, 2/4776/4.776/-1.05/gristexto!35/Latidos completos, 3/4735/4.735/-2.1/acento!45/{Conservados ($\rho \geq 0{,}6$)}} {
     \fill[\col, rounded corners=2pt] (0,\y-0.36) rectangle ({\v*\escala},\y+0.36);
     \node[anchor=east] at (-0.2,\y) {\lab};
-    \node[anchor=west, font=\sffamily\small\bfseries] at ({\v*\escala+0.15},\y) {\num{\v}};
+    \node[anchor=west, font=\sffamily\small\bfseries] at ({\v*\escala+0.15},\y) {\t};
   }
-  \node[anchor=west, font=\sffamily\footnotesize, text=gristexto, align=left] at (8.15,-1.05) {$-181$ (\SI{3.7}{\percent})\\ bordes del registro};
-  \node[anchor=west, font=\sffamily\footnotesize, text=gristexto, align=left] at (8.15,-2.1) {$-41$ (\SI{0.9}{\percent})\\ baja correlación};
+  \node[anchor=west, font=\sffamily\footnotesize, text=gristexto, align=left] at (8.15,-1.05) {$-$181 (3,7\,\%)\\ bordes del registro};
+  \node[anchor=west, font=\sffamily\footnotesize, text=gristexto, align=left] at (8.15,-2.1) {$-$41 (0,9\,\%)\\ baja correlación};
   \draw[-{Latex[length=2mm]}, acento, line width=0.7pt] (0.6,-2.48) -- (0.6,-3.02);
   \node[draw=acento, rounded corners=3pt, anchor=north west, align=left, inner sep=5pt, line width=0.6pt] at (0,-3.05)
        {\textbf{363 latidos medios}\enspace{\footnotesize\color{gristexto}uno por paciente, $70 \times 12$ muestras}};
