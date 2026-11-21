@@ -53,20 +53,20 @@ El ECG estándar tiene 12 derivaciones, cada una de las cuales observa el mismo 
 
 \subsection{Mecanismo, epidemiología y presentación clínica}
 
-El síndrome de Brugada (SBr) es una \textbf{canalopatía}: una enfermedad de los canales iónicos de la membrana de las células cardíacas, sin alteración estructural visible del corazón. En torno a una quinta parte de los pacientes presenta variantes con pérdida de función en el gen \emph{SCN5A}, que codifica el canal de sodio cardíaco. La reducción de la corriente de sodio se expresa sobre todo en el epicardio del tracto de salida del ventrículo derecho \cite{brugada2018jacc,antzelevitch2016}. Coexisten dos explicaciones, no excluyentes, de cómo se genera el patrón: un gradiente de repolarización entre el epicardio y el endocardio de esa región (hipótesis de repolarización) y un retraso de conducción localizado (hipótesis de despolarización).
+El síndrome de Brugada (SBr) es una \textbf{canalopatía}: una enfermedad de los canales iónicos de la membrana de las células cardíacas, sin alteración estructural visible del corazón. En torno a una quinta parte de los pacientes presenta variantes con pérdida de función en el gen \emph{SCN5A}, que codifica el canal de sodio cardíaco. La reducción de la corriente de sodio se expresa sobre todo en el epicardio del tracto de salida del ventrículo derecho. Coexisten dos explicaciones, no excluyentes, de cómo se genera el patrón: un gradiente de repolarización entre el epicardio y el endocardio de esa región (hipótesis de repolarización) y un retraso de conducción localizado (hipótesis de despolarización).
 
-Su prevalencia se estima entre 1 de cada \num{2000} y 1 de cada \num{5000} personas, con valores más altos en el sudeste asiático. Es entre ocho y diez veces más frecuente en varones, y suele diagnosticarse en torno a los 40~años \cite{brugada2018jacc}. Muchos pacientes están asintomáticos. Otros debutan con síncope o con fibrilación ventricular, típicamente en reposo, durante el sueño o con fiebre.
+Su prevalencia se estima entre 1 de cada \num{2000} y 1 de cada \num{5000} personas, con valores más altos en el sudeste asiático. Es entre ocho y diez veces más frecuente en varones, y suele diagnosticarse en torno a los 40~años. Muchos pacientes están asintomáticos. Otros debutan con síncope o con fibrilación ventricular, típicamente en reposo, durante el sueño o con fiebre.
 
 \subsection{Patrones electrocardiográficos}
 
-Los consensos internacionales describen dos patrones en V1--V3 \cite{wilde2002,bayesdeluna2012,priori2013} (\cref{fig:patrones}):
+Los consensos internacionales describen dos patrones en V1--V3 (\cref{fig:patrones}):
 
 \begin{itemize}
   \item \textbf{Tipo 1 o \eng{coved} (convexo)}: elevación del punto J de al menos \SI{2}{\milli\metre} (\SI{0.2}{\milli\volt}), seguida de un segmento ST descendente y convexo que termina en una \textbf{onda T negativa} y simétrica. Es el único patrón diagnóstico.
-  \item \textbf{Tipo 2 o \eng{saddleback} (en silla de montar)}: onda r' elevada, seguida de un segmento ST cóncavo que se mantiene elevado al menos \SI{0.5}{\milli\metre} y de una onda T positiva o aplanada. Es sugestivo, pero no diagnóstico. El antiguo tipo 3 se integró en él en 2012 \cite{bayesdeluna2012}.
+  \item \textbf{Tipo 2 o \eng{saddleback} (en silla de montar)}: onda r' elevada, seguida de un segmento ST cóncavo que se mantiene elevado al menos \SI{0.5}{\milli\metre} y de una onda T positiva o aplanada. Es sugestivo, pero no diagnóstico. El antiguo tipo 3 se integró en él en 2012.
 \end{itemize}
 
-Para distinguir el tipo 2 de variantes benignas con onda r' (bloqueo incompleto de rama derecha, deportistas) se han propuesto criterios cuantitativos sobre la forma del complejo: el ángulo $\beta$ entre las dos ramas de la r' \cite{chevallier2011} y la anchura de la base del triángulo que forma la r' \cite{serra2014}. Para distinguir el patrón tipo 1 de la repolarización precoz de los deportistas se propuso el \textbf{índice de Corrado}, el cociente entre la elevación del ST en el punto J y a \SI{80}{\milli\second} ($\mathrm{ST_J}/\mathrm{ST_{80}}$): un valor mayor que 1 indica un ST descendente, propio del patrón de Brugada \cite{zorzi2015}. Todos estos criterios miden la \emph{forma} de la transición entre el QRS y el ST, no su altura. Los datos de este trabajo confirman empíricamente esa idea (\cref{cap:caracteristicas}).
+Para distinguir el tipo 2 de variantes benignas con onda r' (bloqueo incompleto de rama derecha, deportistas) se han propuesto criterios cuantitativos sobre la forma del complejo: el ángulo $\beta$ entre las dos ramas de la r' y la anchura de la base del triángulo que forma la r'. Para distinguir el patrón tipo 1 de la repolarización precoz de los deportistas se propuso el \textbf{índice de Corrado}, el cociente entre la elevación del ST en el punto J y a \SI{80}{\milli\second} ($\mathrm{ST_J}/\mathrm{ST_{80}}$): un valor mayor que 1 indica un ST descendente, propio del patrón de Brugada. Todos estos criterios miden la \emph{forma} de la transición entre el QRS y el ST, no su altura. Los datos de este trabajo confirman empíricamente esa idea (\cref{cap:caracteristicas}).
 
 \begin{figure}[htbp]
 \centering
@@ -98,13 +98,13 @@ Para distinguir el tipo 2 de variantes benignas con onda r' (bloqueo incompleto 
     \draw[gristexto, -{Latex[length=1.6mm]}, line width=0.5pt] (2.45,-0.72) node[right, font=\sffamily\scriptsize, text=gristexto] {ST cóncavo elevado} -- (2.07,0.17);
   \end{scope}
 \end{tikzpicture}
-\caption[Patrones de Brugada en V1--V2]{Representación esquemática de los patrones de Brugada en V1--V2 frente a un complejo normal de V1. El patrón tipo 1 combina una elevación del punto J de al menos \SI{0.2}{\milli\volt}, un ST descendente y convexo y una onda T negativa. El tipo 2 presenta una r' y un ST cóncavo en silla de montar con T positiva. Adaptado de los criterios de consenso \cite{bayesdeluna2012,priori2013}.}
+\caption[Patrones de Brugada en V1--V2]{Representación esquemática de los patrones de Brugada en V1--V2 frente a un complejo normal de V1. El patrón tipo 1 combina una elevación del punto J de al menos \SI{0.2}{\milli\volt}, un ST descendente y convexo y una onda T negativa. El tipo 2 presenta una r' y un ST cóncavo en silla de montar con T positiva. Adaptado de los criterios de consenso.}
 \label{fig:patrones}
 \end{figure}
 
 \subsection{Diagnóstico}
 
-El consenso HRS/EHRA/APHRS de 2013 establece que el SBr se diagnostica cuando se observa un patrón tipo~1 en al menos una derivación precordial derecha (V1 o V2, en posición estándar o elevada hasta el segundo espacio intercostal), ya sea espontáneo o inducido por un bloqueante de los canales de sodio como la ajmalina o la flecainida \cite{priori2013}. El consenso de 2016 propuso además una puntuación (\eng{Shanghai score}) que combina el ECG, la clínica, los antecedentes familiares y la genética \cite{antzelevitch2016}. Las guías europeas de 2022 restringieron el valor del patrón inducido por fármacos, que por sí solo ya no basta para el diagnóstico \cite{zeppenfeld2022}.
+El consenso HRS/EHRA/APHRS de 2013 establece que el SBr se diagnostica cuando se observa un patrón tipo~1 en al menos una derivación precordial derecha (V1 o V2, en posición estándar o elevada hasta el segundo espacio intercostal), ya sea espontáneo o inducido por un bloqueante de los canales de sodio como la ajmalina o la flecainida. El consenso de 2016 propuso además una puntuación (\eng{Shanghai score}) que combina el ECG, la clínica, los antecedentes familiares y la genética. Las guías europeas de 2022 restringieron el valor del patrón inducido por fármacos, que por sí solo ya no basta para el diagnóstico.
 
 \section{Implicaciones para el análisis de datos}
 

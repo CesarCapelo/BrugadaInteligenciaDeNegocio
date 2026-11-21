@@ -5,13 +5,13 @@ La visualización nos permite comprobar si las clases efectivamente forman grupo
 
 \section{Métodos}
 
-\paragraph{PCA.} Es el análisis de componentes principales \cite{jolliffe2002}, que busca las direcciones en las que los pacientes varían más y proyecta los datos sobre ellas. La primera componente es la dirección donde la varianza es máxima, la siguiente sería la de mayor varianza perpendicular a esta, y así sucesivamente. Es lineal y siempre nos devuelve el mismo resultado, y sus cargas nos permiten interpretar qué representa cada eje.
+\paragraph{PCA.} Es el análisis de componentes principales, que busca las direcciones en las que los pacientes varían más y proyecta los datos sobre ellas. La primera componente es la dirección donde la varianza es máxima, la siguiente sería la de mayor varianza perpendicular a esta, y así sucesivamente. Es lineal y siempre nos devuelve el mismo resultado, y sus cargas nos permiten interpretar qué representa cada eje.
 
-\paragraph{t-SNE.} Es un método no lineal \cite{vandermaaten2008} que intenta que los pacientes que son vecinos en el espacio original sigan siendo vecinos en el mapa. Su parámetro principal es la perplejidad, que regula a cuántos vecinos atiende cada punto. En mi caso usaré una perplejidad de 30.
+\paragraph{t-SNE.} Es un método no lineal que intenta que los pacientes que son vecinos en el espacio original sigan siendo vecinos en el mapa. Su parámetro principal es la perplejidad, que regula a cuántos vecinos atiende cada punto. En mi caso usaré una perplejidad de 30.
 
-\paragraph{UMAP.} Es un método que busca lo mismo que t-SNE \cite{mcinnes2018}: construye un grafo con los vecinos más cercanos a cada paciente y busca un mapa que sea capaz de conservarlos. Suele mantener mejor la estructura global y es más rápido que t-SNE. En mi caso usaré 15 vecinos.
+\paragraph{UMAP.} Es un método que busca lo mismo que t-SNE: construye un grafo con los vecinos más cercanos a cada paciente y busca un mapa que sea capaz de conservarlos. Suele mantener mejor la estructura global y es más rápido que t-SNE. En mi caso usaré 15 vecinos.
 
-En t-SNE y UMAP las distancias entre grupos y la forma global del mapa no tienen ningún significado y cambian según los parámetros \cite{wattenberg2016}; lo único fiable es quién está cerca de quién. Para no sacar conclusiones solo de una imagen, se comprueba además cuánta información sobre la clase conserva cada mapa: se entrena un $k$-NN usando solamente las dos coordenadas del mapa y se mide su AUROC.
+En t-SNE y UMAP las distancias entre grupos y la forma global del mapa no tienen ningún significado y cambian según los parámetros; lo único fiable es quién está cerca de quién. Para no sacar conclusiones solo de una imagen, se comprueba además cuánta información sobre la clase conserva cada mapa: se entrena un $k$-NN usando solamente las dos coordenadas del mapa y se mide su AUROC.
 
 Las tres técnicas se aplicaron sin usar etiquetas a dos representaciones estandarizadas: las 72 características y el latido medio de V1 y V2 muestra a muestra.
 

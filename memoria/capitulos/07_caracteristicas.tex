@@ -7,7 +7,7 @@ En este capítulo convertimos cada latido medio en un vector de 72 variables que
 
 \subsection{Límites del QRS}
 
-Casi todas las medidas dependen de dónde empieza y dónde acaba el QRS, porque es este el que define dónde se encuentra el punto J. Los delineadores habituales están pensados para trabajar entre 250 y \SI{1000}{\hertz} \cite{martinez2004}, por lo que no nos sirven para trabajar a los \SI{100}{\hertz} que tenemos nosotros. Por eso usamos un método, el cual está basado en la energía de la derivada (la pendiente de la señal) combinada de cuatro derivaciones complementarias: V1, V2, II y V5.
+Casi todas las medidas dependen de dónde empieza y dónde acaba el QRS, porque es este el que define dónde se encuentra el punto J. Los delineadores habituales están pensados para trabajar entre 250 y \SI{1000}{\hertz}, por lo que no nos sirven para trabajar a los \SI{100}{\hertz} que tenemos nosotros. Por eso usamos un método, el cual está basado en la energía de la derivada (la pendiente de la señal) combinada de cuatro derivaciones complementarias: V1, V2, II y V5.
 
 El QRS es la región de alta pendiente cerca del pico R. Su inicio y su final están situados donde esta energía cae por debajo del \SI{8}{\percent} de su máximo durante al menos 3 muestras consecutivas. Para evitar absurdos, el resultado se limita a rangos que sean verdaderamente posibles: el inicio entre \num{20} y \SI{120}{\milli\second} antes del pico R, y el final entre \num{20} y \SI{180}{\milli\second} después.
 
@@ -64,7 +64,7 @@ ST a J+\SI{40}{\milli\second}, V1 & \si{\milli\volt} & 0.060 & 0.067 & 0.530 & \
 \label{fig:caracteristicas}
 \end{figure}
 
-Lo que distingue a los pacientes que tienen Brugada no es cuánto se eleva el ST, sino la forma en la que este desciende. La pendiente del ST en V1 llega a alcanzar un AUC de \num{0.845}, mientras que la elevación del ST en J+\SI{40}{\milli\second} en la misma derivación se queda en \num{0.530} y no es significativa. Esto encaja con que la mayoría de los pacientes no lleguen a mostrar el patrón tipo 1 completo en el ECG basal, pero sí que muestren una tendencia descendente del ST, y que tengan los criterios de forma que están propuestos para el patrón tipo 2 \cite{chevallier2011,serra2014}.
+Lo que distingue a los pacientes que tienen Brugada no es cuánto se eleva el ST, sino la forma en la que este desciende. La pendiente del ST en V1 llega a alcanzar un AUC de \num{0.845}, mientras que la elevación del ST en J+\SI{40}{\milli\second} en la misma derivación se queda en \num{0.530} y no es significativa. Esto encaja con que la mayoría de los pacientes no lleguen a mostrar el patrón tipo 1 completo en el ECG basal, pero sí que muestren una tendencia descendente del ST, y que tengan los criterios de forma que están propuestos para el patrón tipo 2.
 
 \section{Redundancia}
 
@@ -79,19 +79,19 @@ Muchas variables miden aspectos que son parecidos del mismo latido, como el ST a
 
 \section{Métodos de selección comparados}
 
-Podemos agrupar los métodos de selección de características dentro de tres familias \cite{guyon2003}: los \textbf{filtros}, que puntúan cada variable con un criterio estadístico sin la necesidad de usar ningún modelo; los \textbf{\eng{wrappers}}, que lo que hacen es probar subconjuntos de variables entrenando el modelo una y otra vez; y por último los \textbf{embebidos}, en los que la selección ocurre durante el propio entrenamiento. Se comparan dos filtros y dos embebidos, implementados mediante scikit-learn \cite{pedregosa2011}. Los \eng{wrappers} los dejo fuera, ya que al tener tan pocos registros de pacientes corremos el riesgo de que se sobreajusten.
+Podemos agrupar los métodos de selección de características dentro de tres familias: los \textbf{filtros}, que puntúan cada variable con un criterio estadístico sin la necesidad de usar ningún modelo; los \textbf{\eng{wrappers}}, que lo que hacen es probar subconjuntos de variables entrenando el modelo una y otra vez; y por último los \textbf{embebidos}, en los que la selección ocurre durante el propio entrenamiento. Se comparan dos filtros y dos embebidos, implementados mediante scikit-learn. Los \eng{wrappers} los dejo fuera, ya que al tener tan pocos registros de pacientes corremos el riesgo de que se sobreajusten.
 
 \begin{itemize}
   \item \textbf{ANOVA F}: compara cuánto se separan las medias de las dos clases con cuánto varían los pacientes dentro de cada clase. Cuanto mayor es ese cociente, más útil es la variable.
-  \item \textbf{Información mutua} \cite{kraskov2004}: mide cuánto se reduce la incertidumbre sobre la clase al conocer la variable. Esta es capaz de reconocer también relaciones no lineales.
-  \item \textbf{Regularización L1} \cite{tibshirani1996}: es una regresión logística con penalización, que va arrastrando a cero los coeficientes de las variables que no son útiles.
-  \item \textbf{Random Forest} \cite{breiman2001}: tenemos 500 árboles de decisión, y la importancia de cada variable se decide en función de cuánto mejoran, en promedio, los cortes que se hacen con ella.
+  \item \textbf{Información mutua}: mide cuánto se reduce la incertidumbre sobre la clase al conocer la variable. Esta es capaz de reconocer también relaciones no lineales.
+  \item \textbf{Regularización L1}: es una regresión logística con penalización, que va arrastrando a cero los coeficientes de las variables que no son útiles.
+  \item \textbf{Random Forest}: tenemos 500 árboles de decisión, y la importancia de cada variable se decide en función de cuánto mejoran, en promedio, los cortes que se hacen con ella.
   \item \textbf{Orden aleatorio}: usamos este como referencia, para ver cuánto aporta el seleccionar las variables frente a elegirlas al azar.
 \end{itemize}
 
 Vemos que todos estos métodos lo que producen es una ordenación de las 72 variables, de la más útil a la menos útil, lo que permite evaluarlos para cualquier número $k$ de variables.
 
-Hay que tener cuidado, ya que si la ordenación se calculase con todos los pacientes y después evaluáramos con validación cruzada, las variables se habrían elegido viendo también el conjunto de pacientes de test, y se estaría trampeando el rendimiento \cite{ambroise2002}. Por eso, en cada uno de los 15 \eng{folds} (\cref{sec:protocolo}), cada método calcula su ordenación solo con el conjunto de entrenamiento; después se entrena una regresión logística con las $k$ primeras variables, para distintos valores de $k$ entre 1 y 72, y se mide el AUROC en el conjunto de test.
+Hay que tener cuidado, ya que si la ordenación se calculase con todos los pacientes y después evaluáramos con validación cruzada, las variables se habrían elegido viendo también el conjunto de pacientes de test, y se estaría trampeando el rendimiento. Por eso, en cada uno de los 15 \eng{folds} (\cref{sec:protocolo}), cada método calcula su ordenación solo con el conjunto de entrenamiento; después se entrena una regresión logística con las $k$ primeras variables, para distintos valores de $k$ entre 1 y 72, y se mide el AUROC en el conjunto de test.
 
 \section{Resultados}
 

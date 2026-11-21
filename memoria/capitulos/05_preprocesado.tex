@@ -19,7 +19,7 @@ Esto de tener fase cero es esencial, ya que un filtro que retrasara la onda seg�
 
 \section{Detección de latidos}
 
-Los picos R se detectan usando el método por defecto de NeuroKit2 \cite{makowski2021} sobre la derivación II, la cual suele tener complejos QRS amplios y positivos. Se activa la corrección de artefactos, la cual elimina detecciones con intervalos RR fisiológicamente imposibles y recupera latidos perdidos. Si se detectan menos de 3 latidos, se repite este proceso sobre V5, V2 o I. Y ya por último, cada pico se reajusta al máximo absoluto de la señal dentro de una ventana de $\pm\SI{50}{\milli\second}$, con el fin de corregir pequeños desplazamientos que pueda haber sobre el detector.
+Los picos R se detectan usando el método por defecto de NeuroKit2 sobre la derivación II, la cual suele tener complejos QRS amplios y positivos. Se activa la corrección de artefactos, la cual elimina detecciones con intervalos RR fisiológicamente imposibles y recupera latidos perdidos. Si se detectan menos de 3 latidos, se repite este proceso sobre V5, V2 o I. Y ya por último, cada pico se reajusta al máximo absoluto de la señal dentro de una ventana de $\pm\SI{50}{\milli\second}$, con el fin de corregir pequeños desplazamientos que pueda haber sobre el detector.
 
 \section{Segmentación y alineamiento}
 
@@ -45,10 +45,10 @@ Cada paso podría haberse hecho de otra forma; hay varias alternativas razonable
  & Paso banda \SIrange{0.67}{30}{\hertz} & 0.914 & 0.055 \\
  & Sin filtrar & 0.913 & 0.056 \\
 \midrule
-\multirow{4}{*}{Detector de picos R} & \textbf{NeuroKit2} \cite{makowski2021} & 0.919 & 0.052 \\
- & Pan-Tompkins \cite{pantompkins1985} & 0.903 & 0.052 \\
- & Hamilton \cite{hamilton2002} & 0.876 & 0.046 \\
- & Elgendi \cite{elgendi2010} & 0.866 & 0.057 \\
+\multirow{4}{*}{Detector de picos R} & \textbf{NeuroKit2} & 0.919 & 0.052 \\
+ & Pan-Tompkins & 0.903 & 0.052 \\
+ & Hamilton & 0.876 & 0.046 \\
+ & Elgendi & 0.866 & 0.057 \\
 \midrule
 \multirow{3}{*}{Derivación de referencia} & \textbf{II} & 0.919 & 0.052 \\
  & V5 & 0.927 & 0.045 \\

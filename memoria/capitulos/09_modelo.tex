@@ -5,7 +5,7 @@ En este último paso, lo que hacemos es comprobar si los datos que hemos prepara
 
 \section{Modelos}
 
-\paragraph{Análisis discriminante lineal (LDA).} Este modelo supone que en cada clase las variables siguen una distribución normal, con la misma forma en las dos clases, y traza una frontera lineal que trate de separar de la mejor forma posible sus medias, teniendo en cuenta cómo varían y cómo se correlacionan las variables. Con las 72 variables muy correlacionadas (\cref{fig:correlacion}) y unos 290 pacientes de entrenamiento, estimar estas correlaciones es inestable. Por eso se usa la versión con contracción de Ledoit y Wolf \cite{ledoit2004}, que acerca la estimación a una más simple y calcula automáticamente cuánto hacerlo, sin tener que ajustar ningún hiperparámetro.
+\paragraph{Análisis discriminante lineal (LDA).} Este modelo supone que en cada clase las variables siguen una distribución normal, con la misma forma en las dos clases, y traza una frontera lineal que trate de separar de la mejor forma posible sus medias, teniendo en cuenta cómo varían y cómo se correlacionan las variables. Con las 72 variables muy correlacionadas (\cref{fig:correlacion}) y unos 290 pacientes de entrenamiento, estimar estas correlaciones es inestable. Por eso se usa la versión con contracción de Ledoit y Wolf, que acerca la estimación a una más simple y calcula automáticamente cuánto hacerlo, sin tener que ajustar ningún hiperparámetro.
 
 \paragraph{Regresión logística.} Combina linealmente las variables y transforma el resultado en una probabilidad de tener Brugada. Se usa con regularización L2, eligiendo su intensidad por validación cruzada interna, y con pesos de clase balanceados.
 
