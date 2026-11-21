@@ -11,7 +11,7 @@ En este problema, la preparación de los datos decide el resultado: unas pocas v
   \item \textbf{Selección de instancias.} Solo se descarta el \SI{0.9}{\percent} de los latidos, sin sesgo entre clases, y ninguno de los ocho criterios evaluados cambia el resultado. La mediana ya actúa como un estimador robusto, y la selección se mantiene como salvaguarda y por trazabilidad.
   \item \textbf{Características.} La pendiente del segmento ST y la duración del QRS discriminan mucho más que la elevación absoluta del ST (AUC \num{0.845} frente a \num{0.530}), en línea con los criterios de forma de la literatura clínica, como el índice de Corrado \cite{zorzi2015}. Los cuatro métodos de selección comparados rinden prácticamente igual y coinciden en un núcleo de cinco variables que conserva casi el \SI{99}{\percent} del rendimiento, así que basta con uno sencillo y barato, como ANOVA.
   \item \textbf{Visualización.} Ninguna proyección a dos dimensiones separa las clases. La PCA muestra que las direcciones de máxima varianza no son las discriminantes, y t-SNE y UMAP solo revelan agrupaciones locales parciales.
-  \item \textbf{Modelo de referencia.} El LDA con contracción alcanza un AUROC de \num{0.928} (IC 95\,\%: \numrange{0.88}{0.96}), muy por encima de los criterios clínicos aplicados de forma literal (\num{0.75}).
+  \item \textbf{Modelo de referencia.} El LDA con contracción alcanza un AUROC de \num{0.928} (IC 95\,\%: \numrange{0.88}{0.96}), muy por encima de la puntuación basada en los criterios clínicos (\num{0.75}).
 \end{enumerate}
 
 \section{Lecciones para la preparación de datos}

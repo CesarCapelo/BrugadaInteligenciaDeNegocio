@@ -29,7 +29,7 @@ se ha escrito.
   del rendimiento.
 * Ninguna proyección en dos dimensiones separa las clases.
 * El **LDA con contracción** alcanza un **AUROC de 0,928** (IC 95 %: 0,88–0,96), con sensibilidad 0,87 y
-  especificidad 0,88. Las reglas clínicas aplicadas tal cual se quedan en 0,754.
+  especificidad 0,88. La puntuación basada en los criterios clínicos se queda en 0,754, y la regla «3 de 3» solo detecta al 22 % de los pacientes.
 
 ## Datos
 

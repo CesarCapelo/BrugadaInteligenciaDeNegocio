@@ -91,7 +91,7 @@ Podemos agrupar los métodos de selección de características dentro de tres fa
 
 Vemos que todos estos métodos lo que producen es una ordenación de las 72 variables, de la más útil a la menos útil, lo que permite evaluarlos para cualquier número $k$ de variables.
 
-Hay que tener cuidado, ya que si la ordenación se calculase con todos los pacientes y después evaluáramos con validación cruzada, las variables se habrían elegido viendo también el conjunto de pacientes de test, y se estaría trampeando el rendimiento \cite{ambroise2002}. Por eso, en cada uno de los 15 \eng{folds} (\cref{sec:protocolo}), cada método calcula su ordenación solo con el conjunto de entrenamiento; después se entrena una regresión logística con las $k$ primeras variables, para $k$ entre 1 y 72, y se mide el AUROC en el conjunto de test.
+Hay que tener cuidado, ya que si la ordenación se calculase con todos los pacientes y después evaluáramos con validación cruzada, las variables se habrían elegido viendo también el conjunto de pacientes de test, y se estaría trampeando el rendimiento \cite{ambroise2002}. Por eso, en cada uno de los 15 \eng{folds} (\cref{sec:protocolo}), cada método calcula su ordenación solo con el conjunto de entrenamiento; después se entrena una regresión logística con las $k$ primeras variables, para distintos valores de $k$ entre 1 y 72, y se mide el AUROC en el conjunto de test.
 
 \section{Resultados}
 

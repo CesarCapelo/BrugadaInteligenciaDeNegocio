@@ -3,7 +3,9 @@
 Se aplica sin etiquetas a dos representaciones estandarizadas de los 363 pacientes: las 72 características
 y el latido medio de V1 y V2 muestra a muestra (2 x 70 = 140 valores). Para no sacar conclusiones solo de la
 imagen, se mide el AUROC de un k-NN (k = 15, CV 5x3) entrenado solo con las dos coordenadas de cada mapa y,
-como referencia, con todas las variables. Salidas: results/dimred_knn.csv y results/dimred_pca.json.
+como referencia, con todas las variables. También se comprueba que la mezcla de clases no depende de la
+perplejidad de t-SNE ni del número de vecinos de UMAP (5, 15, 30 y 50). Salidas: results/dimred_knn.csv,
+results/dimred_hiperparametros.csv y results/dimred_pca.json.
 """
 import json
 import numpy as np, pandas as pd
@@ -53,6 +55,15 @@ def main():
     print(Q.round(3).to_string(index=False))
 
     X = datasets(F, MB)["72 características"]
+    H = []
+    for v in (5, 15, 30, 50):
+        Zt = TSNE(2, perplexity=v, init="pca", learning_rate="auto", random_state=SEED).fit_transform(X)
+        Zu = umap.UMAP(n_neighbors=v, min_dist=0.1, random_state=SEED).fit_transform(X)
+        H += [dict(metodo="t-SNE", perplejidad_o_vecinos=v, knn_auroc=knn_auc(Zt, y)[0]),
+              dict(metodo="UMAP", perplejidad_o_vecinos=v, knn_auroc=knn_auc(Zu, y)[0])]
+    H = pd.DataFrame(H); H.to_csv(RESULTS / "dimred_hiperparametros.csv", index=False)
+    print(H.round(3).to_string(index=False))
+
     pca = PCA(random_state=SEED).fit(X)
     cum = np.cumsum(pca.explained_variance_ratio_)
     load = pd.DataFrame(pca.components_[:2].T, index=feature_names(F), columns=["PC1", "PC2"])
