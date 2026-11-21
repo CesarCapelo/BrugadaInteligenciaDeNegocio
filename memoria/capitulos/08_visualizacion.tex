@@ -1,9 +1,10 @@
 % ---------------------------------------------------------------------
-\chapter{Visualización mediante reducción de dimensionalidad}\label{cap:visualizacion}
+\clearpage
+\section{Visualización mediante reducción de dimensionalidad}\label{cap:visualizacion}
 
 La visualización nos permite comprobar si las clases efectivamente forman grupos separados, si hay pacientes atípicos y qué estructura tienen los datos. Al tener 72 variables no se pueden representar directamente, por lo que hay que proyectar los datos a dos dimensiones. Dentro de este capítulo voy a comparar tres técnicas.
 
-\section{Métodos}
+\subsection{Métodos}
 
 \paragraph{PCA.} Es el análisis de componentes principales, que busca las direcciones en las que los pacientes varían más y proyecta los datos sobre ellas. La primera componente es la dirección donde la varianza es máxima, la siguiente sería la de mayor varianza perpendicular a esta, y así sucesivamente. Es lineal y siempre nos devuelve el mismo resultado, y sus cargas nos permiten interpretar qué representa cada eje.
 
@@ -15,32 +16,22 @@ En t-SNE y UMAP las distancias entre grupos y la forma global del mapa no tienen
 
 Las tres técnicas se aplicaron sin usar etiquetas a dos representaciones estandarizadas: las 72 características y el latido medio de V1 y V2 muestra a muestra.
 
-\section{Resultados}
+\subsection{Resultados}
 
 La \cref{fig:dimred} muestra las seis proyecciones.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{reduccion_dimensionalidad}
-\caption[Proyecciones 2D con PCA, t-SNE y UMAP]{Proyecciones 2D de los 363 pacientes con PCA, t-SNE y UMAP, a partir de las 72 características (fila superior) y del latido medio de V1--V2 (fila inferior). Azul: normal; rojo: Brugada.}
-\label{fig:dimred}
-\end{figure}
+\figura[\linewidth]{reduccion_dimensionalidad}{Proyecciones 2D de los 363 pacientes con PCA, t-SNE y UMAP, a partir de las 72 características (fila superior) y del latido medio de V1--V2 (fila inferior). Azul: normal; rojo: Brugada.}{fig:dimred}
 
-\subsection{PCA: la varianza no es la clase}
+\subsubsection{PCA: la varianza no es la clase}
 
 Las dos primeras componentes son capaces de explicar el \SI{22.5}{\percent} y el \SI{14.0}{\percent} de la varianza, y hacen falta hasta 20 componentes para llegar al \SI{90}{\percent} (\cref{fig:pca}). Las cargas nos muestran por qué la proyección no es capaz de separar las clases: la PC1 la forman las medidas de nivel del ST en V2, mientras que la PC2 la forman las mismas medidas pero en la derivación II. Estas son las direcciones en las que más varían los pacientes, pero no son las que distinguen entre tener Brugada o no. Como vimos en el \cref{cap:caracteristicas}, las que lo distinguen son la pendiente del ST y la duración del QRS. Un $k$-NN entrenado solo con las dos primeras componentes saca un AUROC de \num{0.53}, que es prácticamente lo mismo que tirar una moneda al aire.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{pca_varianza_cargas}
-\caption[Varianza explicada y cargas de la PCA]{(a) Varianza explicada por cada componente (barras) y acumulada (línea). (b, c) Las ocho variables con mayor carga en PC1 y PC2, dominadas por el nivel del segmento ST en V2 y en II, respectivamente.}
-\label{fig:pca}
-\end{figure}
+\figura[\linewidth]{pca_varianza_cargas}{(a) Varianza explicada por cada componente (barras) y acumulada (línea). (b, c) Las ocho variables con mayor carga en PC1 y PC2, dominadas por el nivel del segmento ST en V2 y en II, respectivamente.}{fig:pca}
 
-\subsection{t-SNE y UMAP: estructura local}
+\subsubsection{t-SNE y UMAP: estructura local}
 
 t-SNE y UMAP forman agrupaciones de pacientes con Brugada en los bordes del mapa. Sin embargo, esas agrupaciones están mezcladas con los pacientes normales, y el $k$-NN entrenado sobre el mapa (AUROC entre \num{0.71} y \num{0.76}) queda por debajo del que se obtiene usando todas las variables (\num{0.87} con las 72 características). Al cambiar la perplejidad o el número de vecinos, la forma de los mapas cambia, pero la mezcla de las clases se sigue manteniendo.
 
-\section{Observaciones}
+\subsection{Observaciones}
 
 Como vimos, ninguna de las proyecciones a dos dimensiones es capaz de separar las clases. La PCA muestra que las direcciones de máxima varianza no se corresponden con las discriminantes, y t-SNE y UMAP solo nos dan agrupaciones locales parciales. Al estar la información repartida entre varias variables, nos hace falta un modelo supervisado que sea capaz de ponderarlas.

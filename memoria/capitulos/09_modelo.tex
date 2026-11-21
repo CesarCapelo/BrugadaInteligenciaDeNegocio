@@ -1,9 +1,10 @@
 % ---------------------------------------------------------------------
-\chapter{Modelo de clasificación de referencia}\label{cap:modelo}
+\clearpage
+\section{Modelo de clasificación de referencia}\label{cap:modelo}
 
 En este último paso, lo que hacemos es comprobar si los datos que hemos preparado tienen un valor real, probándolo con un modelo sencillo. El objetivo ahora no es obtener el mejor clasificador posible, eso queda para el alcance del TFG, sino fijar una referencia de cuánto se puede llegar a discriminar con 72 características y un modelo lineal, y cuánto supera eso a aplicar directamente los criterios clínicos.
 
-\section{Modelos}
+\subsection{Modelos}
 
 \paragraph{Análisis discriminante lineal (LDA).} Este modelo supone que en cada clase las variables siguen una distribución normal, con la misma forma en las dos clases, y traza una frontera lineal que trate de separar de la mejor forma posible sus medias, teniendo en cuenta cómo varían y cómo se correlacionan las variables. Con las 72 variables muy correlacionadas (\cref{fig:correlacion}) y unos 290 pacientes de entrenamiento, estimar estas correlaciones es inestable. Por eso se usa la versión con contracción de Ledoit y Wolf, que acerca la estimación a una más simple y calcula automáticamente cuánto hacerlo, sin tener que ajustar ningún hiperparámetro.
 
@@ -13,11 +14,11 @@ En este último paso, lo que hacemos es comprobar si los datos que hemos prepara
 
 Todos los modelos se evalúan con el protocolo de la \cref{sec:protocolo}.
 
-\section{Resultados}
+\subsection{Resultados}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
-\caption[Rendimiento del modelo de referencia]{Rendimiento del modelo de referencia frente a las reglas clínicas. AUROC: media $\pm$ DT en 15 \eng{folds} e IC 95\,\% \eng{bootstrap}. Las métricas con umbral usan el umbral de Youden elegido en el entrenamiento. Sens.: sensibilidad; Esp.: especificidad; VPP: valor predictivo positivo; VPN: valor predictivo negativo; BA: exactitud balanceada; MCC: coeficiente de correlación de Matthews.}
+\caption[Rendimiento del modelo de referencia]{Rendimiento del modelo de referencia frente a las reglas clínicas. AUROC: media $\pm$ DT en 15 \emph{folds} e IC 95\,\% \emph{bootstrap}. Las métricas con umbral usan el umbral de Youden elegido en el entrenamiento. Sens.: sensibilidad; Esp.: especificidad; VPP: valor predictivo positivo; VPN: valor predictivo negativo; BA: exactitud balanceada; MCC: coeficiente de correlación de Matthews.}
 \label{tab:modelo}
 \small
 \setlength{\tabcolsep}{4.2pt}
@@ -35,14 +36,9 @@ Regla «3 de 3» (tipo 1) & {---} & {---} & 0.22 & 0.99 & 0.80 & 0.83 & 0.60 & 0
 \end{tabular}
 \end{table}
 
-En la \cref{tab:modelo} y en la \cref{fig:modelo} se recogen los resultados. El LDA llega a alcanzar un AUROC de \num{0.928}, con sensibilidad \num{0.87} y especificidad \num{0.88}. Supera a la puntuación clínica, que saca \num{0.754}, y la diferencia es mucho mayor que la variación que existe entre los diferentes \eng{folds}. Entre LDA y regresión logística tampoco vemos que difieran de una forma apreciable.
+En la \cref{tab:modelo} y en la \cref{fig:modelo} se recogen los resultados. El LDA llega a alcanzar un AUROC de \num{0.928}, con sensibilidad \num{0.87} y especificidad \num{0.88}. Supera a la puntuación clínica, que saca \num{0.754}, y la diferencia es mucho mayor que la variación que existe entre los diferentes \emph{folds}. Entre LDA y regresión logística tampoco vemos que difieran de una forma apreciable.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{modelo_referencia}
-\caption[Curvas ROC y matriz de confusión]{(a) Curvas ROC de las predicciones fuera de muestra (primera repetición de la validación cruzada) para los modelos lineales y la puntuación clínica, con los puntos de operación de las reglas «2 de 3» y «3 de 3». Entre paréntesis, el AUROC de esas predicciones, que difiere ligeramente de la media por \eng{fold} de la \cref{tab:modelo}. (b) Matriz de confusión del LDA con su umbral de Youden, media de las tres repeticiones.}
-\label{fig:modelo}
-\end{figure}
+\figura[\linewidth]{modelo_referencia}{(a) Curvas ROC de las predicciones fuera de muestra (primera repetición de la validación cruzada) para los modelos lineales y la puntuación clínica, con los puntos de operación de las reglas «2 de 3» y «3 de 3». Entre paréntesis, el AUROC de esas predicciones, que difiere ligeramente de la media por \emph{fold} de la \cref{tab:modelo}. (b) Matriz de confusión del LDA con su umbral de Youden, media de las tres repeticiones.}{fig:modelo}
 
 Vemos cómo las reglas clínicas muestran el compromiso esperable. La regla «3 de 3» es casi perfecta en cuanto a especificidad (\num{0.99}), pero solo es capaz de detectar al \SI{22}{\percent} de los pacientes. Encaja con que la mayoría de los positivos no muestren el patrón completo en su ECG basal. Si la relajamos a «2 de 3», sube la sensibilidad a \num{0.78}, pero en cambio la especificidad baja a \num{0.71}. El modelo lineal es capaz de mejorar ambas a la vez: con las mismas variables, ponderarlas a partir de los datos supera a combinarlas sin más con umbrales fijos.
 

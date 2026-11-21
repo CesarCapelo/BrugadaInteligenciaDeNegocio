@@ -1,9 +1,10 @@
 % ---------------------------------------------------------------------
-\chapter{Selección de instancias y latido medio}\label{cap:instancias}
+\clearpage
+\section{Selección de instancias y latido medio}\label{cap:instancias}
 
 Tenemos que cada registro nos aporta entre 8 y 26 latidos completos, con una mediana de 13. Estos latidos son las \emph{instancias} a través de las cuales somos capaces de resumir a cada paciente. Antes de combinarlos, primero se eliminan los anómalos, como pueden ser latidos ectópicos o detecciones erróneas, en un proceso de edición no supervisada (\cref{sec:estado}), comparando cada latido con el prototipo de su propio paciente, sin usar la etiqueta de clase.
 
-\section{Criterios de rechazo}
+\subsection{Criterios de rechazo}
 
 Se han definido dos criterios, los cuales se pueden combinar.
 
@@ -11,26 +12,21 @@ Se han definido dos criterios, los cuales se pueden combinar.
 
 \paragraph{Criterio temporal.} Se descarta el latido si su intervalo RR previo se desvía más de un 20\,\% del RR mediano del registro. Detecta latidos prematuros y latidos tras una pausa, cuya morfología puede ser normal pero cuya repolarización está alterada.
 
-En ambos casos, si el criterio dejara menos de 3 latidos se conservan todos (\eng{fallback}). En la práctica esto solo ocurre en algún paciente, sobre todo con los umbrales más exigentes.
+En ambos casos, si el criterio dejara menos de 3 latidos se conservan todos (\emph{fallback}). En la práctica esto solo ocurre en algún paciente, sobre todo con los umbrales más exigentes.
 
-\section{Construcción del latido medio}
+\subsection{Construcción del latido medio}
 
 Ya con los latidos conservados, se calcula, para cada derivación y cada instante, la \textbf{mediana} muestra a muestra. Después se resta el nivel isoeléctrico, estimado como la media del segmento PR (de \SIrange{-80}{-40}{\milli\second} respecto al pico R).
 
 La mediana tiene un punto de ruptura del 50\,\%, por lo que aunque cerca de la mitad de los latidos fueran anómalos, esta seguiría representando a los normales. Sin embargo, esto no pasa con la media, que sí se ve arrastrada por un único latido extremo. El resultado que tenemos es una matriz de $70 \times 12$ por paciente, con una misma dimensión para todos, que es la base de las características. En la \cref{fig:segmentacion} vemos el proceso con un paciente del cual, de sus 14 latidos, 4 son anómalos.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{latidos_segmentacion}
-\caption[Segmentación, alineamiento y rechazo de latidos]{Selección de instancias en un paciente (ID 3118448) con 4 latidos anómalos de 14. (a) Latidos segmentados en la derivación II, antes de alinear. (b) Tras el alineamiento, en rojo los descartados por el criterio morfológico ($\rho = 0{,}6$): morfologías claramente distintas de la plantilla. (c) Latidos conservados en V2 y latido medio resultante (en negro).}
-\label{fig:segmentacion}
-\end{figure}
+\figura[\linewidth]{latidos_segmentacion}{Selección de instancias en un paciente (ID 3118448) con 4 latidos anómalos de 14. (a) Latidos segmentados en la derivación II, antes de alinear. (b) Tras el alineamiento, en rojo los descartados por el criterio morfológico ($\rho = 0{,}6$): morfologías claramente distintas de la plantilla. (c) Latidos conservados en V2 y latido medio resultante (en negro).}{fig:segmentacion}
 
-\section{Resultados}
+\subsection{Resultados}
 
 La \cref{fig:embudo} resume cuántos latidos se pierden en cada paso usando el criterio por defecto ($\rho = 0{,}6$), y en la \cref{tab:instancias} comparamos todos los criterios.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \makebox[\linewidth][c]{\begin{tikzpicture}[font=\sffamily\small, x=1cm, y=1cm]
   \def\escala{0.00145}
@@ -50,9 +46,9 @@ La \cref{fig:embudo} resume cuántos latidos se pierden en cada paso usando el c
 \label{fig:embudo}
 \end{figure}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
-\caption[Comparación de criterios de selección de instancias]{Comparación de criterios de selección de instancias. Cambio del latido medio: percentil 95, entre pacientes, de la máxima diferencia absoluta en V1--V2 respecto a no rechazar ningún latido. AUROC: regresión logística sobre las 72 características (media $\pm$ DT en 15 \eng{folds}).}
+\caption[Comparación de criterios de selección de instancias]{Comparación de criterios de selección de instancias. Cambio del latido medio: percentil 95, entre pacientes, de la máxima diferencia absoluta en V1--V2 respecto a no rechazar ningún latido. AUROC: regresión logística sobre las 72 características (media $\pm$ DT en 15 \emph{folds}).}
 \label{tab:instancias}
 \small
 \begin{tabular}{@{}lS[table-format=3.0]S[table-format=1.1]S[table-format=2.0]S[table-format=1.3]S[table-format=1.3]@{\,$\pm$\,}S[table-format=1.3]@{}}
@@ -71,24 +67,14 @@ $\rho < 0{,}6$ y RR & 87 & 1.8 & 35 & 0.047 & 0.920 & 0.052 \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{seleccion_instancias}
-\caption[Efecto de los criterios de rechazo]{(a) Porcentaje de latidos descartados por cada criterio (barras) y AUROC del clasificador de referencia (puntos, $\pm$ error típico). Ningún criterio modifica el rendimiento. (b) Correlación del peor latido de cada paciente con su plantilla: el \SI{81.5}{\percent} de los pacientes no tiene ningún latido por debajo de \num{0.9}, en proporción similar en ambas clases.}
-\label{fig:instancias}
-\end{figure}
+\figura[\linewidth]{seleccion_instancias}{(a) Porcentaje de latidos descartados por cada criterio (barras) y AUROC del clasificador de referencia (puntos, $\pm$ error típico). Ningún criterio modifica el rendimiento. (b) Correlación del peor latido de cada paciente con su plantilla: el \SI{81.5}{\percent} de los pacientes no tiene ningún latido por debajo de \num{0.9}, en proporción similar en ambas clases.}{fig:instancias}
 
 Vemos que el rechazo afecta por igual a ambas clases: descartamos el \SI{0.9}{\percent} de los latidos de los pacientes normales y un \SI{0.8}{\percent} de los de los pacientes que tienen Brugada. Por lo tanto, esta selección no introduce ningún tipo de sesgo que sea dependiente de la clase, las trata por igual. De hecho, como se ve en la \cref{fig:instancias}, los latidos de los pacientes que tienen Brugada son algo \emph{más} homogéneos que los de los pacientes sanos, teniendo una correlación mediana del peor latido de \num{0.951} en los Brugada, frente a \num{0.934} en los pacientes sanos (Mann-Whitney, $p = \num{0.001}$), por lo que con esto descartamos también que la clase positiva tenga una peor calidad de señal. Tenemos también que los criterios más estrictos descartan más latidos, pero esto apenas cambia el latido medio (como mucho \SI{0.07}{\milli\volt} en el percentil 95), porque la mediana ya ignoraba estos latidos.
 
 Vemos que la selección de instancias no mejora el rendimiento en este conjunto de datos: los ocho criterios nos dan un AUROC entre \num{0.918} y \num{0.920}. No es un resultado negativo, sino que nos confirma dos cosas: que las señales, como dijimos antes, son limpias, y que la mediana ignora los latidos anómalos. Aun con esto, el criterio se va a mantener, porque no deja de ser una medida de protección frente a registros ruidosos, y deja constancia de lo que se descarta y de por qué se descarta.
 
-\section{El latido medio por clase}
+\subsection{El latido medio por clase}
 
 En la \cref{fig:latidoclase} se compara el latido medio de los grupos. Vemos que en los pacientes con Brugada, V1 y V2 muestran una onda r' más prominente, un segmento ST el cual desciende tras llegar al punto J en lugar de quedarse plano o incluso ascender, y una onda T de menor amplitud. Tenemos que la onda T es negativa en V2 en el \SI{43}{\percent} de los pacientes con Brugada, y solo en el \SI{6}{\percent} de los pacientes sanos. Este es el patrón tipo 1, que reconocemos en la \cref{fig:patrones}, aunque más atenuado, ya que se ha promediado con otros pacientes que no lo expresan en un grado tan alto. Vemos también que las bandas intercuartílicas se solapan ampliamente, que ninguna muestra aislada del latido separa las clases, y por eso necesitamos combinar varias medidas.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{latido_medio_clases}
-\caption[Latido medio por clase en V1 y V2]{Latido medio de V1 (a) y V2 (b) por clase: mediana entre pacientes (línea) y rango intercuartílico (banda). Las bandas grises marcan las regiones del QRS, del segmento ST (más oscura) y de la onda T.}
-\label{fig:latidoclase}
-\end{figure}
+\figura[\linewidth]{latido_medio_clases}{Latido medio de V1 (a) y V2 (b) por clase: mediana entre pacientes (línea) y rango intercuartílico (banda). Las bandas grises marcan las regiones del QRS, del segmento ST (más oscura) y de la onda T.}{fig:latidoclase}

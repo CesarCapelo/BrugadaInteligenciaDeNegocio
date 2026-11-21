@@ -1,7 +1,8 @@
 % ---------------------------------------------------------------------
-\chapter{Discusiones y conclusiones}\label{cap:conclusiones}
+\clearpage
+\section{Discusiones y conclusiones}\label{cap:conclusiones}
 
-\section{Conclusiones}
+\subsection{Conclusiones}
 
 En este tipo de problema, la preparación de los datos es la que decide el resultado: vemos cómo unas pocas variables clínicas que estén bien construidas, usando un modelo lineal, son capaces de alcanzar un AUROC de entre \num{0.91} y \num{0.93}.
 
@@ -16,14 +17,14 @@ Por objetivos, hemos concluido que:
   \item \textbf{Modelo de referencia.} El LDA con contracción alcanza un AUROC de \num{0.928} (IC 95\,\%: \numrange{0.88}{0.96}), un valor muy superior al obtenido con la puntuación basada en los criterios clínicos (\num{0.75}).
 \end{enumerate}
 
-\section{Limitaciones}
+\subsection{Limitaciones}
 
 \begin{itemize}
   \item Al trabajar a \SI{100}{\hertz}, cada muestra equivale a \SI{10}{\milli\second}. Por eso la duración del QRS solo puede tomar valores escalonados, y el punto J se localiza con una incertidumbre de una muestra.
   \item Los datos que tenemos son solo de un centro y de un ECG por paciente, y no tenemos ningún tipo de validación externa de estos registros.
-  \item El tamaño muestral es muy bajo también: contando solo con unos 15 positivos por \eng{fold} de test, las diferencias de AUROC que sean menores de \numrange{0.02}{0.03} no llegan a ser concluyentes.
+  \item El tamaño muestral es muy bajo también: contando solo con unos 15 positivos por \emph{fold} de test, las diferencias de AUROC que sean menores de \numrange{0.02}{0.03} no llegan a ser concluyentes.
 \end{itemize}
 
-\section{Continuación con el Trabajo de Fin de Grado}
+\subsection{Continuación con el Trabajo de Fin de Grado}
 
 El proceso y el conjunto de datos construidos aquí representan la base de la parte comparativa de mi TFG. Con el mismo protocolo de evaluación, en el TFG compararé siete familias de métodos: reglas clínicas, modelos clásicos, autoencoders, redes convolucionales y de atención sobre la señal, el modelo preentrenado ECG-FM, redes sobre imágenes del latido y modelos multimodales de visión-lenguaje. También se analizarán la interpretabilidad de los modelos, la calibración de sus probabilidades y los pacientes que todos los métodos clasifican mal. El valor de referencia que fijamos en el \cref{cap:modelo} es la cifra que tratarán de superar todos estos nuevos y más complejos modelos.

@@ -69,7 +69,7 @@ cd src
 ```
 
 Todo el proceso tarda unos 10 minutos en un portátil. También se puede usar `make all`. La memoria se compila desde `memoria/` con
-`pdflatex main && biber main && pdflatex main && pdflatex main` (o `latexmk -pdf main.tex`).
+`pdflatex main.tex` dos veces (la segunda, para el índice).
 
 La primera ejecución guarda en `data/processed/` las señales y los latidos medios. No lances dos experimentos a
 la vez hasta que esa caché exista, porque los dos escribirían el mismo fichero.
@@ -101,7 +101,7 @@ src/brugada/
   splits.py           particiones a nivel de paciente
   evaluate.py         métricas, umbral de Youden e intervalos bootstrap
   experiments/        un script por capítulo (ver la tabla de arriba) y el bucle de validación común
-memoria/              fuente LaTeX, figuras (figs/), script de figuras y PDF compilado
+memoria/              fuente LaTeX (main.tex y estilo.tex), figuras (figuras/), script de figuras y PDF compilado
 results/              resultados: resúmenes .csv/.json y predicciones por paciente
 scripts/              descarga de los datos
 ```

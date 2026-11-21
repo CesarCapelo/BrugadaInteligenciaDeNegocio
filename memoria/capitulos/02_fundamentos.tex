@@ -1,9 +1,10 @@
 % ---------------------------------------------------------------------
-\chapter{Fundamentos: el electrocardiograma y el síndrome de Brugada}\label{cap:fundamentos}
+\clearpage
+\section{Fundamentos: el electrocardiograma y el síndrome de Brugada}\label{cap:fundamentos}
 
 Este capítulo resume los conceptos clínicos necesarios para entender las decisiones de los capítulos siguientes: qué mide un ECG, en qué consiste el síndrome de Brugada y por qué su patrón es difícil de detectar.
 
-\section{El electrocardiograma}
+\subsection{El electrocardiograma}
 
 El electrocardiograma (ECG) registra en la superficie del cuerpo la actividad eléctrica que acompaña a la contracción del corazón. Cada latido produce una secuencia de ondas (\cref{fig:latido}):
 
@@ -17,7 +18,7 @@ El electrocardiograma (ECG) registra en la superficie del cuerpo la actividad el
 
 El ECG estándar tiene 12 derivaciones, cada una de las cuales observa el mismo fenómeno eléctrico desde un ángulo distinto: seis de miembros (I, II, III, aVR, aVL, aVF) en el plano frontal y seis precordiales (V1--V6) en el plano horizontal. Las \textbf{precordiales derechas V1 y V2} se sitúan sobre el tracto de salida del ventrículo derecho, que es la región donde se origina el síndrome de Brugada. Por eso son las derivaciones en las que aparece su patrón y en las que se centra este trabajo.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[x=1.15cm, y=1.9cm, font=\sffamily\footnotesize]
   % rejilla
@@ -49,29 +50,29 @@ El ECG estándar tiene 12 derivaciones, cada una de las cuales observa el mismo 
 \label{fig:latido}
 \end{figure}
 
-\section{El síndrome de Brugada}
+\subsection{El síndrome de Brugada}
 
-\subsection{Mecanismo, epidemiología y presentación clínica}
+\subsubsection{Mecanismo, epidemiología y presentación clínica}
 
 El síndrome de Brugada (SBr) es una \textbf{canalopatía}: una enfermedad de los canales iónicos de la membrana de las células cardíacas, sin alteración estructural visible del corazón. En torno a una quinta parte de los pacientes presenta variantes con pérdida de función en el gen \emph{SCN5A}, que codifica el canal de sodio cardíaco. La reducción de la corriente de sodio se expresa sobre todo en el epicardio del tracto de salida del ventrículo derecho. Coexisten dos explicaciones, no excluyentes, de cómo se genera el patrón: un gradiente de repolarización entre el epicardio y el endocardio de esa región (hipótesis de repolarización) y un retraso de conducción localizado (hipótesis de despolarización).
 
 Su prevalencia se estima entre 1 de cada \num{2000} y 1 de cada \num{5000} personas, con valores más altos en el sudeste asiático. Es entre ocho y diez veces más frecuente en varones, y suele diagnosticarse en torno a los 40~años. Muchos pacientes están asintomáticos. Otros debutan con síncope o con fibrilación ventricular, típicamente en reposo, durante el sueño o con fiebre.
 
-\subsection{Patrones electrocardiográficos}
+\subsubsection{Patrones electrocardiográficos}
 
 Los consensos internacionales describen dos patrones en V1--V3 (\cref{fig:patrones}):
 
 \begin{itemize}
-  \item \textbf{Tipo 1 o \eng{coved} (convexo)}: elevación del punto J de al menos \SI{2}{\milli\metre} (\SI{0.2}{\milli\volt}), seguida de un segmento ST descendente y convexo que termina en una \textbf{onda T negativa} y simétrica. Es el único patrón diagnóstico.
-  \item \textbf{Tipo 2 o \eng{saddleback} (en silla de montar)}: onda r' elevada, seguida de un segmento ST cóncavo que se mantiene elevado al menos \SI{0.5}{\milli\metre} y de una onda T positiva o aplanada. Es sugestivo, pero no diagnóstico. El antiguo tipo 3 se integró en él en 2012.
+  \item \textbf{Tipo 1 o \emph{coved} (convexo)}: elevación del punto J de al menos \SI{2}{\milli\metre} (\SI{0.2}{\milli\volt}), seguida de un segmento ST descendente y convexo que termina en una \textbf{onda T negativa} y simétrica. Es el único patrón diagnóstico.
+  \item \textbf{Tipo 2 o \emph{saddleback} (en silla de montar)}: onda r' elevada, seguida de un segmento ST cóncavo que se mantiene elevado al menos \SI{0.5}{\milli\metre} y de una onda T positiva o aplanada. Es sugestivo, pero no diagnóstico. El antiguo tipo 3 se integró en él en 2012.
 \end{itemize}
 
 Para distinguir el tipo 2 de variantes benignas con onda r' (bloqueo incompleto de rama derecha, deportistas) se han propuesto criterios cuantitativos sobre la forma del complejo: el ángulo $\beta$ entre las dos ramas de la r' y la anchura de la base del triángulo que forma la r'. Para distinguir el patrón tipo 1 de la repolarización precoz de los deportistas se propuso el \textbf{índice de Corrado}, el cociente entre la elevación del ST en el punto J y a \SI{80}{\milli\second} ($\mathrm{ST_J}/\mathrm{ST_{80}}$): un valor mayor que 1 indica un ST descendente, propio del patrón de Brugada. Todos estos criterios miden la \emph{forma} de la transición entre el QRS y el ST, no su altura. Los datos de este trabajo confirman empíricamente esa idea (\cref{cap:caracteristicas}).
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[x=0.95cm, y=1.55cm, font=\sffamily\footnotesize]
-  \foreach \ox/\tit in {0/{Normal (V1)}, 5.2/{Tipo 1 (\eng{coved})}, 10.4/{Tipo 2 (\eng{saddleback})}} {
+\begin{tikzpicture}[x=0.92cm, y=1.55cm, font=\sffamily\footnotesize]
+  \foreach \ox/\tit in {0/{Normal (V1)}, 5.2/{Tipo 1 (\emph{coved})}, 10.4/{Tipo 2 (\emph{saddleback})}} {
     \begin{scope}[shift={(\ox,0)}]
       \foreach \x in {0,0.4,...,4.41} \draw[acentoclaro, line width=0.3pt] (\x,-1.1) -- (\x,1.3);
       \foreach \y in {-1.0,-0.75,...,1.3} \draw[acentoclaro, line width=0.3pt] (0,\y) -- (4.4,\y);
@@ -102,13 +103,13 @@ Para distinguir el tipo 2 de variantes benignas con onda r' (bloqueo incompleto 
 \label{fig:patrones}
 \end{figure}
 
-\subsection{Diagnóstico}
+\subsubsection{Diagnóstico}
 
-El consenso HRS/EHRA/APHRS de 2013 establece que el SBr se diagnostica cuando se observa un patrón tipo~1 en al menos una derivación precordial derecha (V1 o V2, en posición estándar o elevada hasta el segundo espacio intercostal), ya sea espontáneo o inducido por un bloqueante de los canales de sodio como la ajmalina o la flecainida. El consenso de 2016 propuso además una puntuación (\eng{Shanghai score}) que combina el ECG, la clínica, los antecedentes familiares y la genética. Las guías europeas de 2022 restringieron el valor del patrón inducido por fármacos, que por sí solo ya no basta para el diagnóstico.
+El consenso HRS/EHRA/APHRS de 2013 establece que el SBr se diagnostica cuando se observa un patrón tipo~1 en al menos una derivación precordial derecha (V1 o V2, en posición estándar o elevada hasta el segundo espacio intercostal), ya sea espontáneo o inducido por un bloqueante de los canales de sodio como la ajmalina o la flecainida. El consenso de 2016 propuso además una puntuación (\emph{Shanghai score}) que combina el ECG, la clínica, los antecedentes familiares y la genética. Las guías europeas de 2022 restringieron el valor del patrón inducido por fármacos, que por sí solo ya no basta para el diagnóstico.
 
-\section{Implicaciones para el análisis de datos}
+\subsection{Implicaciones para el análisis de datos}
 
-\begin{table}[!b]
+\begin{table}[H]
 \centering
 \caption[Traducción de los criterios clínicos a variables]{Traducción de los criterios clínicos del patrón de Brugada a variables calculables sobre el latido medio. La definición precisa de cada variable está en el \cref{ap:catalogo}.}
 \label{tab:criterios}
@@ -117,12 +118,12 @@ El consenso HRS/EHRA/APHRS de 2013 establece que el SBr se diagnostica cuando se
 \toprule
 \textbf{Criterio clínico} & \textbf{Variable en este trabajo} & \textbf{Nombre} \\
 \midrule
-Elevación del punto J $\geq$ \SI{0.2}{\milli\volt} & Amplitud del latido en el punto J y a \SIlist{40;80}{\milli\second} & \var{st_j}, \var{st_j40}, \var{st_j80} \\
-ST descendente y convexo (\eng{coved}); índice de Corrado & Pendiente del ST entre J y J+\SI{80}{\milli\second}; pendiente final del QRS & \var{st_slope}, \var{qrs_end_slope} \\
-Onda T negativa & Mínimo de la onda T e indicador de negatividad & \var{t_neg}, \var{t_negative} \\
-Onda r' prominente & Máximo positivo tras la onda S & \var{rprime_amp} \\
-Ensanchamiento del QRS & Duración del QRS a partir de la energía de la derivada & \var{qrs_dur_ms} \\
-Elevación relativa del ST & Cociente entre el ST y la amplitud del QRS & \var{st_r_ratio} \\
+Elevación del punto J $\geq$ \SI{0.2}{\milli\volt} & Amplitud del latido en el punto J y a \SIlist{40;80}{\milli\second} & \var{st\_j}, \var{st\_j40}, \var{st\_j80} \\
+ST descendente y convexo (\emph{coved}); índice de Corrado & Pendiente del ST entre J y J+\SI{80}{\milli\second}; pendiente final del QRS & \var{st\_slope}, \var{qrs\_end\_slope} \\
+Onda T negativa & Mínimo de la onda T e indicador de negatividad & \var{t\_neg}, \var{t\_negative} \\
+Onda r' prominente & Máximo positivo tras la onda S & \var{rprime\_amp} \\
+Ensanchamiento del QRS & Duración del QRS a partir de la energía de la derivada & \var{qrs\_dur\_ms} \\
+Elevación relativa del ST & Cociente entre el ST y la amplitud del QRS & \var{st\_r\_ratio} \\
 \bottomrule
 \end{tabularx}
 \end{table}

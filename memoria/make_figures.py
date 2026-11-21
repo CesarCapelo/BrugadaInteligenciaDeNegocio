@@ -1,4 +1,4 @@
-"""Genera las figuras vectoriales (PDF) de la memoria en memoria/figs/ a partir de los datos y de results/.
+"""Genera las figuras vectoriales (PDF) de la memoria en memoria/figuras/ a partir de los datos y de results/.
 
 Requiere haber ejecutado antes los experimentos (ver README). Desde la raíz del repositorio:
 
@@ -19,7 +19,7 @@ from brugada.preprocess import preprocess
 from brugada.beats import extract_beats, segment_beats, detect_rpeaks, refine_rpeaks
 from brugada.config import LEAD_IDX, BEAT_PRE, FS, RESULTS
 
-OUT = Path(__file__).resolve().parent / "figs"; OUT.mkdir(exist_ok=True)
+OUT = Path(__file__).resolve().parent / "figuras"; OUT.mkdir(exist_ok=True)
 NUM = {}
 C_NORM, C_BRU, C_ACC, C_GREY = "#4E79A7", "#C0392B", "#1F4E79", "#8C8C8C"
 FAM = {"filtro": "#2E6DA4", "embebido": "#3A8E5C", "ref": "#8C8C8C"}

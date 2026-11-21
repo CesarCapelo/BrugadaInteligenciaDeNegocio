@@ -1,42 +1,38 @@
 % ---------------------------------------------------------------------
-\chapter{Preprocesado de la señal}\label{cap:preprocesado}
+\clearpage
+\section{Preprocesado de la señal}\label{cap:preprocesado}
 
 El preprocesado lo que hace es convertir cada registro en un conjunto de latidos limpios, los cuales estén sincronizados entre las derivaciones y alineados entre sí. Este consta de cuatro pasos deterministas, los cuales no usan ninguna etiqueta, y que por lo tanto no llegan a introducir ningún tipo de fuga de información, aunque se apliquen antes de particionar siquiera los datos. En la \cref{fig:senal} se muestra su efecto sobre el ECG de un paciente.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{senal_preprocesado}
-\caption[Efecto del filtrado y detección de latidos]{Efecto del preprocesado sobre un paciente con síndrome de Brugada. (a) V2 cruda, con una deriva de la línea de base de unos \SI{0.7}{\milli\volt}. (b) La misma derivación tras el filtro paso banda de fase cero: la deriva desaparece y la morfología de cada latido se conserva. (c) Derivación II filtrada con los picos R detectados, que se usan para segmentar las 12 derivaciones.}
-\label{fig:senal}
-\end{figure}
+\figura[\linewidth]{senal_preprocesado}{Efecto del preprocesado sobre un paciente con síndrome de Brugada. (a) V2 cruda, con una deriva de la línea de base de unos \SI{0.7}{\milli\volt}. (b) La misma derivación tras el filtro paso banda de fase cero: la deriva desaparece y la morfología de cada latido se conserva. (c) Derivación II filtrada con los picos R detectados, que se usan para segmentar las 12 derivaciones.}{fig:senal}
 
-\section{Filtrado}
+\subsection{Filtrado}
 
 Se aplica un filtro de Butterworth paso banda de orden 4 entre $f_1 = \SI{0.5}{\hertz}$ y $f_2 = \SI{40}{\hertz}$. Este filtro de Butterworth tiene una respuesta en amplitud máximamente plana en la banda de paso, por lo que no llega a alterar la amplitud relativa de las ondas que nos interesan. El paso alto lo que consigue es eliminar la deriva de la línea de base, y el paso bajo consigue eliminar el ruido muscular. Además, al estar recolectados estos datos aquí en Asturias, donde la frecuencia de la red eléctrica es de \SI{50}{\hertz}, esta coincide con la frecuencia de Nyquist del registro, por lo que la energía residual solo puede llegar a aparecer en los bordes de la banda, que es una zona la cual el paso bajo también atenúa.
 
 El filtro lo aplicamos en dos direcciones, primero hacia delante y después hacia atrás. Las distorsiones de fase que se producen en cada pasada se cancelan, de modo que el filtro resultante tiene fase cero y una respuesta en amplitud igual al cuadrado de la original.
 Esto de tener fase cero es esencial, ya que un filtro que retrasara la onda según su frecuencia lo que haría sería desplazar el punto J y el segmento ST, que es la parte que nos concierne, ya que es la que identifica al Brugada.
 
-\section{Detección de latidos}
+\subsection{Detección de latidos}
 
 Los picos R se detectan usando el método por defecto de NeuroKit2 sobre la derivación II, la cual suele tener complejos QRS amplios y positivos. Se activa la corrección de artefactos, la cual elimina detecciones con intervalos RR fisiológicamente imposibles y recupera latidos perdidos. Si se detectan menos de 3 latidos, se repite este proceso sobre V5, V2 o I. Y ya por último, cada pico se reajusta al máximo absoluto de la señal dentro de una ventana de $\pm\SI{50}{\milli\second}$, con el fin de corregir pequeños desplazamientos que pueda haber sobre el detector.
 
-\section{Segmentación y alineamiento}
+\subsection{Segmentación y alineamiento}
 
 Una vez localizados los picos R, recortamos cada latido en una ventana de \SI{250}{\milli\second} antes a \SI{450}{\milli\second} después del pico, lo que a \SI{100}{\hertz} son 70 muestras, y que incluye el final de la onda P, el QRS, el segmento ST y la onda T. El corte se hace en los mismos instantes en las 12 derivaciones, para que todas queden sincronizadas, y los latidos de los bordes que no caben enteros se descartan.
 
 Como a \SI{100}{\hertz} un error de una o dos muestras en el pico R ya desplaza el latido 10 o \SI{20}{\milli\second}, y eso emborronaría el segmento ST al promediar, alineamos cada latido con la plantilla del paciente, esto sería la mediana de sus latidos. Entonces probamos a moverlo hasta 3 muestras hacia cada lado y nos quedamos con la posición en la que más se parece a la plantilla.
 
-\section{Comparación de alternativas}\label{sec:ablacion-preprocesado}
+\subsection{Comparación de alternativas}\label{sec:ablacion-preprocesado}
 
 Cada paso podría haberse hecho de otra forma; hay varias alternativas razonables. Para elegir entre una de ellas con datos, se aplicó el proceso que describimos completo a cada alternativa, y se midió el desempeño del clasificador de referencia: una regresión logística sobre las 72 características, evaluada con el protocolo de la \cref{sec:protocolo}. En la \cref{tab:ablacion} se ven los resultados:
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
-\caption[Comparación de alternativas de preprocesado]{Comparación de alternativas en cada paso del preprocesado (AUROC medio $\pm$ desviación típica en 15 \eng{folds}). En negrita, la alternativa elegida.}
+\caption[Comparación de alternativas de preprocesado]{Comparación de alternativas en cada paso del preprocesado (AUROC medio $\pm$ desviación típica en 15 \emph{folds}). En negrita, la alternativa elegida.}
 \label{tab:ablacion}
 \small
-\begin{tabular}{@{}llS[table-format=1.3]S[table-format=1.3]@{}}
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{6.6cm}S[table-format=1.3]S[table-format=1.3]@{}}
 \toprule
 \textbf{Paso} & \textbf{Alternativa} & {\textbf{AUROC}} & {\textbf{DT}} \\
 \midrule
@@ -65,9 +61,9 @@ A la vista de estos resultados, podemos sacar tres conclusiones:
 \begin{itemize}
   \item \textbf{El filtrado casi no influye}, ya que sin filtrarlo tenemos \num{0.913} y filtrándolo \num{0.919} de AUROC. Lo que nos indica que las señales con las que estamos trabajando ya son limpias y que el latido medio atenúa bastante el ruido residual.
   \item \textbf{El detector de latidos sí que influye}, dándonos hasta un \num{0.05} más de AUROC. Vemos que un pico que esté mal situado consigue desalinear los latidos, haciendo que el latido medio quede deformado en la zona QRS--ST, que es donde se encuentra el patrón de detección del Brugada. Vemos que NeuroKit2 combina un detector robusto con corrección de artefactos y es el que mejor funciona.
-  \item \textbf{La derivación de referencia sí que importa.} Vemos que V2 es la peor referencia de todas, ya que su complejo QRS es el que se altera en pacientes con Brugada, lo que hace más difícil el localizar el pico. Vemos también que V5 saca un valor mayor que II, pero la diferencia que existe entre los \eng{folds} es mayor que lo que ganamos; por eso se mantiene II, que además es la referencia estándar en la práctica clínica y la elección que se decidió usar antes de ver estos resultados. Usar V5 en vez de II sería ajustar el proceso al conjunto de test, y esto es algo que queremos evitar a toda costa.
+  \item \textbf{La derivación de referencia sí que importa.} Vemos que V2 es la peor referencia de todas, ya que su complejo QRS es el que se altera en pacientes con Brugada, lo que hace más difícil el localizar el pico. Vemos también que V5 saca un valor mayor que II, pero la diferencia que existe entre los \emph{folds} es mayor que lo que ganamos; por eso se mantiene II, que además es la referencia estándar en la práctica clínica y la elección que se decidió usar antes de ver estos resultados. Usar V5 en vez de II sería ajustar el proceso al conjunto de test, y esto es algo que queremos evitar a toda costa.
 \end{itemize}
 
-\begin{hallazgo}
+\begin{conclusion}
 Al final, lo que buscamos con esto es precisión temporal, ya que, a la hora de la verdad, el Brugada ocupa solo unos pocos cientos de milisegundos alrededor del punto J, por lo que el hecho de que haya un poco de ruido o no, no llega a ser tan perjudicial como que los latidos no estén bien localizados o alineados.
-\end{hallazgo}
+\end{conclusion}

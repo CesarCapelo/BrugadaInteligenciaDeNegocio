@@ -1,29 +1,115 @@
 % =====================================================================
 %  Preprocesamiento y extracción de características de señales ECG
 %  para la detección del síndrome de Brugada
-%  Inteligencia de Negocio · Trabajo de teoría 1 · Primera parte del TFG
-%  Compilar:  latexmk -pdf main.tex      (pdfLaTeX + biber)
+%  Inteligencia de Negocio · Trabajo de teoría · Primera parte del TFG
+%
+%  El diseño está en estilo.tex (no se modifica).
+%  Compilar:  pdflatex main.tex  (dos veces, para el índice)
 % =====================================================================
-\documentclass[11pt, a4paper, oneside, parskip=half, numbers=noenddot,
-               listof=totoc, bibliography=totoc, captions=tableheading,
-               headings=optiontohead, toc=flat]{scrreprt}
-\usepackage{estilo}
-\addbibresource{referencias.bib}
+\documentclass[11pt,a4paper]{article}
 
-\hypersetup{pdftitle={Preprocesamiento y extracción de características de señales ECG para la detección del síndrome de Brugada},
-            pdfauthor={César Capelo}, pdfsubject={Inteligencia de Negocio · Trabajo de Fin de Grado},
-            pdfkeywords={síndrome de Brugada, ECG, preprocesamiento, selección de características, ETL}}
+% --- Datos -----------------------------------------------------------
+\newcommand{\Titulo}{Preprocesamiento y extracción de características de señales ECG para la detección del síndrome de Brugada}
+\newcommand{\Subtitulo}{De la señal cruda a un conjunto de datos tabular}
+\newcommand{\Tipo}{Trabajo de teoría}
+\newcommand{\Asignatura}{Inteligencia de Negocio}
+\newcommand{\Autor}{César Capelo Perera}
+\newcommand{\Tutor}{Nahuel Costa Cortez}
+\newcommand{\Profesor}{Luciano Sánchez Ramos}
+\newcommand{\Curso}{Curso 2026--2027}
+\newcommand{\Fecha}{Noviembre de 2026}
+
+\input{estilo}
+
+% Nombre de las secciones numeradas ("CAPÍTULO 1" sobre cada título).
+\renewcommand{\NombreSeccion}{Capítulo}
+\renewcommand{\NombreToc}{Capítulo}
+% El título completo es demasiado largo para la cabecera.
+\renewcommand{\PracticaActual}{Síndrome de Brugada}
+\hypersetup{pdftitle={\Titulo}}
+
+% --- Paquetes que necesita el contenido -------------------------------
+\usepackage{xurl}
+\usepackage{siunitx}
+\sisetup{output-decimal-marker={,}, group-separator={.}, group-minimum-digits=4,
+         group-digits=integer, mode=math, reset-math-version=false, per-mode=symbol}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\usetikzlibrary{arrows.meta, positioning, calc, decorations.pathreplacing}
+% Colores de los esquemas: los tonos claros salen de la paleta del estilo;
+% normal y brugada son los de las clases en todas las figuras.
+\colorlet{acentoclaro}{acentosuave}
+\colorlet{grisclaro}{grisfondo}
+\definecolor{normal}{HTML}{4E79A7}
+\definecolor{brugada}{HTML}{C0392B}
+% Referencias cruzadas: las secciones son capítulos y las subsecciones, secciones.
+\crefname{section}{capítulo}{capítulos}\Crefname{section}{Capítulo}{Capítulos}
+\crefname{subsection}{sección}{secciones}\Crefname{subsection}{Sección}{Secciones}
+\crefname{subsubsection}{sección}{secciones}\Crefname{subsubsection}{Sección}{Secciones}
+\crefname{appendix}{anexo}{anexos}\Crefname{appendix}{Anexo}{Anexos}
+\crefname{subappendix}{sección}{secciones}\Crefname{subappendix}{Sección}{Secciones}
 
 \begin{document}
+
+% =====================================================================
+%  Portada
+% =====================================================================
+\pagenumbering{Alph}
+\begin{titlepage}
+\pdfbookmark[0]{Portada}{portada}
+\color{principal}
+\raggedright
+
+{\footnotesize\color{grissuave}\etiqueta{\Asignatura}\hfill\etiqueta{\Curso}\par}
+
+\vspace*{0pt plus 1fill}
+
+{\color{acento}\rule{1.4cm}{2pt}\par}
+\vspace{1.6em}
+{\footnotesize\color{acento}\etiqueta{\Tipo}\par}
+\vspace{0.9em}
+{\sansligera\fontsize{34}{40}\selectfont \Titulo\par}
+\vspace{0.9em}
+{\Large\itshape\color{gristexto} \Subtitulo\par}
+
+\vspace{3.6em}
+
+\newcommand{\ficha}[2]{%
+  \begin{minipage}[t]{0.3\linewidth}\raggedright
+    {\color{grislinea}\rule{\linewidth}{0.4pt}\par}\vspace{0.7em}
+    {\sansseminegra #1\par}\vspace{0.15em}
+    {\small\color{gristexto}#2\par}
+  \end{minipage}}
+\noindent
+\ficha{Datos y preprocesado}{ETL, control de calidad, filtrado, selección de latidos y latido medio}\hfill
+\ficha{Características}{72 variables clínicas y comparación de métodos de selección}\hfill
+\ficha{Análisis}{Visualización y modelo de clasificación de referencia}\par
+
+\vspace*{0pt plus 1.5fill}
+
+{\color{grislinea}\rule{\linewidth}{0.4pt}\par}
+\vspace{1em}
+\newcommand{\dato}[2]{%
+  \begin{tabular}[t]{@{}l@{}}{\scriptsize\color{grissuave}\etiqueta{#1}}\\[0.3em]{\small #2}\end{tabular}}
+\noindent\begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}lll@{}}
+  \dato{Autor}{\Autor} & \dato{Tutor del TFG}{\Tutor} &
+  \dato{Profesor}{\Profesor} & \dato{Fecha}{\Fecha} \\
+\end{tabular*}
+\end{titlepage}
+
+% =====================================================================
+%  Índice
+% =====================================================================
 \pagenumbering{roman}
-\input{portada}
-\input{capitulos/00_resumen}
+\thispagestyle{plain}
+\pdfbookmark[0]{Índice}{indice}
 \tableofcontents
-\listoffigures
-\listoftables
-\cleardoublepage
+\clearpage
 \pagenumbering{arabic}
 
+% =====================================================================
+%  Contenido
+% =====================================================================
+\input{capitulos/00_resumen}
 \input{capitulos/01_introduccion}
 \input{capitulos/02_fundamentos}
 \input{capitulos/04_datos_etl}
@@ -34,10 +120,15 @@
 \input{capitulos/09_modelo}
 \input{capitulos/10_conclusiones}
 
-
+% =====================================================================
+%  Anexos
+% =====================================================================
 \appendix
-\crefalias{chapter}{appendix}
+\crefalias{section}{appendix}
+\renewcommand{\NombreSeccion}{Anexo}
+\addtocontents{toc}{\protect\renewcommand{\protect\NombreToc}{Anexo}}
 \input{capitulos/A_catalogo}
 \input{capitulos/B_reproducibilidad}
 \input{capitulos/C_uso_ia}
+
 \end{document}

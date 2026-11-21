@@ -1,17 +1,18 @@
 % ---------------------------------------------------------------------
-\chapter{Extracción y selección de características}\label{cap:caracteristicas}
+\clearpage
+\section{Extracción y selección de características}\label{cap:caracteristicas}
 
 En este capítulo convertimos cada latido medio en un vector de 72 variables que aporten un significado clínico, las analizamos y se comparan cuatro métodos para seleccionar solo un subconjunto reducido de ellas.
 
-\section{Extracción de características}
+\subsection{Extracción de características}
 
-\subsection{Límites del QRS}
+\subsubsection{Límites del QRS}
 
 Casi todas las medidas dependen de dónde empieza y dónde acaba el QRS, porque es este el que define dónde se encuentra el punto J. Los delineadores habituales están pensados para trabajar entre 250 y \SI{1000}{\hertz}, por lo que no nos sirven para trabajar a los \SI{100}{\hertz} que tenemos nosotros. Por eso usamos un método, el cual está basado en la energía de la derivada (la pendiente de la señal) combinada de cuatro derivaciones complementarias: V1, V2, II y V5.
 
 El QRS es la región de alta pendiente cerca del pico R. Su inicio y su final están situados donde esta energía cae por debajo del \SI{8}{\percent} de su máximo durante al menos 3 muestras consecutivas. Para evitar absurdos, el resultado se limita a rangos que sean verdaderamente posibles: el inicio entre \num{20} y \SI{120}{\milli\second} antes del pico R, y el final entre \num{20} y \SI{180}{\milli\second} después.
 
-\subsection{Variables}
+\subsubsection{Variables}
 
 A partir de estos límites podemos definir 72 variables, organizadas en cuatro grupos (el catálogo completo está en el \cref{ap:catalogo}):
 
@@ -30,11 +31,11 @@ A partir de estos límites podemos definir 72 variables, organizadas en cuatro g
 
 Como vemos, la pendiente del ST resulta ser la variable más importante de todas, y se define entre el punto J y \SI{80}{\milli\second} después. Que esta sea negativa indica un ST descendente, que es justamente el patrón tipo 1 (\cref{fig:patrones}). También incluimos la V3 porque el patrón puede extenderse a ella, y la II como derivación de control, alejada del ventrículo derecho.
 
-\section{Análisis univariante}
+\subsection{Análisis univariante}
 
 En la \cref{tab:univariante} se nos muestran las variables más discriminantes cuando se evalúan de una en una, y en la \cref{fig:caracteristicas} se representa su distribución por clase. El AUC se presenta orientado, de modo que valga lo mismo para una variable la cual aumenta con la enfermedad que para una que disminuye.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption[Variables más discriminantes]{Variables más discriminantes en el análisis univariante (se omiten las casi equivalentes a otra de la tabla, como el final del QRS). Medianas por clase, AUC orientado y valor $p$ del test de Mann-Whitney.}
 \label{tab:univariante}
@@ -57,29 +58,19 @@ ST a J+\SI{40}{\milli\second}, V1 & \si{\milli\volt} & 0.060 & 0.067 & 0.530 & \
 \end{tabular}
 \end{table}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{caracteristicas_clave}
-\caption[Distribución de las variables clave por clase]{Distribución por clase de cinco de las variables más discriminantes (a--e) y de la elevación del ST a J+\SI{40}{\milli\second} en V1 (f), que es la medida más próxima al criterio clínico de \SI{0.2}{\milli\volt} y apenas discrimina. En (c) se aprecian los escalones de \SI{10}{\milli\second} de la duración del QRS. Cajas: mediana y rango intercuartílico; puntos: pacientes individuales.}
-\label{fig:caracteristicas}
-\end{figure}
+\figura[\linewidth]{caracteristicas_clave}{Distribución por clase de cinco de las variables más discriminantes (a--e) y de la elevación del ST a J+\SI{40}{\milli\second} en V1 (f), que es la medida más próxima al criterio clínico de \SI{0.2}{\milli\volt} y apenas discrimina. En (c) se aprecian los escalones de \SI{10}{\milli\second} de la duración del QRS. Cajas: mediana y rango intercuartílico; puntos: pacientes individuales.}{fig:caracteristicas}
 
 Lo que distingue a los pacientes que tienen Brugada no es cuánto se eleva el ST, sino la forma en la que este desciende. La pendiente del ST en V1 llega a alcanzar un AUC de \num{0.845}, mientras que la elevación del ST en J+\SI{40}{\milli\second} en la misma derivación se queda en \num{0.530} y no es significativa. Esto encaja con que la mayoría de los pacientes no lleguen a mostrar el patrón tipo 1 completo en el ECG basal, pero sí que muestren una tendencia descendente del ST, y que tengan los criterios de forma que están propuestos para el patrón tipo 2.
 
-\section{Redundancia}
+\subsection{Redundancia}
 
 Muchas variables miden aspectos que son parecidos del mismo latido, como el ST a \num{40} y a \SI{80}{\milli\second} dentro de una misma derivación, o tener la misma medida tanto para V1 como para V2. En la \cref{fig:correlacion} se muestra la matriz de correlación de las 72 variables, donde vemos que 30 pares tienen una correlación absoluta mayor de \num{0.9}, y 28 variables forman parte de al menos uno de esos pares. El hecho de que exista esta redundancia ya justifica tener que estudiar la selección de características. Y también nos enseña un riesgo, y es que los métodos que evalúan las variables de una en una pueden llegar a elegir varias que sean casi equivalentes.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.94\linewidth]{correlacion_caracteristicas}
-\caption[Matriz de correlación de las 72 características]{Matriz de correlación de Pearson entre las 72 características, ordenadas por agrupamiento jerárquico. Los bloques intensos en la diagonal agrupan medidas redundantes de una misma onda en una misma derivación.}
-\label{fig:correlacion}
-\end{figure}
+\figura[0.94\linewidth]{correlacion_caracteristicas}{Matriz de correlación de Pearson entre las 72 características, ordenadas por agrupamiento jerárquico. Los bloques intensos en la diagonal agrupan medidas redundantes de una misma onda en una misma derivación.}{fig:correlacion}
 
-\section{Métodos de selección comparados}
+\subsection{Métodos de selección comparados}
 
-Podemos agrupar los métodos de selección de características dentro de tres familias: los \textbf{filtros}, que puntúan cada variable con un criterio estadístico sin la necesidad de usar ningún modelo; los \textbf{\eng{wrappers}}, que lo que hacen es probar subconjuntos de variables entrenando el modelo una y otra vez; y por último los \textbf{embebidos}, en los que la selección ocurre durante el propio entrenamiento. Se comparan dos filtros y dos embebidos, implementados mediante scikit-learn. Los \eng{wrappers} los dejo fuera, ya que al tener tan pocos registros de pacientes corremos el riesgo de que se sobreajusten.
+Podemos agrupar los métodos de selección de características dentro de tres familias: los \textbf{filtros}, que puntúan cada variable con un criterio estadístico sin la necesidad de usar ningún modelo; los \textbf{\emph{wrappers}}, que lo que hacen es probar subconjuntos de variables entrenando el modelo una y otra vez; y por último los \textbf{embebidos}, en los que la selección ocurre durante el propio entrenamiento. Se comparan dos filtros y dos embebidos, implementados mediante scikit-learn. Los \emph{wrappers} los dejo fuera, ya que al tener tan pocos registros de pacientes corremos el riesgo de que se sobreajusten.
 
 \begin{itemize}
   \item \textbf{ANOVA F}: compara cuánto se separan las medias de las dos clases con cuánto varían los pacientes dentro de cada clase. Cuanto mayor es ese cociente, más útil es la variable.
@@ -91,22 +82,17 @@ Podemos agrupar los métodos de selección de características dentro de tres fa
 
 Vemos que todos estos métodos lo que producen es una ordenación de las 72 variables, de la más útil a la menos útil, lo que permite evaluarlos para cualquier número $k$ de variables.
 
-Hay que tener cuidado, ya que si la ordenación se calculase con todos los pacientes y después evaluáramos con validación cruzada, las variables se habrían elegido viendo también el conjunto de pacientes de test, y se estaría trampeando el rendimiento. Por eso, en cada uno de los 15 \eng{folds} (\cref{sec:protocolo}), cada método calcula su ordenación solo con el conjunto de entrenamiento; después se entrena una regresión logística con las $k$ primeras variables, para distintos valores de $k$ entre 1 y 72, y se mide el AUROC en el conjunto de test.
+Hay que tener cuidado, ya que si la ordenación se calculase con todos los pacientes y después evaluáramos con validación cruzada, las variables se habrían elegido viendo también el conjunto de pacientes de test, y se estaría trampeando el rendimiento. Por eso, en cada uno de los 15 \emph{folds} (\cref{sec:protocolo}), cada método calcula su ordenación solo con el conjunto de entrenamiento; después se entrena una regresión logística con las $k$ primeras variables, para distintos valores de $k$ entre 1 y 72, y se mide el AUROC en el conjunto de test.
 
-\section{Resultados}
+\subsection{Resultados}
 
 Tenemos en la \cref{fig:fs-curvas} el rendimiento de cada método según el número de variables que usa, y en la \cref{tab:fs} se resumen los valores más relevantes.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.75\linewidth]{seleccion_caracteristicas_curvas}
-\caption[Rendimiento según el número de variables]{AUROC medio en 15 \eng{folds} según el número de variables seleccionadas (escala logarítmica). La línea de puntos marca el rendimiento con las 72 variables. Azul: filtros; verde: embebidos; gris: orden aleatorio.}
-\label{fig:fs-curvas}
-\end{figure}
+\figura[0.75\linewidth]{seleccion_caracteristicas_curvas}{AUROC medio en 15 \emph{folds} según el número de variables seleccionadas (escala logarítmica). La línea de puntos marca el rendimiento con las 72 variables. Azul: filtros; verde: embebidos; gris: orden aleatorio.}{fig:fs-curvas}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
-\caption[Comparación de métodos de selección de características]{Comparación de métodos de selección de características: AUROC medio (15 \eng{folds}) con 3, 5 y 10 variables y tiempo medio por \eng{fold} (aproximado: depende del ordenador). Con las 72 variables todos coinciden: \num{0.919} $\pm$ \num{0.052}.}
+\caption[Comparación de métodos de selección de características]{Comparación de métodos de selección de características: AUROC medio (15 \emph{folds}) con 3, 5 y 10 variables y tiempo medio por \emph{fold} (aproximado: depende del ordenador). Con las 72 variables todos coinciden: \num{0.919} $\pm$ \num{0.052}.}
 \label{tab:fs}
 \small
 \begin{tabular}{@{}llS[table-format=1.3]S[table-format=1.3]S[table-format=1.3]S[table-format=1.2]@{}}
@@ -127,19 +113,14 @@ Orden aleatorio & Referencia & 0.688 & 0.727 & 0.780 & {---} \\
 
 En la \cref{fig:fs-frecuencia} se muestra con qué frecuencia cada método sitúa a cada variable dentro de las 10 primeras. Vemos que los 4 métodos coinciden en 5 variables casi siempre: la pendiente del ST en V1, la duración del QRS, la pendiente del ST en V2, la amplitud de la onda T en V2 y el indicador de onda T negativa en V2. Todas estas describen el patrón característico del Brugada: el ST descendente y la T aplanada o negativa en las derivaciones precordiales derechas, y el retraso de conducción.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{seleccion_caracteristicas_frecuencia}
-\caption[Frecuencia de selección por método]{Porcentaje de \eng{folds} en que cada método sitúa cada variable entre las 10 primeras, para las 12 variables más elegidas en promedio.}
-\label{fig:fs-frecuencia}
-\end{figure}
+\figura[\linewidth]{seleccion_caracteristicas_frecuencia}{Porcentaje de \emph{folds} en que cada método sitúa cada variable entre las 10 primeras, para las 12 variables más elegidas en promedio.}{fig:fs-frecuencia}
 
-\section{Discusión}
+\subsection{Discusión}
 
 Podemos sacar en claro tres cosas:
 
 \begin{itemize}
   \item \textbf{La selección importa cuando vayamos a usar pocas variables}, ya que con 5 variables cualquier método supera al orden aleatorio en unos \num{0.17} o \num{0.18} de AUROC. Mientras que a partir de las 30 variables todos empiezan a converger, y ninguno mejora el usar las 72 variables.
   \item \textbf{Con 5 variables nos bastan}, ya que con la regularización L1 alcanzamos un AUROC de \num{0.907}, que es casi el \SI{99}{\percent} del rendimiento que alcanzamos con las 72 variables. Además, un modelo que tenga solo 5 medidas clínicas es mucho más fácil de explicar y de validar que uno que tenga 72.
-  \item \textbf{Los cuatro métodos rinden prácticamente igual}: vemos que la diferencia que hay entre ellos es mucho más pequeña que la variación que hay entre los \eng{folds}, por lo que no se puede asegurar que uno sea mejor o peor. Lo que los diferencia de verdad es el coste, ya que el ANOVA es prácticamente instantáneo, mientras que el Random Forest es mucho más lento. En este problema funcionan tan bien los filtros sencillos porque las variables discriminantes ya lo son por separado.
+  \item \textbf{Los cuatro métodos rinden prácticamente igual}: vemos que la diferencia que hay entre ellos es mucho más pequeña que la variación que hay entre los \emph{folds}, por lo que no se puede asegurar que uno sea mejor o peor. Lo que los diferencia de verdad es el coste, ya que el ANOVA es prácticamente instantáneo, mientras que el Random Forest es mucho más lento. En este problema funcionan tan bien los filtros sencillos porque las variables discriminantes ya lo son por separado.
 \end{itemize}

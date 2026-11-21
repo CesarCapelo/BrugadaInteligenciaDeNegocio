@@ -13,4 +13,4 @@ caracteristicas: ; $(EXP).run_features
 visualizacion:   ; $(EXP).run_dimred
 modelo:          ; $(EXP).run_baseline
 figuras:         ; cd src && $(PY) ../memoria/make_figures.py
-memoria:         ; cd memoria && latexmk -pdf main.tex
+memoria:         ; cd memoria && pdflatex main.tex && pdflatex main.tex

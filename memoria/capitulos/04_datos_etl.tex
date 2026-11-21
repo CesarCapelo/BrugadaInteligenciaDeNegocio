@@ -1,9 +1,10 @@
 % ---------------------------------------------------------------------
-\chapter{Datos y proceso ETL}\label{cap:datos}
+\clearpage
+\section{Datos y proceso ETL}\label{cap:datos}
 
 Dentro de este capítulo vamos a explorar el conjunto de datos, el proceso de extracción, transformación y carga, el control de calidad y el protocolo de evaluación que vamos a seguir durante todo el trabajo. En la \cref{fig:pipeline} se resume el proceso completo:
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[
   font=\sffamily\scriptsize, node distance=3.2mm and 3mm,
@@ -34,17 +35,17 @@ Dentro de este capítulo vamos a explorar el conjunto de datos, el proceso de ex
 \label{fig:pipeline}
 \end{figure}
 
-\section{El conjunto de datos Brugada-HUCA}
+\subsection{El conjunto de datos Brugada-HUCA}
 
-Brugada-HUCA es un conjunto de datos público, publicado en PhysioNet con la licencia CC BY-SA~4.0. Fue recogido por el Servicio de Cardiología del Hospital Universitario Central de Asturias, y las etiquetas fueron asignadas por electrofisiólogos siguiendo los criterios de consenso, con revisión conjunta para los casos que eran dudosos. Este contiene un ECG de 12 derivaciones por paciente, de \SI{12}{\second} de duración y muestreado a \SI{100}{\hertz}, en formato WFDB. Y luego tenemos el fichero \cod{metadata.csv}, que nos da tres variables por paciente (\cref{tab:composicion}):
+Brugada-HUCA es un conjunto de datos público, publicado en PhysioNet con la licencia CC BY-SA~4.0. Fue recogido por el Servicio de Cardiología del Hospital Universitario Central de Asturias, y las etiquetas fueron asignadas por electrofisiólogos siguiendo los criterios de consenso, con revisión conjunta para los casos que eran dudosos. Este contiene un ECG de 12 derivaciones por paciente, de \SI{12}{\second} de duración y muestreado a \SI{100}{\hertz}, en formato WFDB. Y luego tenemos el fichero \var{metadata.csv}, que nos da tres variables por paciente (\cref{tab:composicion}):
 
 \begin{itemize}
   \item \var{brugada}: que nos indica el diagnóstico para este paciente, 0 si está sano, 1 si tiene el síndrome de Brugada y 2 si se trata de un caso atípico.
-  \item \var{basal_pattern}: si el ECG basal se considera patológico.
-  \item \var{sudden_death}: si hubo algún antecedente de muerte súbita o de evento arrítmico.
+  \item \var{basal\_pattern}: si el ECG basal se considera patológico.
+  \item \var{sudden\_death}: si hubo algún antecedente de muerte súbita o de evento arrítmico.
 \end{itemize}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption[Composición del conjunto de datos]{Composición del conjunto de datos Brugada-HUCA.}
 \label{tab:composicion}
@@ -62,19 +63,19 @@ Total & 363 & 46 & 11 & 100.0 \\
 \end{tabular}
 \end{table}
 
-\section{Proceso ETL}
+\subsection{Proceso ETL}
 
-\paragraph{Extracción.} Tenemos un \eng{script} que se descarga los ficheros de PhysioNet y los lee con la librería \cod{wfdb}. Luego, para cada registro, el cargador comprueba que las 12 derivaciones están en orden (I, II, III, aVR, aVL, aVF, V1--V6) y que además la señal tenga exactamente $1200 \times 12$ muestras. Si alguna de las comprobaciones que se van haciendo llegase a fallar, el proceso se detendría para no seguir con datos incorrectos.
+\paragraph{Extracción.} Tenemos un \emph{script} que se descarga los ficheros de PhysioNet y los lee con la librería \var{wfdb}. Luego, para cada registro, el cargador comprueba que las 12 derivaciones están en orden (I, II, III, aVR, aVL, aVF, V1--V6) y que además la señal tenga exactamente $1200 \times 12$ muestras. Si alguna de las comprobaciones que se van haciendo llegase a fallar, el proceso se detendría para no seguir con datos incorrectos.
 
 \paragraph{Transformación.} Aquí los metadatos se integran con la señal a través del identificador propio que tiene cada paciente y construimos la etiqueta binaria del problema: positivo si \var{brugada} es 1 o 2, y negativo si \var{brugada} es 0. Lo que termina dándonos 76 pacientes positivos, que representan un \SI{20.9}{\percent} del total, y 287 negativos. Como se ve, los 7 casos atípicos que hay los incluyo como positivos; esto lo explicaré más adelante (\cref{sec:etiqueta}) y analizaré su efecto.
 
-\paragraph{Carga.} Todas las señales se guardan dentro de un único \eng{array} de $363 \times 1200 \times 12$ en formato comprimido; así nos libramos de tener que volver a leer los ficheros WFDB. Además, calculamos una huella SHA-256 de todos los ficheros de señal que identifica en qué versión exacta se encuentran los datos. También las tablas intermedias (los latidos medios, las características y los indicadores de calidad por paciente) se guardan en ficheros CSV y NumPy versionados junto al código.
+\paragraph{Carga.} Todas las señales se guardan dentro de un único \emph{array} de $363 \times 1200 \times 12$ en formato comprimido; así nos libramos de tener que volver a leer los ficheros WFDB. Además, calculamos una huella SHA-256 de todos los ficheros de señal que identifica en qué versión exacta se encuentran los datos. También las tablas intermedias (los latidos medios, las características y los indicadores de calidad por paciente) se guardan en ficheros CSV y NumPy versionados junto al código.
 
-\section{Control de calidad}\label{sec:calidad}
+\subsection{Control de calidad}\label{sec:calidad}
 
 En la \cref{tab:calidad} resumo las comprobaciones realizadas, y en la \cref{fig:calidad} se muestra la composición del conjunto, el espectro medio de la señal y la distribución de la frecuencia cardíaca.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption[Comprobaciones de calidad de los datos]{Comprobaciones de calidad de los datos y acciones tomadas.}
 \label{tab:calidad}
@@ -83,7 +84,7 @@ En la \cref{tab:calidad} resumo las comprobaciones realizadas, y en la \cref{fig
 \toprule
 \textbf{Comprobación} & \textbf{Resultado} & \textbf{Acción} \\
 \midrule
-Registros duplicados & El índice \cod{RECORDS} publicado contiene 364 entradas: el paciente 596382 aparece dos veces & Se elimina la entrada duplicada (363 registros únicos) \\
+Registros duplicados & El índice \var{RECORDS} publicado contiene 364 entradas: el paciente 596382 aparece dos veces & Se elimina la entrada duplicada (363 registros únicos) \\
 Integridad referencial & Los 363 identificadores coinciden entre señales y metadatos & Ninguna \\
 Valores ausentes y derivaciones planas & Ninguno & Ninguna \\
 Saturación ($|x| \geq \SI{3.2}{\milli\volt}$) & 11 registros en alguna derivación. En V1--V2, 3 pacientes con entre 2 y 17 muestras, casi todas artefactos (picos aislados de signo alterno o al inicio del registro); solo 2 muestras coinciden con un QRS & Se conservan: sin esos 3 pacientes el AUROC de referencia no cambia (\num{0.929} frente a \num{0.928}) \\
@@ -95,33 +96,28 @@ Frecuencia cardíaca & Mediana de 69 lpm (de 40 a 157); sin diferencias entre cl
 \end{tabularx}
 \end{table}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{calidad_datos}
-\caption[Composición, espectro y ritmo]{(a) Pacientes por diagnóstico; la parte rayada corresponde al ECG basal patológico. (b) Densidad espectral de potencia media de V1 y V2 (método de Welch): la energía se concentra por debajo de \SI{30}{\hertz} y cae unos tres órdenes de magnitud hasta \SI{40}{\hertz}. La banda gris indica el ruido que elimina el filtro paso bajo. (c) La frecuencia cardíaca no difiere entre clases, por lo que no puede actuar como variable de confusión.}
-\label{fig:calidad}
-\end{figure}
+\figura[\linewidth]{calidad_datos}{(a) Pacientes por diagnóstico; la parte rayada corresponde al ECG basal patológico. (b) Densidad espectral de potencia media de V1 y V2 (método de Welch): la energía se concentra por debajo de \SI{30}{\hertz} y cae unos tres órdenes de magnitud hasta \SI{40}{\hertz}. La banda gris indica el ruido que elimina el filtro paso bajo. (c) La frecuencia cardíaca no difiere entre clases, por lo que no puede actuar como variable de confusión.}{fig:calidad}
 
-\begin{hallazgo}
+\begin{conclusion}
 Como vemos, el conjunto de datos tiene una buena calidad: no hay valores ausentes, el ruido y la deriva que tenemos son pequeños, y todos los registros nos dejan hacerles el latido medio fiable. El único defecto que tiene es un paciente duplicado, el cual se eliminó, y que de no haberlo hecho podría haber quedado en el entrenamiento y en el test también, introduciendo de esta manera una fuga de información.
-\end{hallazgo}
+\end{conclusion}
 
-\section{Definición de la etiqueta}\label{sec:etiqueta}
+\subsection{Definición de la etiqueta}\label{sec:etiqueta}
 
 Los 7 casos atípicos que tenemos dentro del dataset corresponden a pacientes los cuales están siendo estudiados por sospecha de Brugada, pero que no llegan a cumplir con todos los criterios de confirmación. Por mi parte, los considero positivos, ya que desde un punto de vista clínico están más cerca de parecerse a alguien con Brugada que a alguien sano, desde el punto de vista del procedimiento que hay que seguir, ya que estos casos son los que merecen un estudio adicional como los positivos en Brugada, y por eso deberían de estar juntos al desencadenar el mismo resultado. Comprobé que esta decisión no condicionaba las conclusiones, y evalué dos alternativas con la regresión logística, que con la etiqueta elegida obtiene un AUROC de \num{0.919} (\cref{cap:modelo}). En la primera decidí excluir a los atípicos, dándonos un AUROC de \num{0.923} ($\pm$\num{0.045}), y en cambio, si los trato como negativos, se llega a reducir hasta el \num{0.903} ($\pm$\num{0.042}). Como se ve en los datos obtenidos, el descenso nos indica que estos casos atípicos se parecen más a los pacientes con Brugada que a los que no, lo que apoya el hecho de incluirlos dentro de la clase positiva.
 
-\section{Protocolo de evaluación común}\label{sec:protocolo}
+\subsection{Protocolo de evaluación común}\label{sec:protocolo}
 
 Ya que varias de las decisiones que se van a tomar más adelante se van a hacer sobre un clasificador, es imperativo que todas sigan el mismo protocolo, para hacer que las comparaciones sean justas y no estén infladas. El protocolo es el siguiente:
 
 \begin{enumerate}
-  \item \textbf{Particiones a nivel de paciente:} usamos una validación cruzada estratificada de 5 particiones, repetida 3 veces usando una semilla fija, lo que nos da un total de 15 \eng{folds}. Además, como tenemos solo un ECG por paciente, nos aseguramos de que cada paciente aparece exactamente una sola vez en el conjunto de test de cada repetición.
-  \item \textbf{Validación anidada:} todo lo que el modelo aprende con los datos se ajusta solo con la partición de entrenamiento de cada \eng{fold}. De esta forma, lo que evitamos es el sesgo optimista que aparece cuando resulta que el modelo usa los mismos datos que con los que se evalúa.
+  \item \textbf{Particiones a nivel de paciente:} usamos una validación cruzada estratificada de 5 particiones, repetida 3 veces usando una semilla fija, lo que nos da un total de 15 \emph{folds}. Además, como tenemos solo un ECG por paciente, nos aseguramos de que cada paciente aparece exactamente una sola vez en el conjunto de test de cada repetición.
+  \item \textbf{Validación anidada:} todo lo que el modelo aprende con los datos se ajusta solo con la partición de entrenamiento de cada \emph{fold}. De esta forma, lo que evitamos es el sesgo optimista que aparece cuando resulta que el modelo usa los mismos datos que con los que se evalúa.
   \item \textbf{Umbral de decisión:} este se elige maximizando el índice de Youden sobre las predicciones de fuera de la muestra de la validación interna, es decir, el umbral que hace máxima la suma de la sensibilidad y la especificidad.
   \item \textbf{Desbalance:} como tenemos muchos más pacientes normales que con Brugada, un modelo que siempre diga que el paciente es normal acertaría un \SI{79}{\percent} de las veces sin llegar a detectar ningún caso. Para evitar esto, durante el entrenamiento cada clase recibe un peso que es inversamente proporcional a su frecuencia, de modo que equivocarse en un Brugada le cueste 3,8 veces más que equivocarse con uno normal. El LDA, que no admite pesos, lo compensa con el umbral de Youden. Además, uso métricas las cuales no dependen de la prevalencia, como lo son el AUROC y la exactitud balanceada, $\mathrm{BA} = (\mathrm{Sens} + \mathrm{Esp})/2$.
-  \item \textbf{Incertidumbre:} se informa de la media $\pm$ la desviación típica del AUROC en los 15 \eng{folds}, y de un intervalo de confianza del \SI{95}{\percent} obtenido por \eng{bootstrap} sobre las predicciones que se encuentran fuera de la muestra.
+  \item \textbf{Incertidumbre:} se informa de la media $\pm$ la desviación típica del AUROC en los 15 \emph{folds}, y de un intervalo de confianza del \SI{95}{\percent} obtenido por \emph{bootstrap} sobre las predicciones que se encuentran fuera de la muestra.
 \end{enumerate}
 
-\begin{nota}[Un apunte]
-Con 76 positivos, en cada \eng{fold} de test tenemos aproximadamente unos 15 pacientes con Brugada. La desviación típica del AUROC entre \eng{folds} está sobre el \num{0.05}, por lo que las diferencias que sean inferiores a \num{0.02} o \num{0.03} no las podemos interpretar directamente como mejoras reales sin antes haberlas pasado por un contraste estadístico.
+\begin{nota}
+Con 76 positivos, en cada \emph{fold} de test tenemos aproximadamente unos 15 pacientes con Brugada. La desviación típica del AUROC entre \emph{folds} está sobre el \num{0.05}, por lo que las diferencias que sean inferiores a \num{0.02} o \num{0.03} no las podemos interpretar directamente como mejoras reales sin antes haberlas pasado por un contraste estadístico.
 \end{nota}

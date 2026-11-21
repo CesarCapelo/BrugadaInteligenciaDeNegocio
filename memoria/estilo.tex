@@ -1,0 +1,385 @@
+% =====================================================================
+%  estilo.tex — Preámbulo y estilo visual de la memoria
+%  No hace falta tocar este archivo para escribir la memoria.
+%
+%  Sistema visual:
+%    - Texto en Palatino (serifa), todo lo "estructural" (títulos,
+%      etiquetas, pies, cabeceras, índice) en Source Sans, y el código en
+%      Source Code Pro.
+%    - Tinta casi negra, una escala de grises y un único color de acento,
+%      reservado para números, etiquetas y filetes clave.
+% =====================================================================
+
+% --- Idioma y codificación -------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla,es-nodecimaldot,es-noshorthands]{babel}
+
+% --- Tipografía ------------------------------------------------------
+\usepackage{newpxtext,newpxmath}
+\usepackage[semibold,scale=0.95]{sourcesans}
+\usepackage[scale=0.84]{sourcecodepro}
+\usepackage[protrusion=true, expansion=true, kerning=true]{microtype}
+\linespread{1.12}
+
+% Pesos de Source Sans
+\newcommand{\sansligera}{\sffamily\fontseries{l}\selectfont}
+\newcommand{\sansextraligera}{\sffamily\fontseries{el}\selectfont}
+\newcommand{\sansnormal}{\sffamily\fontseries{m}\selectfont}
+\newcommand{\sansseminegra}{\sffamily\fontseries{sb}\selectfont}
+
+% Etiqueta: mayúsculas espaciadas en Source Sans seminegra.
+%   \etiqueta{texto}   (el tamaño lo pone el contexto)
+\newcommand{\etiqueta}[1]{%
+  {\sansseminegra\textls[110]{\MakeUppercase{#1}}}}
+
+% --- Página ----------------------------------------------------------
+\usepackage[a4paper, top=3cm, bottom=3cm, inner=3.2cm, outer=3.2cm,
+            headheight=16pt, headsep=26pt, footskip=36pt]{geometry}
+\setlength{\parskip}{0.55em plus 0.1em}
+\setlength{\parindent}{0pt}
+\raggedbottom
+% Sin líneas viudas ni huérfanas.
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+
+% --- Colores ----------------------------------------------------------
+\usepackage[table]{xcolor}
+\definecolor{principal}{HTML}{1B2129}   % tinta
+\definecolor{acento}{HTML}{1F5A8B}      % azul acero, único color
+\definecolor{acentosuave}{HTML}{E8EFF6}
+\definecolor{gristexto}{HTML}{545B64}
+\definecolor{grissuave}{HTML}{8A9099}
+\definecolor{grislinea}{HTML}{CDD1D6}
+\definecolor{grisfondo}{HTML}{F7F8F9}
+\definecolor{grisbarra}{HTML}{EEF0F2}
+\definecolor{codclave}{HTML}{1F5A8B}
+\definecolor{codcadena}{HTML}{4D6B3C}
+\definecolor{codcoment}{HTML}{8A9099}
+
+% --- Paquetes generales ----------------------------------------------
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{figuras/}}
+\usepackage{booktabs,tabularx,array,multirow}
+\setlength{\heavyrulewidth}{0.07em}
+\setlength{\lightrulewidth}{0.035em}
+\setlength{\cmidrulewidth}{0.035em}
+\renewcommand{\arraystretch}{1.18}
+\usepackage{float}
+% Cabeceras de las tablas (\textbf) en Source Sans seminegra.
+\newcommand{\textcabecera}[1]{{\sansseminegra #1}}
+\AtBeginEnvironment{table}{\let\textbf\textcabecera}
+\usepackage{needspace}
+% Pies: "FIGURA 3" en etiqueta de acento y el texto en gris.
+\usepackage{caption}
+\DeclareCaptionLabelFormat{etiquetada}{\etiqueta{#1~#2}}
+\DeclareCaptionLabelSeparator{espacio}{\hspace{0.8em}}
+\captionsetup{font={small,color=gristexto}, labelfont={footnotesize,color=acento},
+              labelformat=etiquetada, labelsep=espacio, skip=9pt,
+              margin=0.6cm, justification=justified, singlelinecheck=true}
+\captionsetup[table]{position=top, skip=7pt}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\setlist{itemsep=0.3em, topsep=0.4em, parsep=0pt, leftmargin=1.7em}
+\setlist[itemize,1]{label={\color{acento}\rule[0.27em]{0.45em}{0.6pt}}}
+\setlist[itemize,2]{label={\color{grissuave}\textperiodcentered}}
+\setlist[enumerate,1]{label={\color{acento}\sansseminegra\arabic*}}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[titles]{tocloft}
+\usepackage{etoolbox}
+\usepackage{bookmark}
+
+% --- Títulos ---------------------------------------------------------
+% Ejercicio / tarea / apartado: etiqueta de acento, título en Source Sans
+% y filete fino a todo lo ancho.
+\titleformat{\section}[display]
+  {\normalfont\color{principal}}
+  {\footnotesize\color{acento}\etiqueta{\NombreSeccion~\thesection}}
+  {0.55em}
+  {\sansnormal\fontsize{21}{25}\selectfont}
+  [\vspace{0.75em}{\color{grislinea}\titlerule[0.4pt]}]
+% Secciones sin número (Introducción, Planteamiento, Conclusiones).
+\titleformat{name=\section, numberless}[display]
+  {\normalfont\color{principal}}
+  {}
+  {0em}
+  {\sansnormal\fontsize{21}{25}\selectfont}
+  [\vspace{0.75em}{\color{grislinea}\titlerule[0.4pt]}]
+\titleformat{\subsection}
+  {\normalfont\sansseminegra\large\color{principal}}
+  {{\sansnormal\color{acento}\thesubsection}}{0.85em}{}
+\titleformat{\subsubsection}
+  {\normalfont\sansseminegra\normalsize\color{gristexto}}
+  {}{0em}{}
+\titlespacing*{\section}{0pt}{2.4em}{1.3em}
+\titlespacing*{\subsection}{0pt}{1.7em}{0.5em}
+\titlespacing*{\subsubsection}{0pt}{1.2em}{0.3em}
+
+% Nombre de las secciones numeradas en cada práctica.
+\newcommand{\NombreSeccion}{Ejercicio}
+\newcommand{\NombreToc}{Ejercicio}
+\newcommand{\PracticaActual}{\Titulo}
+
+% Anclas de hyperref únicas aunque la numeración se reinicie en cada práctica.
+\renewcommand{\theHsection}{\arabic{part}.\arabic{section}}
+\renewcommand{\theHsubsection}{\theHsection.\arabic{subsection}}
+\renewcommand{\theHsubsubsection}{\theHsubsection.\arabic{subsubsection}}
+
+% --- Índice ----------------------------------------------------------
+\renewcommand{\contentsname}{Índice}
+\renewcommand{\cfttoctitlefont}{\normalfont\sansnormal\fontsize{21}{25}\selectfont\color{principal}}
+\renewcommand{\cftaftertoctitle}{\par\vspace{0.75em}{\color{grislinea}\rule{\linewidth}{0.4pt}}}
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{1.6em}
+% Prácticas (la entrada completa se escribe en \practica)
+\renewcommand{\cftpartfont}{\normalfont\sansseminegra\color{principal}}
+\renewcommand{\cftpartpagefont}{\normalfont\sansseminegra\color{principal}}
+\setlength{\cftbeforepartskip}{2.1em}
+% Ejercicios, tareas y apartados
+\renewcommand{\cftsecfont}{\normalfont\color{principal}}
+\renewcommand{\cftsecpagefont}{\normalfont\color{principal}}
+\renewcommand{\cftsecpresnum}{\begingroup\footnotesize\color{grissuave}%
+  \sansseminegra\lsstyle\MakeUppercase{\NombreToc}~}
+\renewcommand{\cftsecaftersnum}{\endgroup}
+\setlength{\cftsecnumwidth}{7.6em}
+\setlength{\cftbeforesecskip}{0.5em}
+\renewcommand{\cftsecleader}{{\color{grislinea}\cftdotfill{\cftdotsep}}}
+\renewcommand{\cftdotsep}{2.6}
+% Apartados internos
+\renewcommand{\cftsubsecfont}{\normalfont\color{gristexto}}
+\renewcommand{\cftsubsecpagefont}{\normalfont\color{gristexto}}
+\setlength{\cftsubsecindent}{7.6em}
+\setlength{\cftsubsecnumwidth}{2.4em}
+\setcounter{tocdepth}{1}
+
+% --- Cabecera y pie ----------------------------------------------------
+% Cabecera sin filete: práctica y ejercicio a la izquierda, página a la
+% derecha. El pie queda vacío.
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\footnotesize\color{acento}\etiqueta{\PracticaActual}%
+  \hspace{0.9em}{\color{grislinea}\rule[-0.15em]{0.4pt}{0.95em}}\hspace{0.9em}%
+  {\sansnormal\color{grissuave}\nouppercase{\rightmark}}}
+\fancyhead[R]{\footnotesize\sansseminegra\color{principal}\thepage}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\renewcommand{\subsectionmark}[1]{}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[R]{\footnotesize\sansseminegra\color{grissuave}\thepage}}
+
+% --- Código Python -------------------------------------------------------
+\lstdefinestyle{python}{
+  language=Python,
+  basicstyle=\ttfamily\small\linespread{1.08}\selectfont\color{principal},
+  keywordstyle=\color{codclave}\bfseries,
+  stringstyle=\color{codcadena},
+  commentstyle=\color{codcoment}\itshape,
+  numberstyle=\scriptsize\ttfamily\color{grissuave},
+  numbers=left, numbersep=13pt,
+  showstringspaces=false, breaklines=true, tabsize=4,
+  columns=fullflexible, keepspaces=true,
+  morekeywords={as,True,False,None,with},
+  literate=
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+    {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {ü}{{\"u}}1 {¿}{{?`}}1 {¡}{{!`}}1
+    {€}{{\texteuro}}1 {·}{{$\cdot$}}1 {σ}{{$\sigma$}}1,
+}
+\lstset{style=python}
+\renewcommand{\lstlistingname}{Código}
+
+% Bloques de código: fondo gris muy claro, barra superior con el nombre
+% del archivo y filete fino abajo.
+\lstdefinestyle{bloque}{
+  style=python,
+  backgroundcolor=\color{grisfondo},
+  frame=b, framerule=0.4pt, rulecolor=\color{grislinea},
+  xleftmargin=3em, framexleftmargin=3em,
+  xrightmargin=0pt, framexrightmargin=0pt,
+  framextopmargin=8pt, framexbottommargin=8pt,
+  aboveskip=1.3em, belowskip=1.3em, captionpos=t,
+}
+\DeclareCaptionFormat{barracodigo}{%
+  {\setlength{\fboxsep}{0pt}\colorbox{grisbarra}{%
+    \hbox to \linewidth{\rule[-0.6em]{0pt}{1.75em}\hspace{11pt}%
+      {\color{acento}\rule[-0.1em]{2pt}{0.85em}}\hspace{8pt}%
+      {\ttfamily\footnotesize\color{principal}#3}\hfil
+      {\scriptsize\color{grissuave}\etiqueta{Python}}\hspace{11pt}}}}}
+\captionsetup[lstlisting]{format=barracodigo, skip=0pt, margin=0pt,
+  singlelinecheck=false}
+
+% Bloque de código en el texto:
+%   \begin{python}{archivo.py} ... \end{python}
+%   (con {} vacío no se muestra la barra del archivo)
+\lstnewenvironment{python}[1]
+  {\endgraf\Needspace{10\baselineskip}%
+   \ifstrempty{#1}%
+     {\lstset{style=bloque, frame=tb}}%
+     {\lstset{style=bloque, title={#1}}}}
+  {}
+
+% Código completo desde un archivo de la carpeta codigo/:
+%   \codigo{archivo.py}
+\newcommand{\codigo}[1]{%
+  \lstinputlisting[style=bloque, title={#1}]{codigo/#1}}
+
+% Los lstlisting sueltos tampoco se parten si son cortos.
+\BeforeBeginEnvironment{lstlisting}{\par\Needspace{12\baselineskip}}
+
+% --- Cajas -------------------------------------------------------------
+
+% Enunciado: fondo de acento muy suave y filete de acento a la izquierda.
+\newtcolorbox{enunciado}[1][]{
+  enhanced, frame hidden, colback=acentosuave!55!white,
+  borderline west={1.2pt}{0pt}{acento}, sharp corners,
+  left=14pt, right=14pt, top=10pt, bottom=10pt, boxsep=0pt,
+  fontupper=\itshape\linespread{1.1}\selectfont, coltext=gristexto,
+  before upper={{\upshape\footnotesize\color{acento}\etiqueta{Enunciado}}\par
+                \vspace{0.35em}},
+  before skip=1em, after skip=1.4em, #1
+}
+
+% Conclusión: recuadro de línea fina con etiqueta.
+\newtcolorbox{conclusion}[1][]{
+  enhanced, breakable, colback=white, colframe=acento,
+  boxrule=0.5pt, sharp corners,
+  left=14pt, right=14pt, top=10pt, bottom=10pt,
+  before upper={{\footnotesize\color{acento}\etiqueta{Conclusión}}\par
+                \vspace{0.35em}},
+  before skip=1.3em, after skip=1.3em, #1
+}
+
+% Nota o aclaración: texto pequeño con filete gris.
+\newtcolorbox{nota}[1][]{
+  enhanced, breakable, frame hidden, interior hidden,
+  borderline west={0.8pt}{0pt}{grislinea},
+  left=14pt, right=0pt, top=1pt, bottom=1pt, boxsep=0pt,
+  fontupper=\small, coltext=gristexto,
+  before upper={{\scriptsize\color{grissuave}\etiqueta{Nota}}\hspace{0.8em}},
+  before skip=0.7em, after skip=1.2em, #1
+}
+
+% --- Comandos de ayuda -------------------------------------------------
+
+% Texto pendiente de escribir (se ve en gris; bórralo al redactar).
+\newcommand{\pendiente}[1]{%
+  {\color{grissuave}\itshape\small[\,#1\,]}}
+
+% Hueco para una figura que todavía no existe (compila sin la imagen).
+%   \figurapendiente{Descripción de la figura}
+\newcommand{\figurapendiente}[1]{%
+  \begin{figure}[H]\centering
+  \tikz\node[draw=grislinea, dashed, line width=0.5pt, fill=grisfondo,
+             minimum width=0.82\linewidth, minimum height=4.2cm,
+             text width=0.7\linewidth, align=center,
+             font=\small\color{grissuave}]
+             {\hyphenpenalty=10000 {\scriptsize\etiqueta{Figura pendiente}}\\[0.5em]
+              \itshape #1};
+  \end{figure}}
+
+% Figura: \figura[ancho]{archivo}{pie}{etiqueta}
+\newcommand{\figura}[4][0.9\linewidth]{%
+  \begin{figure}[H]\centering
+  \includegraphics[width=#1]{#2}
+  \caption{#3}\label{#4}
+  \end{figure}}
+
+% Nombre de variable o función en línea: \var{EstimatedSalary}
+\newcommand{\var}[1]{\texttt{#1}}
+
+% Cabecera de ejercicio, tarea o apartado:
+%   \ejercicio{1}{Título}{scipy-1.py}
+%   \ejercicio[opcional]{4}{Título}{practica2.py}
+%   \ejercicio{7}{Título}{}            (sin archivo)
+% Pregunta del enunciado al principio de cada respuesta:
+%   \item \pregunta{¿Qué escalado elige?} Texto de la respuesta...
+\newcommand{\pregunta}[1]{{\sansseminegra\color{principal}#1}\par\nopagebreak\vspace{0.2em}}
+
+\newif\ifsinsalto
+\newcommand{\ejercicio}[4][]{%
+  \ifsinsalto\global\sinsaltofalse\else\clearpage\fi
+  \setcounter{section}{\numexpr#2-1\relax}%
+  \section{#3}
+  \ifboolexpr{test {\ifstrempty{#4}} and test {\ifstrempty{#1}}}{}{%
+    \vspace{-0.55em}
+    {\footnotesize\color{grissuave}%
+     \ifstrempty{#4}{}{\etiqueta{Archivo}\hspace{0.7em}%
+       {\color{gristexto}\texttt{#4}}}%
+     \ifboolexpr{test {\ifstrempty{#4}} or test {\ifstrempty{#1}}}{}%
+       {\hspace{1.4em}}%
+     \ifstrempty{#1}{}{{\setlength{\fboxsep}{2.2pt}%
+       \colorbox{acentosuave}{\scriptsize\color{acento}\etiqueta{#1}}}}}%
+    \par\vspace{0.4em}}}
+
+% Portadilla de cada práctica (página propia):
+%   \practica{sesión}{número}{título}{descripción}{material}{Ejercicio}
+\newcommand{\practica}[6]{%
+  \clearpage
+  \setcounter{part}{\numexpr#1-1\relax}%
+  \refstepcounter{part}%
+  \setcounter{section}{0}%
+  \gdef\PracticaActual{Práctica~#2}%
+  \gdef\NombreSeccion{#6}%
+  \addtocontents{toc}{\protect\gdef\protect\NombreToc{#6}}%
+  \phantomsection
+  \addcontentsline{toc}{part}{\protect\makebox[7.6em][l]%
+    {\protect\footnotesize\protect\color{acento}\protect\etiqueta{Práctica~#2}}%
+    #3}%
+  \markright{}%
+  \thispagestyle{empty}%
+  \begingroup\raggedright\color{principal}
+  \vspace*{0.1\textheight}
+  {\footnotesize\color{acento}\etiqueta{Práctica~#2}\par}
+  \vspace{0.2em}
+  {\sansextraligera\fontsize{150}{150}\selectfont\color{acento}\hspace*{-0.06em}#2\par}
+  \vspace{1.2em}
+  {\sansnormal\fontsize{30}{35}\selectfont #3\par}
+  \vspace{1.6em}
+  {\color{acento}\rule{2.2cm}{1.4pt}\par}
+  \vspace{1.6em}
+  \begin{minipage}{0.78\linewidth}
+    \raggedright\linespread{1.18}\selectfont\color{gristexto}#4
+  \end{minipage}\par
+  \vfill
+  {\color{grislinea}\rule{\linewidth}{0.4pt}\par}
+  \vspace{0.9em}
+  {\scriptsize\color{grissuave}\etiqueta{Material}\par}
+  \vspace{0.45em}
+  {\small\color{gristexto}#5\par}
+  \endgroup
+  \clearpage}
+
+% Separador de bloque dentro de una práctica (por ejemplo, por librería):
+%   \bloque{SciPy}{Ejercicios 1 a 5}
+\newcommand{\bloquetoc}[1]{%
+  \par\addvspace{1em}%
+  {\scriptsize\color{acento}\etiqueta{#1}\par}\nopagebreak[4]%
+  \vspace{0.15em}}
+\newcommand{\bloque}[2]{%
+  \clearpage\global\sinsaltotrue
+  \addtocontents{toc}{\protect\bloquetoc{#1}}%
+  \noindent{\footnotesize\color{acento}\etiqueta{#1}}\hspace{0.9em}%
+  {\color{grislinea}\leaders\vrule height 0.33em depth -0.29em\hfill}%
+  \hspace{0.9em}{\footnotesize\sansnormal\color{grissuave}#2}\par
+  \nopagebreak\vspace{-0.6em}}
+
+% --- Enlaces (siempre al final del preámbulo) ------------------------
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=principal, urlcolor=acento,
+            citecolor=principal, bookmarksnumbered=true,
+            bookmarksopen=true, pdfdisplaydoctitle=true,
+            pdfauthor={\Autor}, pdftitle={\Titulo\ de laboratorio. \Subtitulo},
+            pdfsubject={\Asignatura}}
+\usepackage[spanish,noabbrev]{cleveref}
+\crefname{figure}{figura}{figuras}
+\crefname{table}{tabla}{tablas}
+\crefname{lstlisting}{código}{códigos}
+\crefname{listing}{código}{códigos}
+\Crefname{listing}{Código}{Códigos}
+\Crefname{lstlisting}{Código}{Códigos}

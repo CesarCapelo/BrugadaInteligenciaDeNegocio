@@ -1,30 +1,31 @@
 % ---------------------------------------------------------------------
-\chapter{Reproducibilidad}\label{ap:reproducibilidad}
+\clearpage
+\section{Reproducibilidad}\label{ap:reproducibilidad}
 
-Todo el trabajo se reproduce con el repositorio público \url{https://github.com/CesarCapelo/BrugadaInteligenciaDeNegocio}. El conjunto de datos se descarga automáticamente de PhysioNet. Las semillas aleatorias están fijadas (semilla 42, con un desplazamiento determinista por \eng{fold}), y la huella SHA-256 de los ficheros de señal (prefijo \cod{d714832551a217e6}) garantiza que los resultados corresponden a la misma versión de los datos.
+Todo el trabajo se reproduce con el repositorio público \url{https://github.com/CesarCapelo/BrugadaInteligenciaDeNegocio}. El conjunto de datos se descarga automáticamente de PhysioNet. Las semillas aleatorias están fijadas (semilla 42, con un desplazamiento determinista por \emph{fold}), y la huella SHA-256 de los ficheros de señal (prefijo \var{d714832551a217e6}) garantiza que los resultados corresponden a la misma versión de los datos.
 
-\section*{Entorno}
+\subsection*{Entorno}
 
-Python 3.12, NumPy 1.26.4, SciPy 1.13.1, scikit-learn 1.5.2, NeuroKit2 0.2.10, WFDB 4.3.1, umap-learn 0.5.7, pandas 2.2.3 y Matplotlib 3.9.4. La lista completa está en \cod{requirements.txt}.
+Python 3.12, NumPy 1.26.4, SciPy 1.13.1, scikit-learn 1.5.2, NeuroKit2 0.2.10, WFDB 4.3.1, umap-learn 0.5.7, pandas 2.2.3 y Matplotlib 3.9.4. La lista completa está en \var{requirements.txt}.
 
-\section*{Comandos}
+\subsection*{Comandos}
 
 \begin{center}
 \small
 \begin{tabularx}{\linewidth}{@{}p{4.3cm}L@{}}
 \toprule
-\textbf{Análisis} & \textbf{Comando (desde \cod{src/})} \\
+\textbf{Análisis} & \textbf{Comando (desde \var{src/})} \\
 \midrule
-Descarga de los datos & \cod{bash ../scripts/download_data.sh} \\
-ETL y control de calidad (\cref{cap:datos}) & \cod{python -m brugada.experiments.run_etl} \\
-Comparación del preprocesado (\cref{cap:preprocesado}) & \cod{python -m brugada.experiments.run_preprocessing} \\
-Selección de instancias (\cref{cap:instancias}) & \cod{python -m brugada.experiments.run_instance_selection} \\
-Características y su selección (\cref{cap:caracteristicas}) & \cod{python -m brugada.experiments.run_features} \\
-Reducción de dimensionalidad (\cref{cap:visualizacion}) & \cod{python -m brugada.experiments.run_dimred} \\
-Modelo de referencia (\cref{cap:modelo}) & \cod{python -m brugada.experiments.run_baseline} \\
-Figuras de este documento & \cod{python ../memoria/make_figures.py} \\
+Descarga de los datos & \var{bash ../scripts/download\_data.sh} \\
+ETL y control de calidad (\cref{cap:datos}) & \var{python -m brugada.experiments.run\_etl} \\
+Comparación del preprocesado (\cref{cap:preprocesado}) & \var{python -m brugada.experiments.run\_preprocessing} \\
+Selección de instancias (\cref{cap:instancias}) & \var{python -m brugada.experiments.run\_instance\_selection} \\
+Características y su selección (\cref{cap:caracteristicas}) & \var{python -m brugada.experiments.run\_features} \\
+Reducción de dimensionalidad (\cref{cap:visualizacion}) & \var{python -m brugada.experiments.run\_dimred} \\
+Modelo de referencia (\cref{cap:modelo}) & \var{python -m brugada.experiments.run\_baseline} \\
+Figuras de este documento & \var{python ../memoria/make\_figures.py} \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-Cada experimento guarda en \cod{results/} sus métricas por \eng{fold}, el resumen y las predicciones fuera de muestra de cada paciente en cada repetición, de modo que cualquier tabla o figura puede regenerarse sin volver a entrenar.
+Cada experimento guarda en \var{results/} sus métricas por \emph{fold}, el resumen y las predicciones fuera de muestra de cada paciente en cada repetición, de modo que cualquier tabla o figura puede regenerarse sin volver a entrenar.
