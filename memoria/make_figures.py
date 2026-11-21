@@ -123,14 +123,14 @@ axes[0].set_ylabel("mV"); fig.tight_layout(w_pad=0.8); save(fig, "latidos_segmen
 # ------------------------------------------------------------------ F4 latido medio por clase
 fig, axes = plt.subplots(1, 2, figsize=(W, 2.3), sharey=False)
 for ax, lead in zip(axes, ("V1", "V2")):
-    for lo_, hi_, lab in ((-50, 60, "QRS"), (60, 180, "ST"), (180, 450, "T")):
+    for lo_, hi_, lab in ((-40, 70, "QRS"), (70, 150, "ST"), (150, 450, "T")):   # medianas del inicio y final del QRS; ST de J a J+80 ms
         ax.axvspan(lo_, hi_, color="0.5", alpha=0.06 if lab != "ST" else 0.13, lw=0)
     for cls, c, lab in ((0, C_NORM, f"Normal (n = {(y == 0).sum()})"), (1, C_BRU, f"Brugada (n = {(y == 1).sum()})")):
         m = MB[y == cls, :, LEAD_IDX[lead]]
         ax.fill_between(t_beat, np.percentile(m, 25, 0), np.percentile(m, 75, 0), color=c, alpha=0.18, lw=0)
         ax.plot(t_beat, np.median(m, 0), c=c, lw=1.4, label=lab)
     ymax = ax.get_ylim()[1]
-    for x_, lab in ((5, "QRS"), (120, "ST"), (315, "T")):
+    for x_, lab in ((15, "QRS"), (110, "ST"), (300, "T")):
         ax.text(x_, ymax * 0.97, lab, ha="center", va="top", fontsize=7, color="0.35")
     ax.axhline(0, c="0.6", lw=0.5); ax.set_xlabel("ms desde el pico R"); ax.set_title(f"Derivación {lead}", loc="left"); comma(ax, "y")
 axes[0].set_ylabel("mV"); axes[1].legend(loc="lower right"); panel(axes[0], "a"); panel(axes[1], "b")
