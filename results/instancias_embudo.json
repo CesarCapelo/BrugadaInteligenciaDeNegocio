@@ -1,0 +1,14 @@
+{
+ "picos_R": 4957,
+ "latidos_completos": 4776,
+ "conservados": 4735,
+ "latidos_por_registro_min_mediana_max": [
+  8,
+  13.0,
+  26
+ ],
+ "corr_peor_latido_mediana_normal": 0.9335369211783175,
+ "corr_peor_latido_mediana_brugada": 0.9512503751050094,
+ "corr_peor_latido_mannwhitney_p": 0.0012637159219300417,
+ "pct_pacientes_sin_latidos_bajo_0,9": 81.5426997245179
+}

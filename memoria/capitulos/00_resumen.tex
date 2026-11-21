@@ -1,0 +1,20 @@
+% ---------------------------------------------------------------------
+\chapter*{Resumen}
+\addcontentsline{toc}{chapter}{Resumen}
+
+El síndrome de Brugada es una canalopatía hereditaria asociada a arritmias ventriculares y muerte súbita en personas jóvenes con un corazón estructuralmente sano. Su diagnóstico depende de un patrón del electrocardiograma en las derivaciones precordiales derechas, el cual es dinámico, intermitente y, en la mayoría de los casos, se presenta de una forma sutil. Antes de entrenar cualquier modelo que ayude a realizar un diagnóstico, cada electrocardiograma, con sus 12 derivaciones, ha de convertirse a un conjunto pequeño de variables que sean fiables y que tengan un significado clínico. Dentro de este trabajo vamos a tratar de abordar la fase de preparación de los datos, dentro del proceso de descubrimiento de conocimiento, el KDD.
+
+A partir del conjunto de datos Brugada-HUCA, el cual cuenta con un registro de 363 pacientes de los cuales 76 de ellos son positivos, con una duración de electrocardiograma de 12 segundos y muestreado a \SI{100}{\hertz}, se plantea construir el proceso completo y reproducible desde que se recibe la señal cruda hasta llegar a tener un conjunto tabular de $363 \times 72$. El proceso consta de seis fases:
+
+\begin{enumerate}
+  \item Un proceso ETL con control de calidad que detecta si hay un registro duplicado en el índice publicado y caracteriza la saturación, el ruido y la deriva que tiene cada registro.
+  \item Un preprocesado de la señal con filtrado de fase cero, detección de latidos, segmentación y alineamiento.
+  \item Una selección de instancias a nivel de latido y la construcción de un latido medio robusto por paciente.
+  \item La extracción de las 72 características clínicas y la comparación de cuatro métodos de selección de características.
+  \item La exploración de la estructura de los datos con PCA, t-SNE y UMAP.
+  \item Un modelo de clasificación lineal de referencia.
+\end{enumerate}
+
+Además, todo lo que ajustamos con los datos se hace dentro de una validación cruzada anidada a nivel de paciente, de forma que no exista ningún tipo de fuga de información hacia el conjunto de test.
+
+El modelo de referencia que alcanzo a realizar llega a tener un AUROC de \num{0.928} (IC 95\,\%: \num{0.88} a \num{0.96}), con una sensibilidad de \num{0.87} y especificidad \num{0.88}, frente al \num{0.75} que obtenemos de una regla que está basada en criterios clínicos. Obtuve también que la variable más discriminante de todas es la pendiente del segmento ST, no su elevación absoluta (AUC \num{0.84} frente a \num{0.53}). Además, con solo cinco variables, todas ellas del patrón de Brugada en V1--V2, somos capaces de conservar un \SI{99}{\percent} del rendimiento que sacamos con el modelo completo. Los cuatro métodos de selección rinden prácticamente igual, por lo que basta con uno sencillo y barato, como un filtro ANOVA. La selección de instancias descarta solo el \SI{0.9}{\percent} de los latidos, sin llegar a alterar el resultado, y ninguna proyección en dos dimensiones es capaz de separar las clases. Esta primera entrega de teoría es una parte de lo que constituye la memoria completa de mi futuro TFG cuando esté completo.

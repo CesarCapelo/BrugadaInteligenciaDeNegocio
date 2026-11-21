@@ -1,0 +1,82 @@
+{
+ "huella_sha256": "d714832551a217e6",
+ "n_pacientes": 363,
+ "composicion": {
+  "pacientes": {
+   "0": 287,
+   "1": 69,
+   "2": 7
+  },
+  "basal_patologico": {
+   "0": 23,
+   "1": 19,
+   "2": 4
+  },
+  "muerte_subita": {
+   "0": 6,
+   "1": 4,
+   "2": 1
+  },
+  "positivos_{1,2}": 76,
+  "negativos_{0}": 287
+ },
+ "calidad": {
+  "entradas_RECORDS": 364,
+  "registros_unicos": 363,
+  "duplicados": [
+   "596382"
+  ],
+  "ids_coinciden_senal_metadatos": true,
+  "valores_ausentes": 0,
+  "derivaciones_planas": 0,
+  "saturacion_registros": 11,
+  "saturacion_V1V2": [
+   {
+    "id": "953976",
+    "muestras": 6,
+    "dist_min_R_ms": 10.0,
+    "dist_max_R_ms": 360.0
+   },
+   {
+    "id": "1307716",
+    "muestras": 17,
+    "dist_min_R_ms": 0.0,
+    "dist_max_R_ms": 870.0
+   },
+   {
+    "id": "3028930",
+    "muestras": 2,
+    "dist_min_R_ms": 280.0,
+    "dist_max_R_ms": 310.0
+   }
+  ],
+  "ruido_>40Hz_V1_mediana_%": 0.02106553001794964,
+  "ruido_>40Hz_V1_p95_%": 0.5116088548675178,
+  "deriva_<0,5Hz_V1_mediana_%": 0.5619062576442957,
+  "latidos_mediana": 13.0,
+  "corr_plantilla_media": 0.9757068715293726,
+  "registros_que_superan_el_control": 363,
+  "fc_mediana_lpm": 69.49806949806951,
+  "fc_min_lpm": 39.69754253308129,
+  "fc_max_lpm": 156.86274509803923,
+  "fc_mannwhitney_p": 0.11013061239219919
+ },
+ "saturacion_efecto_auroc": {
+  "todos": 0.9279229683403911,
+  "sin_saturados_V1V2": 0.9287329434697855
+ },
+ "etiqueta_auroc": {
+  "atipicos_positivos": {
+   "media": 0.9193820998857294,
+   "dt": 0.051679067842475244
+  },
+  "sin_atipicos": {
+   "media": 0.9233486013885289,
+   "dt": 0.04508198972075608
+  },
+  "atipicos_negativos": {
+   "media": 0.9025871167601152,
+   "dt": 0.0421150702382038
+  }
+ }
+}

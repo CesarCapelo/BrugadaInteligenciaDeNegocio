@@ -1,0 +1,25 @@
+{
+ "varianza_PC1": 0.22496472234492065,
+ "varianza_PC2": 0.14008827971809018,
+ "componentes_para_90pct": 20,
+ "cargas_PC1": [
+  "V2_st_area",
+  "V2_st_j40",
+  "V2_st_j80",
+  "v12_st_j40_max",
+  "V2_st_max",
+  "V2_st_j",
+  "V2_t_amp",
+  "V3_st_j80"
+ ],
+ "cargas_PC2": [
+  "II_st_area",
+  "II_st_j40",
+  "II_st_j80",
+  "II_st_max",
+  "II_st_r_ratio",
+  "II_st_j",
+  "V1_st_area",
+  "V1_st_j40"
+ ]
+}

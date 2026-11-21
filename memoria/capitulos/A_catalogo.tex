@@ -1,0 +1,68 @@
+% ---------------------------------------------------------------------
+\chapter{Catálogo de características}\label{ap:catalogo}
+
+Las 72 características se calculan sobre el latido medio de cada paciente (70 muestras por derivación, pico R en la muestra 25, nivel del segmento PR restado). Su implementación está en \cod{src/brugada/features.py}.
+
+\section*{Características globales y de ritmo (5)}
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}p{3.6cm}Lp{1.5cm}@{}}
+\toprule
+\textbf{Nombre} & \textbf{Definición} & \textbf{Unidad} \\
+\midrule
+\var{qrs_onset_ms} & Inicio del QRS respecto al pico R & ms \\
+\var{qrs_offset_ms} & Final del QRS (punto J) respecto al pico R & ms \\
+\var{qrs_dur_ms} & Duración del QRS & ms \\
+\var{hr_bpm} & Frecuencia cardíaca media del registro & lpm \\
+\var{rr_cv} & Coeficiente de variación de los intervalos RR & --- \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section*{Características por derivación (16 $\times$ 4 = 64)}
+
+Se calculan en V1, V2, V3 y II, con el nombre de la derivación como prefijo (por ejemplo, \var{V1_st_slope}).
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}p{3.6cm}Lp{1.5cm}@{}}
+\toprule
+\textbf{Sufijo} & \textbf{Definición} & \textbf{Unidad} \\
+\midrule
+\var{st_j} & Amplitud en el punto J (final del QRS) & mV \\
+\var{st_j40} & Amplitud a J+40 ms & mV \\
+\var{st_j80} & Amplitud a J+80 ms & mV \\
+\var{st_slope} & Pendiente del ST entre J y J+80 ms & mV/ms \\
+\var{st_area} & Área del ST entre J y J+80 ms & mV·ms \\
+\var{st_max} & Máximo del ST entre J y J+120 ms & mV \\
+\var{t_amp} & Amplitud con signo del extremo de la onda T (de J+100 ms al final) & mV \\
+\var{t_pos} & Posición del extremo de la onda T respecto al pico R & ms \\
+\var{t_neg} & Mínimo de la onda T & mV \\
+\var{t_negative} & Indicador de T negativa: mínimo $< -0{,}1$ mV y mayor en valor absoluto que la mitad del máximo & 0/1 \\
+\var{r_amp} & Máximo del QRS (onda R) & mV \\
+\var{s_amp} & Mínimo del QRS (onda S) & mV \\
+\var{qrs_area} & Área absoluta del QRS & mV·ms \\
+\var{rprime_amp} & Máximo del QRS posterior a la onda S (onda r') & mV \\
+\var{qrs_end_slope} & Pendiente desde el extremo del QRS hasta el punto J (forma convexa) & mV/ms \\
+\var{st_r_ratio} & Cociente entre la amplitud a J+40 ms y la máxima amplitud absoluta del QRS & --- \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section*{Agregados de V1 y V2 (3)}
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}p{3.6cm}Lp{1.5cm}@{}}
+\toprule
+\textbf{Nombre} & \textbf{Definición} & \textbf{Unidad} \\
+\midrule
+\var{v12_st_j40_max} & Máximo de \var{st_j40} entre V1 y V2 & mV \\
+\var{v12_t_neg_min} & Mínimo de \var{t_neg} entre V1 y V2 & mV \\
+\var{v12_st_r_ratio_max} & Máximo de \var{st_r_ratio} entre V1 y V2 & --- \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Además se calculan dos indicadores de calidad (número de latidos conservados y correlación media con la plantilla), que se usan en el control de calidad pero no como variables predictivas.

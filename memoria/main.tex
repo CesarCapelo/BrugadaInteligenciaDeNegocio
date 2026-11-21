@@ -1,0 +1,43 @@
+% =====================================================================
+%  Preprocesamiento y extracción de características de señales ECG
+%  para la detección del síndrome de Brugada
+%  Inteligencia de Negocio · Trabajo de teoría 1 · Primera parte del TFG
+%  Compilar:  latexmk -pdf main.tex      (pdfLaTeX + biber)
+% =====================================================================
+\documentclass[11pt, a4paper, oneside, parskip=half, numbers=noenddot,
+               listof=totoc, bibliography=totoc, captions=tableheading,
+               headings=optiontohead, toc=flat]{scrreprt}
+\usepackage{estilo}
+\addbibresource{referencias.bib}
+
+\hypersetup{pdftitle={Preprocesamiento y extracción de características de señales ECG para la detección del síndrome de Brugada},
+            pdfauthor={César Capelo}, pdfsubject={Inteligencia de Negocio · Trabajo de Fin de Grado},
+            pdfkeywords={síndrome de Brugada, ECG, preprocesamiento, selección de características, ETL}}
+
+\begin{document}
+\pagenumbering{roman}
+\input{portada}
+\input{capitulos/00_resumen}
+\tableofcontents
+\listoffigures
+\listoftables
+\cleardoublepage
+\pagenumbering{arabic}
+
+\input{capitulos/01_introduccion}
+\input{capitulos/02_fundamentos}
+\input{capitulos/04_datos_etl}
+\input{capitulos/05_preprocesado}
+\input{capitulos/06_instancias}
+\input{capitulos/07_caracteristicas}
+\input{capitulos/08_visualizacion}
+\input{capitulos/09_modelo}
+\input{capitulos/10_conclusiones}
+
+\printbibliography[heading=bibintoc, title={Bibliografía}]
+
+\appendix
+\input{capitulos/A_catalogo}
+\input{capitulos/B_reproducibilidad}
+\input{capitulos/C_uso_ia}
+\end{document}

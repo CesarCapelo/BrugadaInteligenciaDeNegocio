@@ -1,0 +1,30 @@
+# Entorno
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Datos (se descargan con scripts/download_data.sh)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/features_bandpass_neurokit.csv
+!data/processed/mean_beats_bandpass_neurokit.npy
+
+# Registros de ejecución
+results/log_*.txt
+
+# LaTeX
+memoria/*.aux
+memoria/*.bbl
+memoria/*.bcf
+memoria/*.blg
+memoria/*.log
+memoria/*.out
+memoria/*.run.xml
+memoria/*.toc
+memoria/*.lof
+memoria/*.lot
+memoria/*.fls
+memoria/*.fdb_latexmk
+memoria/*.synctex.gz

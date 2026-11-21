@@ -1,0 +1,44 @@
+{
+ "ejemplo_senal_id": "878765",
+ "fc_mediana_normal": 68.50618458610846,
+ "fc_mediana_brugada": 70.79406725208824,
+ "fc_mannwhitney_p": 0.11013061239219919,
+ "ejemplo_latidos_id": "3118448",
+ "ejemplo_latidos_descartados": 4,
+ "ejemplo_latidos_total": 14,
+ "qrs_valores_distintos": 15,
+ "qrs_valores": {
+  "70": 2,
+  "80": 23,
+  "90": 57,
+  "100": 99,
+  "110": 79,
+  "120": 48,
+  "130": 29,
+  "140": 10,
+  "150": 7,
+  "160": 2,
+  "170": 2,
+  "180": 1,
+  "210": 2,
+  "230": 1,
+  "250": 1
+ },
+ "pares_r09": 30,
+ "pares_r07": 81,
+ "pares_total": 2556,
+ "vars_con_r09": 28,
+ "auc_oof_lda": 0.9265541903539337,
+ "auc_oof_regla": 0.7514212360168714,
+ "auc_oof_lr": 0.906794425087108,
+ "cm_lda_media": [
+  [
+   252.7,
+   34.3
+  ],
+  [
+   9.7,
+   66.3
+  ]
+ ]
+}

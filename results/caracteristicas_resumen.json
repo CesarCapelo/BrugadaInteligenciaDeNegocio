@@ -1,0 +1,9 @@
+{
+ "n_variables": 72,
+ "pares_r_mayor_0,9": 30,
+ "variables_en_algun_par_r_mayor_0,9": 28,
+ "qrs_valores_distintos": 15,
+ "pct_qrs_entre_90_y_130ms": 85.9504132231405,
+ "pct_T_negativa_V2_brugada": 43.42105263157895,
+ "pct_T_negativa_V2_normal": 6.2717770034843205
+}

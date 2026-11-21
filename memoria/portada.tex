@@ -1,0 +1,55 @@
+% ---------------------------------------------------------------------
+%  Portada
+% ---------------------------------------------------------------------
+\begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+  % banda superior
+  \fill[acento] (current page.north west) rectangle ([yshift=-6.2cm]current page.north east);
+  % trazado de ECG estilizado (latido con patrón tipo 1 en el tercer complejo)
+  \begin{scope}[shift={([yshift=-4.65cm]current page.north west)}, x=1cm, y=1cm]
+    \draw[white, opacity=0.9, line width=1.1pt, line join=round]
+      (0,0) -- (1.6,0) .. controls (1.8,0.25) and (2.0,0.25) .. (2.2,0) -- (2.5,0)
+      -- (2.62,-0.25) -- (2.8,1.55) -- (2.98,-0.55) -- (3.1,0) -- (3.5,0)
+      .. controls (3.8,0.45) and (4.2,0.45) .. (4.5,0) -- (6.0,0)
+      .. controls (6.2,0.25) and (6.4,0.25) .. (6.6,0) -- (6.9,0)
+      -- (7.02,-0.25) -- (7.2,1.55) -- (7.38,-0.55) -- (7.5,0) -- (7.9,0)
+      .. controls (8.2,0.45) and (8.6,0.45) .. (8.9,0) -- (10.4,0)
+      .. controls (10.6,0.25) and (10.8,0.25) .. (11.0,0) -- (11.3,0)
+      -- (11.42,-0.25) -- (11.55,1.2) -- (11.7,-0.35) -- (11.82,0.75)
+      .. controls (12.2,0.62) and (12.6,0.2) .. (12.9,-0.32)
+      .. controls (13.1,-0.55) and (13.35,-0.3) .. (13.6,0) -- (15.0,0)
+      .. controls (15.2,0.25) and (15.4,0.25) .. (15.6,0) -- (15.9,0)
+      -- (16.02,-0.25) -- (16.2,1.55) -- (16.38,-0.55) -- (16.5,0) -- (16.9,0)
+      .. controls (17.2,0.45) and (17.6,0.45) .. (17.9,0) -- (21.0,0);
+  \end{scope}
+  \node[anchor=north west, text=white, font=\sffamily\bfseries\large, inner sep=0]
+       at ([xshift=2.5cm, yshift=-1.6cm]current page.north west) {UNIVERSIDAD DE OVIEDO};
+  \node[anchor=north west, text=white, font=\sffamily, inner sep=0, opacity=0.9]
+       at ([xshift=2.5cm, yshift=-2.25cm]current page.north west) {Escuela de Ingeniería Informática};
+\end{tikzpicture}
+
+\vspace*{5.6cm}
+{\sffamily\color{acento}
+{\small\bfseries\MakeUppercase{Inteligencia de Negocio}\enspace·\enspace Trabajo de teoría 1}\par
+\vspace{0.3cm}
+{\small\color{gristexto} Primera parte de la memoria del Trabajo de Fin de Grado}\par
+\vspace{1.0cm}
+{\fontsize{27}{32}\selectfont\bfseries Preprocesamiento y extracción de\\ características de señales ECG\\ para la detección del síndrome\\ de Brugada\par}
+\vspace{0.6cm}
+{\color{acento!40}\rule{0.32\linewidth}{2pt}}\par
+\vspace{0.6cm}
+{\large\color{gristexto}\normalfont\sffamily De la señal cruda a un conjunto de datos tabular:\\ ETL, calidad, selección de instancias y de características,\\ visualización y modelo de referencia\par}
+}
+
+\vfill
+{\sffamily
+\begin{tabular}{@{}l@{\hspace{1.2em}}l@{}}
+  \color{acento}\bfseries Autor  & César Capelo \\[2pt]
+  \color{acento}\bfseries Titulación & Grado en Ingeniería Informática en Tecnologías de la Información \\[2pt]
+  \color{acento}\bfseries Profesor & Luciano Sánchez Ramos \\[2pt]
+  \color{acento}\bfseries Tutor del TFG & Nahuel Costa Cortez \\[2pt]
+  \color{acento}\bfseries Datos & Brugada-HUCA (PhysioNet, v1.0.0) \\[2pt]
+  \color{acento}\bfseries Código & \url{https://github.com/CesarCapelo/BrugadaInteligenciaDeNegocio} \\[2pt]
+  \color{acento}\bfseries Fecha & Noviembre de 2026 \\
+\end{tabular}\par}
+\end{titlepage}

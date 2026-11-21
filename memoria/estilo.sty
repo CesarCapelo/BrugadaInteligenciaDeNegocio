@@ -1,0 +1,129 @@
+% =====================================================================
+%  estilo.sty — estilo de la memoria (entrega de Inteligencia de Negocio
+%  y primera parte de la memoria del TFG). pdfLaTeX + biber.
+% =====================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{estilo}[2026/11/20 Estilo memoria Brugada]
+
+% ---------- idioma, codificación y tipografía ----------
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[english,spanish,es-tabla,es-noquoting,es-nodecimaldot,es-nolists]{babel}
+\RequirePackage{libertinus}            % Libertinus Serif / Sans / Math
+\RequirePackage[varqu,scaled=0.88]{zi4} % Inconsolata para código
+\RequirePackage[final]{microtype}
+\RequirePackage{csquotes}
+\RequirePackage{amsmath,mathtools,amssymb}
+
+% ---------- colores ----------
+\RequirePackage[table]{xcolor}
+\definecolor{acento}{HTML}{1F4E79}
+\definecolor{acentoclaro}{HTML}{DCE6F1}
+\definecolor{normal}{HTML}{4E79A7}
+\definecolor{brugada}{HTML}{C0392B}
+\definecolor{gristexto}{HTML}{555555}
+\definecolor{grisclaro}{HTML}{F2F4F7}
+\definecolor{filtro}{HTML}{2E6DA4}
+\definecolor{wrapper}{HTML}{D9822B}
+\definecolor{embebido}{HTML}{3A8E5C}
+
+% ---------- página ----------
+\KOMAoptions{DIV=12, BCOR=0mm}
+\RequirePackage[automark, headsepline=0.4pt]{scrlayer-scrpage}
+\clearpairofpagestyles
+\ihead{\small\color{gristexto}\leftmark}
+\ohead{\small\color{gristexto}\pagemark}
+\renewcommand*{\chaptermarkformat}{\thechapter\enskip}
+\setkomafont{pageheadfoot}{\normalfont\sffamily}
+\setkomafont{pagenumber}{\sffamily\bfseries}
+\pagestyle{scrheadings}
+\renewcommand*{\chapterpagestyle}{plain.scrheadings}
+\cfoot*{}\ofoot[\small\sffamily\bfseries\color{gristexto}\pagemark]{}
+
+% ---------- títulos ----------
+\setkomafont{disposition}{\sffamily\bfseries\color{acento}}
+\setkomafont{chapter}{\Huge}
+\setkomafont{section}{\Large}
+\setkomafont{subsection}{\large}
+\setkomafont{subsubsection}{\normalsize}
+\RedeclareSectionCommand[beforeskip=0pt, afterskip=2.2\baselineskip]{chapter}
+\RedeclareSectionCommand[beforeskip=-1.6\baselineskip, afterskip=0.7\baselineskip]{section}
+\RedeclareSectionCommand[beforeskip=-1.2\baselineskip, afterskip=0.5\baselineskip]{subsection}
+\renewcommand*{\chapterformat}{\thechapter}
+\renewcommand*{\chapterlinesformat}[3]{%
+  \parbox[b]{\dimexpr\linewidth-1em\relax}{%
+    \raggedleft{\fontsize{64}{64}\selectfont\color{acento!22}#2}\par\vspace{-4pt}%
+    {\color{acento}\rule{\linewidth}{1pt}}\par\vspace{8pt}%
+    \raggedright #3}}
+\renewcommand*{\sectionformat}{\thesection\hspace{0.7em}}
+\renewcommand*{\subsectionformat}{\thesubsection\hspace{0.6em}}
+
+% ---------- figuras, tablas y pies ----------
+\RequirePackage{graphicx}
+\graphicspath{{figs/}}
+\RequirePackage{booktabs,tabularx,multirow,array,longtable}
+\RequirePackage{siunitx}
+\sisetup{output-decimal-marker={,}, group-separator={\,}, group-minimum-digits=4, detect-all, per-mode=symbol}
+\setkomafont{captionlabel}{\sffamily\bfseries\color{acento}}
+\setkomafont{caption}{\small}
+\setcapindent{0pt}
+\renewcommand*{\captionformat}{.\enskip}
+\renewcommand{\arraystretch}{1.18}
+\setlength{\aboverulesep}{0.3ex}\setlength{\belowrulesep}{0.5ex}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+% ---------- listas ----------
+\RequirePackage{enumitem}
+\setlist{itemsep=0.25em, topsep=0.4em, leftmargin=1.6em}
+\setlist[itemize]{label=\textcolor{acento}{\small$\blacktriangleright$}}
+
+% ---------- cajas ----------
+\RequirePackage[most]{tcolorbox}
+\newtcolorbox{hallazgo}[1][Resultado clave]{%
+  enhanced, colback=acentoclaro!45, colframe=acento, boxrule=0pt,
+  leftrule=3pt, arc=0pt, outer arc=0pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
+  fonttitle=\sffamily\bfseries\small, coltitle=acento, colbacktitle=acentoclaro!45,
+  title={#1}, attach title to upper={\enskip}, before skip=0.8\baselineskip, after skip=0.9\baselineskip}
+\newtcolorbox{nota}[1][Nota metodológica]{%
+  enhanced, colback=grisclaro, colframe=gristexto!60, boxrule=0pt,
+  leftrule=3pt, arc=0pt, outer arc=0pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
+  fonttitle=\sffamily\bfseries\small, coltitle=gristexto, colbacktitle=grisclaro,
+  title={#1}, attach title to upper={\enskip}, before skip=0.8\baselineskip, after skip=0.9\baselineskip}
+
+% ---------- TikZ ----------
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc, shapes.geometric, fit, backgrounds, decorations.pathreplacing, matrix}
+
+% ---------- bibliografía ----------
+\RequirePackage[backend=biber, style=numeric-comp, sorting=none, maxbibnames=6, minbibnames=3,
+                giveninits=true, doi=true, url=false, isbn=false, eprint=true]{biblatex}
+\DeclareFieldFormat[article]{title}{#1}
+\DeclareFieldFormat[inproceedings]{title}{#1}
+\renewcommand*{\bibfont}{\small}
+
+% ---------- enlaces y referencias cruzadas ----------
+\RequirePackage[hidelinks, pdfusetitle, bookmarksnumbered, pdfdisplaydoctitle]{hyperref}
+\hypersetup{colorlinks=true, linkcolor=acento, citecolor=acento, urlcolor=acento}
+\RequirePackage{xurl}
+\RequirePackage[spanish, noabbrev]{cleveref}
+\crefname{figure}{figura}{figuras}\Crefname{figure}{Figura}{Figuras}
+\crefname{table}{tabla}{tablas}\Crefname{table}{Tabla}{Tablas}
+\crefname{equation}{ecuación}{ecuaciones}\Crefname{equation}{Ecuación}{Ecuaciones}
+\crefname{chapter}{capítulo}{capítulos}\Crefname{chapter}{Capítulo}{Capítulos}
+\crefname{section}{sección}{secciones}\Crefname{section}{Sección}{Secciones}
+\crefname{appendix}{apéndice}{apéndices}\Crefname{appendix}{Apéndice}{Apéndices}
+
+% ---------- utilidades ----------
+\newcommand{\var}[1]{\texttt{\small\detokenize{#1}}}   % nombre de variable
+\newcommand{\cod}[1]{\texttt{\small\detokenize{#1}}}   % código / fichero
+\newcommand{\ms}[1]{\SI{#1}{\milli\second}}
+\newcommand{\mV}[1]{\SI{#1}{\milli\volt}}
+\newcommand{\Hz}[1]{\SI{#1}{\hertz}}
+\newcommand{\auroc}{AUROC}
+\newcommand{\eng}[1]{\textit{#1}}                     % término en inglés
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\mediana}{mediana}
+\DeclareMathOperator{\corr}{corr}
+\endinput

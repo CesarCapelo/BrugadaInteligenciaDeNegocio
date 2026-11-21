@@ -1,1 +1,118 @@
-# BrugadaInteligenciaDeNegocio
+# Preprocesamiento y extracción de características de señales ECG para la detección del síndrome de Brugada
+
+Trabajo de teoría de **Inteligencia de Negocio** (Grado en Ingeniería Informática en Tecnologías de la
+Información, Universidad de Oviedo). Autor: César Capelo. Es la primera parte de la memoria del Trabajo de Fin de
+Grado *Análisis comparativo de metodologías de aprendizaje automático para la detección del síndrome de Brugada*
+(tutor: Nahuel Costa Cortez).
+
+El repositorio contiene el proceso completo, desde la señal cruda hasta un conjunto de datos tabular listo para el
+análisis. También incluye la memoria en LaTeX ([`memoria/main.pdf`](memoria/main.pdf)) y los resultados con los que
+se ha escrito.
+
+| Capítulo de la memoria | Qué se hace | Script |
+|---|---|---|
+| 3. Datos y proceso ETL | Carga, integración con los metadatos, duplicados, saturación, ruido, deriva, definición de la etiqueta | `run_etl` |
+| 4. Preprocesado de la señal | Filtro paso banda de fase cero, detección de picos R, segmentación y alineamiento; comparación de alternativas | `run_preprocessing` |
+| 5. Selección de instancias | Rechazo de latidos anómalos (morfológico y temporal) y latido medio por paciente | `run_instance_selection` |
+| 6. Características | 72 variables clínicas, análisis univariante, redundancia y comparación de 4 métodos de selección | `run_features` |
+| 7. Visualización | PCA, t-SNE y UMAP | `run_dimred` |
+| 8. Modelo de referencia | LDA con contracción y regresión logística frente a las reglas clínicas | `run_baseline` |
+
+## Resultados principales
+
+* El conjunto de datos es de buena calidad. El índice publicado tiene un registro duplicado (paciente 596382),
+  que se elimina.
+* Solo se descarta el 0,9 % de los latidos, sin sesgo entre clases. Ningún criterio de rechazo cambia el
+  resultado, porque la mediana ya es robusta.
+* La **pendiente del segmento ST** discrimina mucho más que su elevación (AUC 0,845 frente a 0,530).
+* Los cuatro métodos de selección rinden prácticamente igual. Un núcleo de **5 variables** conserva casi el 99 %
+  del rendimiento.
+* Ninguna proyección en dos dimensiones separa las clases.
+* El **LDA con contracción** alcanza un **AUROC de 0,928** (IC 95 %: 0,88–0,96), con sensibilidad 0,87 y
+  especificidad 0,88. Las reglas clínicas aplicadas tal cual se quedan en 0,754.
+
+## Datos
+
+Costa Cortez, N. y García Iglesias, D. (2026). *Brugada-HUCA: 12-Lead ECG Recordings for the Study of Brugada
+Syndrome* (v1.0.0). PhysioNet. <https://physionet.org/content/brugada-huca/1.0.0/> (licencia CC BY-SA 4.0).
+
+Son 363 pacientes con un ECG de 12 derivaciones de 12 s a 100 Hz. La etiqueta binaria es positiva si
+`brugada` ∈ {1, 2}, lo que da 76 positivos y 287 negativos. Las señales no se incluyen en el repositorio: se
+descargan con el script de abajo.
+
+## Instalación
+
+Requiere Python 3.12.
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+bash scripts/download_data.sh      # descarga el conjunto de datos de PhysioNet en data/raw/
+```
+
+En Windows: `py -3.12 -m venv .venv` y `.venv\Scripts\pip install -r requirements.txt`.
+
+## Reproducción
+
+Todos los scripts se ejecutan desde `src/` y escriben en `results/`.
+
+```bash
+cd src
+../.venv/bin/python -m brugada.experiments.run_etl                 # cap. 3
+../.venv/bin/python -m brugada.experiments.run_preprocessing       # cap. 4
+../.venv/bin/python -m brugada.experiments.run_instance_selection  # cap. 5
+../.venv/bin/python -m brugada.experiments.run_features            # cap. 6
+../.venv/bin/python -m brugada.experiments.run_dimred              # cap. 7
+../.venv/bin/python -m brugada.experiments.run_baseline            # cap. 8
+../.venv/bin/python ../memoria/make_figures.py                     # figuras de la memoria
+```
+
+Todo el proceso tarda unos 10 minutos en un portátil. También se puede usar `make all`. La memoria se compila desde `memoria/` con
+`pdflatex main && biber main && pdflatex main && pdflatex main` (o `latexmk -pdf main.tex`).
+
+La primera ejecución guarda en `data/processed/` las señales y los latidos medios. No lances dos experimentos a
+la vez hasta que esa caché exista, porque los dos escribirían el mismo fichero.
+
+## Protocolo de evaluación
+
+* Validación cruzada estratificada **a nivel de paciente**, de 5 particiones repetida 3 veces (15 *folds*), con
+  semilla 42.
+* Todo lo que se ajusta con datos (escalado, hiperparámetros, ordenación de las variables y umbral de decisión)
+  se calcula **solo con la partición de entrenamiento** de cada *fold*. No hay fuga de información.
+* El umbral se elige con el índice de Youden sobre las predicciones fuera de muestra de la validación interna.
+* El desbalance se trata con pesos de clase. Se informa del AUROC y de la exactitud balanceada: la media ± la
+  desviación típica en los 15 *folds* y un intervalo de confianza *bootstrap* del 95 %.
+* Se guardan las predicciones fuera de muestra de cada paciente (`results/runs*/…_oof.npz`), de modo que
+  cualquier tabla o figura se puede regenerar sin volver a entrenar.
+
+## Estructura
+
+```
+src/brugada/
+  config.py           rutas, constantes (100 Hz, ventana del latido de -250 a +450 ms) y semilla
+  data.py             lectura WFDB, eliminación del registro duplicado, etiqueta y huella SHA-256
+  preprocess.py       filtros: paso banda de fase cero y alternativas comparadas
+  beats.py            detección de picos R, segmentación, alineamiento, rechazo de latidos y latido medio
+  features.py         límites del QRS y las 72 características clínicas
+  rules.py            reglas clínicas («2 de 3», «3 de 3») y puntuación ST + |T|
+  representations.py  construcción y caché del latido medio y de la tabla de características
+  models.py           LDA con contracción y regresión logística con validación cruzada anidada
+  splits.py           particiones a nivel de paciente
+  evaluate.py         métricas, umbral de Youden e intervalos bootstrap
+  experiments/        un script por capítulo (ver la tabla de arriba) y el bucle de validación común
+memoria/              fuente LaTeX, figuras (figs/), script de figuras y PDF compilado
+results/              resultados: resúmenes .csv/.json y predicciones por paciente
+scripts/              descarga de los datos
+```
+
+### Nota sobre `results/tfg_aciertos_por_paciente.csv`
+
+En la figura 7.1 aparecen marcados los pacientes que la mayoría de los modelos del TFG clasifican mal. Esa
+información viene de la parte comparativa del TFG, que usa modelos que no forman parte de este trabajo (redes
+convolucionales, autoencoders, ECG-FM). Por eso se incluye ya calculada: para cada paciente, la fracción de
+modelos que lo clasifican bien. En la figura se marcan los que tienen una fracción menor que 0,5.
+
+## Licencia de los datos
+
+El conjunto de datos Brugada-HUCA se distribuye con licencia CC BY-SA 4.0. Si usas estos datos, cita la
+referencia de arriba y la de PhysioNet (Goldberger et al., 2000).
