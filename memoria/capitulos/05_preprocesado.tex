@@ -23,6 +23,8 @@ Una vez localizados los picos R, recortamos cada latido en una ventana de \SI{25
 
 Como a \SI{100}{\hertz} un error de una o dos muestras en el pico R ya desplaza el latido 10 o \SI{20}{\milli\second}, y eso emborronaría el segmento ST al promediar, alineamos cada latido con la plantilla del paciente, esto sería la mediana de sus latidos. Entonces probamos a moverlo hasta 3 muestras hacia cada lado y nos quedamos con la posición en la que más se parece a la plantilla.
 
+% Que el texto que presenta la tabla o figura no se quede solo al final de la página.
+\needspace{30\baselineskip}
 \subsection{Comparación de alternativas}\label{sec:ablacion-preprocesado}
 
 Cada paso podría haberse hecho de otra forma; hay varias alternativas razonables. Para elegir entre una de ellas con datos, se aplicó el proceso que describimos completo a cada alternativa, y se midió el desempeño del clasificador de referencia: una regresión logística sobre las 72 características, evaluada con el protocolo de la \cref{sec:protocolo}. En la \cref{tab:ablacion} se ven los resultados:

@@ -14,6 +14,8 @@ En este último paso, lo que hacemos es comprobar si los datos que hemos prepara
 
 Todos los modelos se evalúan con el protocolo de la \cref{sec:protocolo}.
 
+\paragraph{Métricas.} Como es un problema de clasificación binaria con clases desbalanceadas (solo el \SI{20.9}{\percent} de los pacientes son positivos), la exactitud no sirve: un modelo que dijera siempre «normal» acertaría el \SI{79}{\percent} de las veces. Por eso uso métricas de la matriz de confusión que separan los dos tipos de error y que responden a preguntas clínicas: la sensibilidad y la especificidad, que no dependen de la prevalencia, y el VPP y el VPN, que indican cuánto fiarse de un resultado positivo o negativo. Para resumirlo en un solo número uso la exactitud balanceada y el MCC, que tienen en cuenta las dos clases, y el AUROC, que además no depende del umbral. No uso el F1 porque solo combina la sensibilidad y el VPP y deja fuera los verdaderos negativos, es decir, no valora si el modelo reconoce a los pacientes sanos, que aquí son la mayoría.
+
 \subsection{Resultados}
 
 \begin{table}[H]

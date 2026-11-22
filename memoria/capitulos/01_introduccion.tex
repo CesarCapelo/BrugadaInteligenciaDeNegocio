@@ -33,33 +33,3 @@ Además de cubrir los objetivos que acabo de nombrar, el trabajo también aporta
   \item Una comparación de métodos de selección de características de dos familias distintas (filtros y embebidos), evaluados sin sesgo de selección.
   \item Una confirmación cuantitativa de que la forma del segmento ST (su pendiente) discrimina mucho mejor que su elevación absoluta. No es una idea nueva, ya que coincide con criterios clínicos como el índice de Corrado, pero aquí se confirma con datos públicos y con métodos que no partían de ese conocimiento.
 \end{itemize}
-
-\subsection{Estado del arte}\label{sec:estado}
-
-\paragraph{Preparación de datos.} Fayyad et al.\ definieron el descubrimiento de conocimiento en bases de datos (KDD) como un proceso de selección, preprocesado, transformación, minería e interpretación, en el que la minería es solo una de las etapas. Las etapas previas son las que más tiempo consumen y las que más condicionan el resultado. García, Luengo y Herrera las organizan en \emph{preparación} (limpieza, integración, transformación) y \emph{reducción} (selección de instancias, selección de características y reducción de la dimensionalidad). En señales como el ECG, además, primero hay que \emph{construir} la tabla: decidir qué es una instancia y qué es una variable.
-
-\paragraph{Procesado del ECG.} Lo habitual es un filtro paso banda de \SIrange{0.5}{40}{\hertz} aplicado en ambas direcciones para no desplazar las ondas. Para detectar los latidos, el algoritmo de Pan y Tompkins sigue siendo la referencia, y librerías como NeuroKit2 reúnen este y otros detectores. Con frecuencias de muestreo bajas, una estrategia robusta es promediar latidos para obtener un latido representativo por paciente, como hacen Melo et al.\ en su detector de Brugada.
-
-\paragraph{Reducción de datos.} La selección de instancias elimina ejemplos ruidosos (\emph{edición}) o redundantes (\emph{condensación}). En este trabajo se aplica a los latidos de cada paciente, como una edición no supervisada. La selección de características se divide en filtros, \emph{wrappers} y métodos embebidos, y debe hacerse dentro de cada partición de entrenamiento para no inflar el rendimiento. Para visualizar, la PCA es lineal e interpretable, mientras que t-SNE y UMAP conservan mejor los vecinos, pero su forma global no es interpretable.
-
-\paragraph{IA para el síndrome de Brugada.} La \cref{tab:estado-brugada} resume los trabajos principales.
-
-\begin{table}[H]
-\centering
-\caption[Trabajos de detección del síndrome de Brugada con IA]{Trabajos representativos de detección del síndrome de Brugada con inteligencia artificial.}
-\label{tab:estado-brugada}
-\footnotesize
-\begin{tabularx}{\linewidth}{@{}p{2.5cm}p{3.2cm}Lp{2.6cm}@{}}
-\toprule
-\textbf{Trabajo} & \textbf{Datos} & \textbf{Método} & \textbf{Resultado} \\
-\midrule
-Liu et al., 2022 & Cohorte hospitalaria (Taiwán) & CNN sobre el ECG de 12 derivaciones & AUC $\approx$ \num{0.96} \\
-Melo et al., 2023 & \num{1154} ECG y 370 de validación externa (Italia) & Promediado de latidos y red neuronal & AUC \num{0.93} \\
-C\u{a}lburean et al., 2024 & ECG basales y con test de ajmalina & CNN profunda & AUC \num{0.95} (tipo 1 inducido); \num{0.81} desde el ECG basal \\
-Saleh et al., 2026 & 704 ECG (176 con Brugada) & CNN 1D con preentrenamiento & AUC \num{0.96} $\to$ \num{0.98} \\
-Costa et al., 2026 & ECG como imagen, pocos ejemplos & Modelos de visión-lenguaje & Competitivos con muy pocos datos \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-Los mejores resultados se obtienen con cohortes privadas grandes, que no permiten reproducir ni comparar los trabajos, y la detección es mucho más difícil cuando el ECG basal no muestra el patrón completo. Frente a eso, este trabajo usa el único conjunto de datos público específico de Brugada, se centra en la preparación de los datos, y mide hasta dónde llega un modelo lineal sencillo con datos bien preparados.
