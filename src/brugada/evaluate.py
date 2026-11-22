@@ -28,7 +28,7 @@ def metrics_from_pred(y, yhat, score=None) -> dict:
 
 
 def youden_threshold(y, score) -> float:
-    """Umbral que maximiza sensibilidad + especificidad - 1. Se llama SOLO con datos de entrenamiento."""
+    """Umbral que maximiza sensibilidad + especificidad - 1. Solo se usa con datos de entrenamiento."""
     fpr, tpr, thr = roc_curve(np.asarray(y), np.asarray(score))
     return float(thr[int(np.argmax(tpr - fpr))])
 

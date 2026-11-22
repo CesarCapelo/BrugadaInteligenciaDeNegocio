@@ -1,8 +1,8 @@
 """Detección de latidos, segmentación, alineamiento y latido medio.
 
 Los picos R se detectan en una derivación de referencia (por defecto II, la más
-habitual clínicamente) y los mismos fiduciales se usan para segmentar V1 y V2, de
-modo que el latido medio de todas las derivaciones queda alineado temporalmente.
+habitual clínicamente) y con esos mismos instantes se recortan las 12 derivaciones,
+de modo que el latido medio de todas ellas queda alineado en el tiempo.
 """
 from __future__ import annotations
 from dataclasses import dataclass
@@ -21,7 +21,7 @@ class BeatInfo:
     rr_cv: float                # coef. de variación de RR (irregularidad)
     beat_corr: float            # correlación media de cada latido con el latido medio (calidad)
     quality_ok: bool
-    # --- trazabilidad de la selección de instancias (latidos) ---
+    # trazabilidad de la selección de latidos
     n_rpeaks: int = 0           # picos R detectados
     n_segmented: int = 0        # latidos completos dentro de la ventana (se pierden los de los bordes)
     n_rejected_corr: int = 0    # descartados por baja correlación con la plantilla
@@ -79,18 +79,17 @@ def align_beats(beats: np.ndarray, ref_lead: int, max_shift: int = 3) -> np.ndar
 def extract_beats(X: np.ndarray, ref_lead: str = "II", method: str = "neurokit",
                   aggregate: str = "median", reject_outliers: bool = True,
                   min_corr: float = 0.6, reject_rr: float | None = None) -> BeatInfo:
-    """Pipeline completo para un registro (T, L): detección -> segmentación -> alineamiento -> latido medio.
+    """Proceso completo de un registro (T, L): detección, segmentación, alineamiento y latido medio.
 
     Selección de instancias (latidos) antes de agregar:
       * reject_outliers/min_corr: descarta latidos cuya correlación con la plantilla mediana es < min_corr
         (ectópicos, artefactos, ruido).
       * reject_rr: si se indica (p. ej. 0.2), descarta latidos cuyo RR previo se desvía más de ese
         porcentaje del RR mediano (latidos prematuros o tras una pausa).
-    Si los criterios dejan menos de 3 latidos se conservan todos (rejection_fallback=True).
-    Con los valores por defecto el comportamiento es idéntico al de la versión original."""
+    Si los criterios dejan menos de 3 latidos se conservan todos (rejection_fallback=True)."""
     ref = LEAD_IDX[ref_lead]
     rpeaks = detect_rpeaks(X[:, ref], method=method)
-    if len(rpeaks) < 3:  # fallback: probar con V2 / V5 que suelen tener QRS de gran amplitud
+    if len(rpeaks) < 3:  # si en II hay menos de 3 latidos, se prueba con V5, V2 e I
         for alt in ("V5", "V2", "I"):
             rpeaks = detect_rpeaks(X[:, LEAD_IDX[alt]], method=method)
             if len(rpeaks) >= 3:
@@ -123,7 +122,7 @@ def extract_beats(X: np.ndarray, ref_lead: str = "II", method: str = "neurokit",
     if not fallback:
         beats, corr = beats[keep], corr[keep]
     mean_beat = np.median(beats, axis=0) if aggregate == "median" else beats.mean(axis=0)
-    # centrar el latido medio restando el nivel del segmento PR (isoelectrico) por derivacion
+    # se resta el nivel del segmento PR (línea isoeléctrica) en cada derivación
     iso = mean_beat[BEAT_PRE - 8:BEAT_PRE - 3].mean(axis=0, keepdims=True)
     mean_beat = (mean_beat - iso).astype(np.float32)
     beats = (beats - iso).astype(np.float32)

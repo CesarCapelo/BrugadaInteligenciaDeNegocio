@@ -55,7 +55,7 @@ Xp = preprocess(Xraw, "bandpass")
 names = feature_names(F)
 t_beat = (np.arange(70) - BEAT_PRE) * 1000 / FS
 
-# ------------------------------------------------------------------ F1 señal cruda vs filtrada
+# Figura 5: señal cruda y filtrada
 f, P = signal.welch(Xraw, fs=FS, axis=1, nperseg=256)
 lf = P[:, f < 0.5, :].sum(1) / P.sum(1)
 cand = np.where((y == 1) & (meta.basal_pattern.values == 1))[0]
@@ -74,7 +74,7 @@ for a, l in zip(axes, "abc"):
 axes[2].set_xlabel("tiempo (s)"); axes[2].set_xlim(0, 12)
 fig.tight_layout(h_pad=0.6); save(fig, "senal_preprocesado")
 
-# ------------------------------------------------------------------ F2 calidad y composición
+# Figura 4: composición y calidad
 fig, axes = plt.subplots(1, 3, figsize=(W, 2.1), gridspec_kw={"width_ratios": [1, 1.25, 1]})
 ct = pd.crosstab(meta.brugada, meta.basal_pattern)
 labs = ["Normal\n(0)", "Brugada\n(1)", "Atípico\n(2)"]
@@ -98,7 +98,7 @@ fig.tight_layout(w_pad=1.2); save(fig, "calidad_datos")
 NUM["fc_mediana_normal"], NUM["fc_mediana_brugada"] = float(q.hr[q.y == 0].median()), float(q.hr[q.y == 1].median())
 NUM["fc_mannwhitney_p"] = float(stats.mannwhitneyu(q.hr[q.y == 0], q.hr[q.y == 1]).pvalue)
 
-# ------------------------------------------------------------------ F3 segmentación, alineamiento y rechazo
+# Figura 6: segmentación, alineamiento y rechazo de latidos
 P2 = pd.read_csv(RESULTS / "instancias_por_paciente.csv"); P2["id"] = P2.id.astype(str)
 # ejemplo didáctico: ritmo normal (75 lpm) con 4 de 14 latidos anómalos
 k3 = int(np.where(ids == "3118448")[0][0]); NUM["ejemplo_latidos_id"] = ids[k3]
@@ -120,7 +120,7 @@ axes[2].set_title("V2, latido medio", loc="left", fontweight="normal"); axes[2].
 for a in axes: a.set_xlabel("ms desde el pico R"); a.axvline(0, c="0.6", lw=0.5, ls=":"); comma(a, "y")
 axes[0].set_ylabel("mV"); fig.tight_layout(w_pad=0.8); save(fig, "latidos_segmentacion")
 
-# ------------------------------------------------------------------ F4 latido medio por clase
+# Figura 9: latido medio por clase
 fig, axes = plt.subplots(1, 2, figsize=(W, 2.3), sharey=False)
 for ax, lead in zip(axes, ("V1", "V2")):
     for lo_, hi_, lab in ((-40, 70, "QRS"), (70, 150, "ST"), (150, 450, "T")):   # medianas del inicio y final del QRS; ST de J a J+80 ms
@@ -136,7 +136,7 @@ for ax, lead in zip(axes, ("V1", "V2")):
 axes[0].set_ylabel("mV"); axes[1].legend(loc="lower right"); panel(axes[0], "a"); panel(axes[1], "b")
 fig.tight_layout(w_pad=1.0); save(fig, "latido_medio_clases")
 
-# ------------------------------------------------------------------ F5 selección de instancias
+# Figura 8: selección de instancias
 S = pd.read_csv(RESULTS / "instancias_resumen.csv")
 lab_c = {"none": "ninguno", "corr0.5": "ρ<0,5", "corr0.6": "ρ<0,6", "corr0.7": "ρ<0,7", "corr0.8": "ρ<0,8", "corr0.9": "ρ<0,9", "rr0.2": "RR\n±20 %", "corr0.6+rr0.2": "ρ<0,6\n+RR"}
 fig, axes = plt.subplots(1, 2, figsize=(W, 2.2), gridspec_kw={"width_ratios": [1.5, 1]})
@@ -155,7 +155,7 @@ axes[1].set_xlabel("correlación del peor latido"); axes[1].set_yticks([]); axes
 axes[1].set_title("Peor latido por paciente", loc="left"); panel(axes[1], "b")
 fig.tight_layout(w_pad=1.5); save(fig, "seleccion_instancias")
 
-# ------------------------------------------------------------------ F6 características discriminantes
+# Figura 10: variables más discriminantes
 sel = [("V1_st_slope", "Pendiente ST, V1", "mV/ms", 1000), ("V2_st_slope", "Pendiente ST, V2", "mV/ms", 1000),
        ("qrs_dur_ms", "Duración QRS", "ms", 1), ("V2_t_amp", "Amplitud T, V2", "mV", 1),
        ("V2_rprime_amp", "Amplitud r', V2", "mV", 1), ("V1_st_j40", "ST en J+40 ms, V1", "mV", 1)]
@@ -176,7 +176,7 @@ for ax, (col, tit, unit, sc), l in zip(axes.ravel(), sel, "abcdef"):
 fig.tight_layout(h_pad=1.0, w_pad=0.8); save(fig, "caracteristicas_clave")
 vc = F.qrs_dur_ms.value_counts().sort_index(); NUM["qrs_valores_distintos"] = int(len(vc)); NUM["qrs_valores"] = {int(k): int(v) for k, v in vc.items()}
 
-# ------------------------------------------------------------------ F7 matriz de correlación
+# Figura 11: matriz de correlación
 from scipy.cluster.hierarchy import linkage, leaves_list
 X = F[names].values.astype(float)
 Cm = np.nan_to_num(np.corrcoef(X, rowvar=False)); n = len(names)
@@ -191,7 +191,7 @@ save(fig, "correlacion_caracteristicas")
 iu = np.triu_indices(n, 1); NUM["pares_r09"] = int((np.abs(Cm[iu]) > 0.9).sum()); NUM["pares_r07"] = int((np.abs(Cm[iu]) > 0.7).sum()); NUM["pares_total"] = int(len(iu[0]))
 NUM["vars_con_r09"] = int(((np.abs(Cm) > 0.9).sum(0) - 1 > 0).sum())
 
-# ------------------------------------------------------------------ F8 selección de características: AUROC según k
+# Figura 12: AUROC según el número de variables
 FAM_OF = {"ANOVA F": "filtro", "Información mutua": "filtro", "Regularización L1": "embebido", "Random Forest": "embebido", "Orden aleatorio": "ref"}
 STYLE = {"ANOVA F": "-", "Información mutua": "--", "Regularización L1": "-", "Random Forest": "--", "Orden aleatorio": ":"}
 A = pd.read_csv(RESULTS / "seleccion_auroc.csv")
@@ -207,7 +207,7 @@ ax.grid(alpha=0.25, lw=0.4); ax.set_ylim(0.45, 0.95); ax.set_ylabel("AUROC medio
 ax.legend(loc="lower right", fontsize=6.8, frameon=False)
 fig.tight_layout(); save(fig, "seleccion_caracteristicas_curvas")
 
-# ------------------------------------------------------------------ F9 frecuencia de selección
+# Figura 13: frecuencia de selección
 fr = pd.read_csv(RESULTS / "seleccion_frecuencia_top10.csv", index_col=0)
 cons = fr.mean(1).sort_values(ascending=False).head(12).index
 fig, ax = plt.subplots(figsize=(W, 2.2))
@@ -221,7 +221,7 @@ ax.tick_params(length=0); [s_.set_visible(False) for s_ in ax.spines.values()]
 cb = fig.colorbar(im, ax=ax, fraction=0.025, pad=0.01); cb.set_label("fracción de folds en el top-10"); cb.ax.tick_params(labelsize=6)
 save(fig, "seleccion_caracteristicas_frecuencia")
 
-# ------------------------------------------------------------------ F11 reducción de dimensionalidad
+# Figuras 14 y 15: reducción de dimensionalidad
 from brugada.experiments.run_dimred import embed, datasets
 Q = pd.read_csv(RESULTS / "dimred_knn.csv")
 data = datasets(F, MB)
@@ -253,7 +253,7 @@ for ax, pc, l in zip(axes[1:], ("PC1", "PC2"), "bc"):
     ax.set_title(f"Cargas de {pc} ({pca.explained_variance_ratio_[int(pc[-1]) - 1] * 100:.0f} %)", loc="left"); comma(ax, "x"); panel(ax, l)
 fig.tight_layout(w_pad=0.6); save(fig, "pca_varianza_cargas")
 
-# ------------------------------------------------------------------ F12 modelo de referencia
+# Figura 16: modelo de referencia
 def oof(name):
     d = np.load(RESULTS / "runs" / f"{name}_oof.npz", allow_pickle=True); return d["y"], d["score"], d["pred"]
 yl, sl, pl = oof("lda__features"); _, sr, _ = oof("puntuacion_clinica__features"); _, sg, _ = oof("logreg__features")

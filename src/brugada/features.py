@@ -15,8 +15,8 @@ MS = 1000 / FS  # ms por muestra (10 ms)
 
 def qrs_bounds(beat: np.ndarray, leads=("V1", "V2", "II", "V5"), frac: float = 0.08,
                hold: int = 3) -> tuple[int, int]:
-    """Estima onset/offset del QRS en muestras a partir de la energía de la derivada
-    combinada en varias derivaciones. Devuelve (onset, offset) como índices en el latido."""
+    """Estima el inicio y el final del QRS a partir de la energía de la derivada en varias
+    derivaciones. Devuelve (inicio, final) como índices del latido."""
     idx = [LEAD_IDX[l] for l in leads]
     d = np.abs(np.gradient(beat[:, idx], axis=0)).sum(axis=1)
     d = uniform_filter1d(d, 2)
@@ -27,8 +27,8 @@ def qrs_bounds(beat: np.ndarray, leads=("V1", "V2", "II", "V5"), frac: float = 0
     off = BEAT_PRE
     while off < len(beat) - hold - 1 and not np.all(d[off:off + hold] < thr):
         off += 1
-    on = int(np.clip(on, BEAT_PRE - 12, BEAT_PRE - 2))     # QRS onset entre 20 y 120 ms antes de R
-    off = int(np.clip(off, BEAT_PRE + 2, BEAT_PRE + 18))   # QRS offset entre 20 y 180 ms después de R
+    on = int(np.clip(on, BEAT_PRE - 12, BEAT_PRE - 2))     # inicio entre 20 y 120 ms antes de R
+    off = int(np.clip(off, BEAT_PRE + 2, BEAT_PRE + 18))   # final entre 20 y 180 ms después de R
     return on, off
 
 
@@ -60,10 +60,10 @@ def lead_features(b: np.ndarray, on: int, off: int, name: str) -> dict:
     smin = int(np.argmin(q))
     tail = q[smin:]
     f[f"{name}_rprime_amp"] = float(tail.max()) if len(tail) > 1 else 0.0
-    # pendiente descendente final del QRS -> "coved": descenso lento desde el pico hasta J
+    # pendiente final del QRS: un descenso lento desde el pico hasta J es la forma coved
     peak_idx = on + int(np.argmax(np.abs(q)))
     f[f"{name}_qrs_end_slope"] = float((b[off] - b[peak_idx]) / max(1, (off - peak_idx)) / MS)
-    # ratio ST/R como medida normalizada de elevación
+    # cociente ST/QRS: elevación relativa al voltaje del paciente
     f[f"{name}_st_r_ratio"] = float(b[ms(40)] / (abs(q).max() + 1e-6))
     return f
 

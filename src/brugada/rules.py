@@ -1,4 +1,4 @@
-"""Reglas clínicas explícitas (referencia sin aprendizaje, capítulo 8 de la memoria).
+"""Reglas clínicas explícitas (referencia sin aprendizaje, capítulo 9 de la memoria).
 
 Criterios del patrón de Brugada con sus umbrales de consenso en V1 o V2:
   - QRS ancho:        duración del QRS >= 120 ms.

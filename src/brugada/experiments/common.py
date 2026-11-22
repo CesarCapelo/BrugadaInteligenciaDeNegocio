@@ -1,7 +1,7 @@
-"""Validación cruzada común a todos los experimentos (sección 3.5 de la memoria).
+"""Validación cruzada común a todos los experimentos (sección 4.5 de la memoria).
 
   * Particiones a nivel de paciente, estratificadas y repetidas: 5 folds x 3 repeticiones, semilla 42.
-  * Todo ajuste (escalado, hiperparámetros, umbral) usa SOLO la partición de entrenamiento del fold.
+  * Todo ajuste (escalado, hiperparámetros, umbral) usa solo la partición de entrenamiento del fold.
   * Se guardan las predicciones fuera de muestra (OOF) de cada paciente en cada repetición.
 """
 from __future__ import annotations

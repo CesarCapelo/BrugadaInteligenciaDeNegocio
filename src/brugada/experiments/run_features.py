@@ -1,8 +1,8 @@
-"""Capítulo 6: extracción y selección de características.
+"""Capítulo 7: extracción y selección de características.
 
-1. Análisis univariante (tabla 6.1): medianas por clase, AUC orientado y test de Mann-Whitney.
+1. Análisis univariante (tabla 7): medianas por clase, AUC orientado y test de Mann-Whitney.
 2. Redundancia: pares de variables con |r| > 0,9.
-3. Selección de características: cuatro métodos que producen una ORDENACIÓN de las 72 variables,
+3. Selección de características: cuatro métodos que producen una ordenación de las 72 variables,
    calculada solo con el entrenamiento de cada fold (validación cruzada 5x3 a nivel de paciente):
      filtros:   ANOVA F, información mutua (Kraskov, k = 5)
      embebidos: regularización L1 (orden de entrada al relajar la penalización), Random Forest (500 árboles)
@@ -10,7 +10,7 @@
    Con las k primeras variables se entrena una regresión logística (C elegido por CV interna) y se mide el
    AUROC en el test del fold.
 Salidas en results/: caracteristicas_univariante.csv, caracteristicas_resumen.json,
-seleccion_auroc.csv (tabla 6.2 y figura 6.3), seleccion_folds.csv, seleccion_frecuencia_top10.csv (figura 6.4),
+seleccion_auroc.csv (tabla 8 y figura 12), seleccion_folds.csv, seleccion_frecuencia_top10.csv (figura 13),
 seleccion_tiempo.csv.
 """
 import time, json
@@ -92,7 +92,7 @@ def main():
     names = feature_names(F)
     X, y, n = F[names].values.astype(np.float64), ds.y, len(names)
 
-    # ---------- 1-2. análisis univariante y redundancia ----------
+    # Análisis univariante y redundancia
     U = univariate(F, names, y)
     U.to_csv(RESULTS / "caracteristicas_univariante.csv", index=False)
     C = np.nan_to_num(np.corrcoef(X, rowvar=False))
@@ -108,7 +108,7 @@ def main():
     json.dump(info, open(RESULTS / "caracteristicas_resumen.json", "w"), indent=1, ensure_ascii=False)
     print(U.head(10).round(4).to_string(index=False)); print(json.dumps(info, indent=1, ensure_ascii=False))
 
-    # ---------- 3. selección de características ----------
+    # Selección de características
     rows, ranks, times = [], {m: [] for m in METHODS}, {m: [] for m in METHODS}
     for rep, fold, tr, te in outer_splits(y):
         seed = SEED + rep * 100 + fold

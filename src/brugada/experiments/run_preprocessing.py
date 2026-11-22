@@ -1,4 +1,4 @@
-"""Capítulo 4: comparación de alternativas en cada paso del preprocesado (tabla 4.1).
+"""Capítulo 5: comparación de alternativas en cada paso del preprocesado (tabla 5).
 
 Cada alternativa se aplica al proceso completo y se mide con el mismo clasificador fijo (regresión logística
 sobre las 72 características, validación cruzada anidada 5x3). Salidas: results/preprocesado_alternativas.csv

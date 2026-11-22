@@ -1,4 +1,4 @@
-"""Capítulo 8: modelo de clasificación de referencia frente a las reglas clínicas (tabla 8.1).
+"""Capítulo 9: modelo de clasificación de referencia frente a las reglas clínicas (tabla 9).
 
   * LDA con contracción (Ledoit-Wolf) y regresión logística sobre las 72 características (CV anidada 5x3).
   * Reglas clínicas fijas «2 de 3» y «3 de 3» (umbrales de consenso, sin aprendizaje).

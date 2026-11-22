@@ -1,4 +1,4 @@
-"""Capítulo 5: selección de instancias (rechazo de latidos) y latido medio.
+"""Capítulo 6: selección de instancias (rechazo de latidos) y latido medio.
 
 Criterios comparados (deterministas y sin usar la etiqueta, por lo que no hay fuga de información):
   none               sin rechazo
@@ -6,7 +6,7 @@ Criterios comparados (deterministas y sin usar la etiqueta, por lo que no hay fu
   rr0.2              intervalo RR previo desviado más de un 20 % del RR mediano
   corr0.6+rr0.2      combinación de ambos
 Clasificador fijo: regresión logística sobre las 72 características. Salidas en results/:
-  instancias_resumen.csv       tabla 5.1 (latidos descartados, cambio del latido medio, AUROC)
+  instancias_resumen.csv       tabla 6 (latidos descartados, cambio del latido medio, AUROC)
   instancias_por_paciente.csv  embudo de latidos y correlación del peor latido (criterio por defecto)
 """
 import json

@@ -1,4 +1,4 @@
-"""Capítulo 7: visualización mediante reducción de dimensionalidad (PCA, t-SNE y UMAP).
+"""Capítulo 8: visualización mediante reducción de dimensionalidad (PCA, t-SNE y UMAP).
 
 Se aplica sin etiquetas a dos representaciones estandarizadas de los 363 pacientes: las 72 características
 y el latido medio de V1 y V2 muestra a muestra (2 x 70 = 140 valores). Para no sacar conclusiones solo de la

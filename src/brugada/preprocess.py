@@ -1,4 +1,4 @@
-"""Filtrado de la señal (capítulo 4 de la memoria).
+"""Filtrado de la señal (capítulo 5 de la memoria).
 
 Todas las funciones operan sobre arrays (n, T, L) o (T, L), son deterministas y no ajustan ningún
 parámetro con los datos, por lo que pueden aplicarse antes de particionar sin fuga de información.
@@ -35,7 +35,7 @@ def _kernel(ndim: int, w: int):
     return tuple(k)
 
 
-# Alternativas comparadas en la tabla 4.1 de la memoria ("bandpass" es la elegida).
+# Alternativas comparadas en la tabla 5 de la memoria ("bandpass" es la elegida).
 PREPROCESS_VARIANTS = {
     "bandpass": lambda X: bandpass(X),                                # paso banda 0,5-40 Hz
     "median_lowpass": lambda X: lowpass(remove_baseline_median(X)),   # doble mediana + paso bajo 40 Hz

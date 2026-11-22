@@ -1,7 +1,7 @@
-"""Capítulo 3: datos, proceso ETL y control de calidad.
+"""Capítulo 4: datos, proceso ETL y control de calidad.
 
-Calcula la composición del conjunto (tabla 3.1), las comprobaciones de calidad (tabla 3.2) y el análisis
-de sensibilidad de la definición de la etiqueta (sección 3.4). Salidas en results/:
+Calcula la composición del conjunto (tabla 3), las comprobaciones de calidad (tabla 4) y el análisis
+de sensibilidad de la definición de la etiqueta (sección 4.4). Salidas en results/:
   etl_resumen.json        composición, huella SHA-256 y comprobaciones de calidad
   etl_calidad_latidos.csv latidos válidos, frecuencia cardíaca y correlación con la plantilla por paciente
   runs_etl/               validaciones cruzadas de los análisis de sensibilidad
@@ -17,7 +17,7 @@ from ..representations import build, feature_matrix
 from ..models import make_fit_predict
 from .common import run_cv
 
-SAT_MV = 3.2   # |x| >= 3,2 mV se considera posible saturación (rango del conversor ±3,3 mV)
+SAT_MV = 3.2   # |x| >= 3,2 mV se marca como posible saturación
 OUT = RESULTS / "runs_etl"
 
 
@@ -27,14 +27,14 @@ def main():
     raw_index = [l.strip() for l in open(DATA_RAW / "RECORDS") if l.strip()]
     out = {"huella_sha256": dataset_fingerprint(), "n_pacientes": len(ds)}
 
-    # ---------------- composición (tabla 3.1) ----------------
+    # Composición (tabla 3)
     out["composicion"] = {
         "pacientes": m.brugada.value_counts().sort_index().to_dict(),
         "basal_patologico": m.groupby("brugada").basal_pattern.sum().to_dict(),
         "muerte_subita": m.groupby("brugada").sudden_death.sum().to_dict(),
         "positivos_{1,2}": int(ds.y.sum()), "negativos_{0}": int((ds.y == 0).sum())}
 
-    # ---------------- comprobaciones de calidad (tabla 3.2) ----------------
+    # Comprobaciones de calidad (tabla 4)
     X = ds.X
     dup = pd.Series(raw_index).value_counts()
     meta_ids = set(pd.read_csv(DATA_RAW / "metadata.csv").patient_id.astype(str))
@@ -85,7 +85,7 @@ def main():
     sin = run_cv(make_fit_predict("lda"), Xf[keep], ds.y[keep], "lda_sin_saturados", ids=ds.ids[keep], out_dir=OUT)
     out["saturacion_efecto_auroc"] = {"todos": full["folds"]["auroc"], "sin_saturados_V1V2": sin["folds"]["auroc"]}
 
-    # ---------------- definición de la etiqueta (sección 3.4) ----------------
+    # Definición de la etiqueta (sección 4.4)
     # Referencia: atípicos como positivos (regresión logística, el clasificador fijo de las comparaciones)
     lr = make_fit_predict("logreg")
     ref = run_cv(lr, Xf, ds.y, "etiqueta_atipicos_positivos", ids=ds.ids, out_dir=OUT)

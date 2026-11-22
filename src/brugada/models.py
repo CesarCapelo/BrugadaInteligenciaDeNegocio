@@ -1,8 +1,8 @@
-"""Modelos lineales del trabajo con validación cruzada anidada (capítulo 8 de la memoria).
+"""Modelos lineales del trabajo con validación cruzada anidada (capítulo 9 de la memoria).
 
   * lda:    análisis discriminante lineal con contracción de Ledoit-Wolf (sin hiperparámetros).
   * logreg: regresión logística L2 con pesos de clase balanceados; C elegido por CV interna.
-            Es también el clasificador fijo con el que se comparan las alternativas de los capítulos 3-5.
+            Es también el clasificador fijo con el que se comparan las alternativas de los capítulos 4-6.
 """
 from __future__ import annotations
 from sklearn.pipeline import Pipeline

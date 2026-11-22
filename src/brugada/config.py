@@ -27,5 +27,5 @@ N_REPEATS = 3
 
 # Definición de la etiqueta binaria.
 # metadata.brugada: 0 = normal, 1 = Brugada confirmado, 2 = otros/atípicos.
-# Por defecto se considera positivo brugada in {1, 2} (76 positivos; ver la sección 3.4 de la memoria).
+# Por defecto se considera positivo brugada in {1, 2} (76 positivos; ver la sección 4.4 de la memoria).
 POSITIVE_CODES_DEFAULT = (1, 2)
